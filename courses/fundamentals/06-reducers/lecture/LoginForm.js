@@ -6,7 +6,7 @@ import Notice from 'YesterTech/Notice'
 import Centered from 'YesterTech/Centered'
 import api from 'YesterTech/api'
 
-function LoginForm({ onAuthenticated }) {
+function LoginForm({ onAuthenticated, onLoading }) {
   const [username, setUsername] = useState('')
   const [password, setPassword] = useState('')
   const [error, setError] = useState(null)
@@ -16,6 +16,7 @@ function LoginForm({ onAuthenticated }) {
   function handleLogin(event) {
     event.preventDefault()
     setLoading(true)
+    onLoading && onLoading()
     api.auth
       .login(username, password)
       .then(user => {

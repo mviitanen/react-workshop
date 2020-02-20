@@ -1,14 +1,25 @@
-import React, { useState } from 'react'
+import React, { useState, useReducer } from 'react'
 import { MdShoppingCart } from 'react-icons/md'
 import serializeForm from 'form-serialize'
 import Heading from 'YesterTech/Heading'
 
+const initialState = {
+  sameAsBilling: false,
+}
+
+function checkoutReducer(state, action) {
+  return state
+}
+
 function CheckoutBilling({ onSubmit }) {
-  const [sameAsBilling, setSameAsBilling] = useState(false)
+  const [state, dispatch] = useReducer(checkoutReducer, initialState)
+  // const [sameAsBilling, setSameAsBilling] = useState(false)
   const [billingName, setBillingName] = useState('')
   const [billingAddress, setBillingAddress] = useState('')
   const [shippingName, setShippingName] = useState('')
   const [shippingAddress, setShippingAddress] = useState('')
+
+  const { sameAsBilling } = state
 
   function handleSubmit(event) {
     event.preventDefault()
@@ -70,7 +81,7 @@ function CheckoutBilling({ onSubmit }) {
           <input
             type="checkbox"
             defaultChecked={sameAsBilling}
-            onChange={() => setSameAsBilling(!sameAsBilling)}
+            // onChange={() => setSameAsBilling(!sameAsBilling)}
           />{' '}
           Same as Billing
         </label>
