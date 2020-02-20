@@ -2,6 +2,8 @@
 
 ## Task One: Create Routes for the Pages
 
+Docs: https://reacttraining.com/react-router/web/guides/quick-start
+
 1. `<main class="primary-content"></main>` is the container for all pages. Within it, create a `Switch` and several routes for `Home`, `Signup`, `Login`, and `ProductsLayout`.
 2. Use `Redirect` for when no `Routes` match in the `Switch`.
 3. Create a conditional route for `Checkout`. Only provide the checkout route if the cart has items (`cart.length`)
