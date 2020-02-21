@@ -1,11 +1,16 @@
-import React, { useReducer } from 'react'
+import React, { useReducer, useContext } from 'react'
 import { Link } from 'react-router-dom'
 import { Columns, Column } from 'react-flex-columns'
 import { FaAngleLeft, FaAngleRight } from 'react-icons/fa'
 import { MdShoppingCart } from 'react-icons/md'
 import Heading from 'YesterTech/Heading'
 
-function CheckoutBilling({ onSubmit }) {
+import { BillingContext } from './Checkout'
+
+function CheckoutBilling() {
+  const billingState = useContext(BillingContext)
+  const { handleBillingSubmit } = billingState
+
   const [state, dispatch] = useReducer(
     (state, action) => {
       switch (action.type) {
@@ -18,11 +23,11 @@ function CheckoutBilling({ onSubmit }) {
       }
     },
     {
-      sameAsBilling: false,
-      billingName: '',
-      billingAddress: '',
-      shippingName: '',
-      shippingAddress: '',
+      sameAsBilling: billingState.sameAsBilling,
+      billingName: billingState.fields.billingName || '',
+      billingAddress: billingState.fields.billingAddress || '',
+      shippingName: billingState.fields.shippingName || '',
+      shippingAddress: billingState.fields.shippingAddress || '',
     }
   )
 
@@ -36,7 +41,7 @@ function CheckoutBilling({ onSubmit }) {
       shippingName: sameAsBilling ? billingName : shippingName,
       shippingAddress: sameAsBilling ? billingAddress : shippingAddress,
     }
-    onSubmit(sameAsBilling, fields)
+    handleBillingSubmit(sameAsBilling, fields)
   }
 
   function changeField(field, value) {
