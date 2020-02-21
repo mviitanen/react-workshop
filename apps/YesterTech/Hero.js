@@ -2,7 +2,11 @@ import React from 'react'
 import { Link } from 'react-router-dom'
 import 'YesterTech/Hero.scss'
 
+import { useMountAnalytics } from './App'
+
 function Hero() {
+  useMountAnalytics('hero')
+
   return (
     <div className="hero">
       <div className="message">
