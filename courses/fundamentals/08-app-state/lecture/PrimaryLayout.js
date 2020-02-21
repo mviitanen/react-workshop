@@ -24,7 +24,20 @@ function PrimaryLayout() {
 
   // Get the current authenticated user (for first loads and refreshes)
   useEffect(() => {
-    // api.auth.getAuthenticatedUser().then(user => {})
+    let canceled = false
+
+    if (!authenticated) {
+      api.auth.getAuthenticatedUser().then(user => {
+        if (canceled) return
+        if (user) {
+          dispatch({ type: 'LOGIN', user })
+        }
+      })
+
+      return () => {
+        canceled = true
+      }
+    }
   }, [])
 
   return (
@@ -43,6 +56,10 @@ function PrimaryLayout() {
               <SignupForm
                 onSignup={user => {
                   // dispatch login so the frontend is aware
+                  dispatch({
+                    type: 'LOGIN',
+                    user,
+                  })
                   // then redirect:
                   history.push('/')
                 }}
@@ -52,6 +69,10 @@ function PrimaryLayout() {
               <LoginForm
                 onAuthenticated={user => {
                   // dispatch login so the frontend is aware
+                  dispatch({
+                    type: 'LOGIN',
+                    user,
+                  })
                   // then redirect:
                   history.push('/')
                 }}

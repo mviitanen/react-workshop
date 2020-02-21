@@ -1,6 +1,6 @@
-import React, { useContext, useReducer } from 'react'
+import React, { createContext, useContext, useReducer } from 'react'
 
-const AuthStateContext = React.createContext()
+const AuthStateContext = createContext()
 
 const initialState = {
   authenticated: false,
@@ -11,10 +11,14 @@ export function AuthStateProvider({ children }) {
   const [state, dispatch] = useReducer((state, action) => {
     switch (action.type) {
       case 'LOGIN': {
+        // {
+        //   type: 'LOGIN',
+        //   user: {...}
+        // }
         return { ...state, authenticated: true, user: action.user }
       }
       case 'LOGOUT': {
-        return { ...initialState }
+        return initialState
       }
       default:
         return state
@@ -22,6 +26,9 @@ export function AuthStateProvider({ children }) {
   }, initialState)
 
   const value = {
+    // authenticated: ...
+    // user: ...
+    // dispatch: () => {}
     ...state,
     dispatch,
   }
