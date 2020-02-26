@@ -1,4 +1,4 @@
-import React, { useRef, useEffect } from 'react'
+import React, { useRef, useEffect, useState } from 'react'
 import { render } from 'react-dom'
 
 import ApolloClient from 'apollo-boost'
@@ -28,6 +28,10 @@ function ExchangeRates() {
   // { current: null }
   const searchRef = useRef(null)
 
+  const { loading, error, data } = useExchangeRates()
+
+  const [timeout, setTimeoutError] = useState(null)
+
   useEffect(() => {
     if (!searchRef.current) {
       return
@@ -36,11 +40,32 @@ function ExchangeRates() {
     setTimeout(() => {
       searchRef.current.focus()
     })
-  }, [])
+  }, [error, timeout])
 
-  const { loading, error, data } = useExchangeRates()
+  useEffect(() => {
+    console.log(data)
+    if (data) return
+
+    const id = setTimeout(() => {
+      if (!data) {
+        setTimeoutError('Uh oh')
+      }
+    }, 1000)
+
+    return () => {
+      clearTimeout(id)
+    }
+  }, [data])
 
   if (loading) {
+    return (
+      <div>
+        <em>Loading...</em>
+      </div>
+    )
+  }
+
+  if (error || timeout) {
     return (
       <div>
         <input
@@ -51,13 +76,9 @@ function ExchangeRates() {
           type="search"
           placeholder="Search for currency"
         />
-        <em>Loading...</em>
+        Something failed! 😡
       </div>
     )
-  }
-
-  if (error) {
-    return <div>Something failed! 😡</div>
   }
 
   return (

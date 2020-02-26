@@ -39,6 +39,7 @@ function Quantity() {
             type="button"
             className="icon-button"
             data-testid="subtract-button"
+            title="subtract"
           >
             <FaMinusCircle />
           </button>

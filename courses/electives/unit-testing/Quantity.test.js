@@ -14,8 +14,13 @@ describe('Quantity', () => {
   afterEach(cleanup)
 
   it('should start with 0', () => {
+    // Given we have a quantity component
     const { getByTestId } = render(<Quantity />)
-    const minutes = getByTestId('quantity')
+
+    // When nothing happens...
+    const minutes = getByTestId('quantity') // [data-testid="quantity"]
+
+    // Then the value should be 0
     expect(minutes.value).toEqual('0')
   })
 
@@ -23,8 +28,14 @@ describe('Quantity', () => {
     const { getByTestId } = render(<Quantity />)
     const quantity = getByTestId('quantity')
     const subtract = getByTestId('subtract-button')
+
+    // Given the quantity...
     expect(quantity.value).toEqual('0')
+
+    // When the user clicks subtract...
     fireEvent.click(subtract)
+
+    // The the value should still be 0
     expect(quantity.value).toEqual('0')
   })
 
@@ -44,6 +55,8 @@ describe('Quantity', () => {
     // Since this component is uncontrolled and always starts at 0,
     // we'll add first to test subtract
     fireEvent.click(add)
+    expect(quantity.value).toEqual('1')
+
     fireEvent.click(subtract)
     expect(quantity.value).toEqual('0')
   })
@@ -51,7 +64,10 @@ describe('Quantity', () => {
   it('should add (up arrow)', () => {
     const { getByTestId } = render(<Quantity />)
     const quantity = getByTestId('quantity')
+
+    // When..
     fireEvent.keyDown(quantity, { key: 'ArrowUp' })
+
     expect(quantity.value).toEqual('1')
   })
 
@@ -88,6 +104,7 @@ describe('Quantity', () => {
     act(() => {
       ReactDOM.render(<Quantity />, container)
     })
+
     const input = container.querySelector('[data-testid="quantity"]')
     expect(input.value).toBe('0')
   })
