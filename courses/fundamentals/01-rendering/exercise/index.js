@@ -2,6 +2,7 @@ import React from 'react'
 import ReactDOM from 'react-dom'
 import { FaRegStar, FaStar, FaStarHalfAlt } from 'react-icons/fa'
 import Heading from 'YesterTech/Heading'
+import { StarRatings } from './StarRatings'
 import 'YesterTech/styles/global-styles.scss'
 import 'YesterTech/StarRatings.scss'
 import 'YesterTech/styles/center-lesson.scss'
@@ -13,7 +14,18 @@ const products = [
 ]
 
 function BrowseProducts() {
-  return <div>{/* Exercise code goes here! */}</div>
+  return (
+    <div>
+      {products.map(product => (
+        <div className="product" key={product.id}>
+          <Heading>{product.name}</Heading>
+          <StarRatings rating={product.rating} />
+          <div>Brand: {product.brand}</div>
+          <div>Condition: {product.condition}</div>
+        </div>
+      ))}
+    </div>
+  )
 }
 
 ReactDOM.render(<BrowseProducts />, document.getElementById('root'))

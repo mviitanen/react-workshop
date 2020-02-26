@@ -1,7 +1,7 @@
 import React from 'react'
 import { FaStar, FaStarHalfAlt, FaRegStar } from 'react-icons/fa'
 
-function StarRatings({ rating, max = 5 }) {
+export function StarRatings({ rating, max = 5 }) {
   let stars = []
 
   for (let i = 0; i < max; ++i) {
@@ -16,5 +16,3 @@ function StarRatings({ rating, max = 5 }) {
 
   return <span className="star-ratings">{stars}</span>
 }
-
-export default StarRatings
