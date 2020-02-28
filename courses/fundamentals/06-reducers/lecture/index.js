@@ -4,15 +4,33 @@ import LoginForm from './LoginForm'
 import 'YesterTech/styles/global-styles.scss'
 import './styles.scss'
 
+// 0
+// 0 + 1 = 1
+// 1 + 2 + 2
+
 function App() {
-  const [user, setUser] = useState(null)
+  let [state, dispatch] = useReducer(
+    (state, action) => {
+      if (action.type === 'LOGGED_IN') {
+        return { ...state, user: action.user }
+      }
+      throw new Error('Unknown action: ' + action.type)
+    },
+    { user: null }
+  )
 
   return (
     <div>
-      {user ? (
-        <div className="align-center">You are logged in</div>
+      {state.user ? (
+        <div className="align-center">
+          You are logged in
+        </div>
       ) : (
-        <LoginForm onAuthenticated={setUser} />
+        <LoginForm
+          onAuthenticated={user => {
+            dispatch({ type: 'LOGGED_IN', user })
+          }}
+        />
       )}
     </div>
   )

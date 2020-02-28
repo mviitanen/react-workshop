@@ -4,22 +4,45 @@ import queryString from 'query-string'
 import { Columns, Column } from 'react-flex-columns'
 
 import Heading from 'YesterTech/Heading'
-import { Pagination, PaginationRange } from 'YesterTech/Pagination'
+import {
+  Pagination,
+  PaginationRange,
+} from 'YesterTech/Pagination'
 import NoResults from 'YesterTech/NoResults'
 import api from 'YesterTech/api'
 import usePromise from 'YesterTech/usePromise'
 import BrowseProductItem from 'YesterTech/BrowseProductItem'
 
-function BrowseProducts() {
+function BrowseProducts({ backgroundColor }) {
   const urlQuery = useLocation().search
-  const search = useMemo(() => queryString.parse(urlQuery), [urlQuery])
+  const search = useMemo(
+    () => queryString.parse(urlQuery),
+    [urlQuery]
+  )
   const page = parseInt(search.page, 10) || 1
 
   // Get Products (Paginated) and Total
-  const getProducts = useCallback(() => api.products.getProducts(search, page), [search, page])
+  const getProducts = useCallback(
+    () => api.products.getProducts(search, page),
+    [search, page]
+  )
   const [response, loading] = usePromise(getProducts)
   const products = response?.products
   const totalResults = response?.totalResults
+
+  function useCallback(fn, deps) {
+    return useMemo(() => fn, deps)
+  }
+
+  // 1. Very expensive calculation
+  // 2. OR you don't want to break memo of a child component
+  let style = useMemo(() => {
+    return {
+      backgroundColor: backgroundColor || 'red',
+    }
+  }, [backgroundColor])
+
+  let onChange = useCallback(() => {}, [])
 
   return (
     <div className="browse-products spacing">
@@ -53,6 +76,7 @@ function BrowseProducts() {
               category={product.category}
               condition={product.condition}
               rating={product.rating}
+              style={style}
             />
           ))}
         </div>
@@ -62,7 +86,9 @@ function BrowseProducts() {
           {search.q && (
             <span>
               {'. '}
-              <Link to="/products">Clear Search & Filters</Link>
+              <Link to="/products">
+                Clear Search & Filters
+              </Link>
             </span>
           )}
         </NoResults>

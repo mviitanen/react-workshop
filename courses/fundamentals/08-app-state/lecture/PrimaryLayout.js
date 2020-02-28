@@ -1,5 +1,10 @@
 import React, { useEffect } from 'react'
-import { Switch, Route, Redirect, useHistory } from 'react-router-dom'
+import {
+  Switch,
+  Route,
+  Redirect,
+  useHistory,
+} from 'react-router-dom'
 
 import api from 'YesterTech/api'
 import PrimaryHeader from './PrimaryHeader'
@@ -42,8 +47,7 @@ function PrimaryLayout() {
             <Route path="/signup" exact>
               <SignupForm
                 onSignup={user => {
-                  // dispatch login so the frontend is aware
-                  // then redirect:
+                  dispatch({ type: 'LOGIN', user })
                   history.push('/')
                 }}
               />

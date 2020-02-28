@@ -1,5 +1,8 @@
 import React, { useState, useReducer } from 'react'
-import { FaSignInAlt, FaExclamationCircle } from 'react-icons/fa'
+import {
+  FaSignInAlt,
+  FaExclamationCircle,
+} from 'react-icons/fa'
 
 import Heading from 'YesterTech/Heading'
 import Notice from 'YesterTech/Notice'
@@ -7,25 +10,80 @@ import Centered from 'YesterTech/Centered'
 import api from 'YesterTech/api'
 
 function LoginForm({ onAuthenticated }) {
+  let [state, dispatch] = useReducer(
+    (state, action) => {
+      switch (action.type) {
+        case 'LOGIN_START':
+          return {
+            ...state,
+            loading: true,
+            user: null,
+            error: null,
+          }
+        case 'LOGIN_SUCCESS':
+          return {
+            ...state,
+            user: action.user,
+            loading: false,
+          }
+        case 'LOGIN_FAILURE':
+          return {
+            ...state,
+            error: action.error,
+            loading: false,
+          }
+        case 'TOGGLE_PASSWORD':
+          return {
+            ...state,
+            showPassword: !state.showPassword,
+          }
+        case 'CHANGE_FIELD':
+          return {
+            ...state,
+            [action.name]: action.value,
+          }
+        default:
+          return state
+      }
+    },
+    {
+      user: null,
+      loading: false,
+      error: null,
+      showPassword: false,
+      username: '',
+      password: '',
+    }
+  )
+
   const [username, setUsername] = useState('')
   const [password, setPassword] = useState('')
-  const [error, setError] = useState(null)
-  const [loading, setLoading] = useState(false)
-  const [showPassword, setShowPassword] = useState(false)
+
+  let { loading, error, showPassword } = state
+
+  function changeField(e) {
+    dispatch({
+      type: 'CHANGE_FIELD',
+      name: e.target.name,
+      value: e.target.value,
+    })
+  }
 
   function handleLogin(event) {
     event.preventDefault()
-    setLoading(true)
+
+    dispatch({ type: 'LOGIN_START' })
+
     api.auth
       .login(username, password)
       .then(user => {
-        if (typeof onAuthenticated === 'function') {
-          onAuthenticated(user)
-        }
+        // if (typeof onAuthenticated === 'function') {
+        //   onAuthenticated(user)
+        // }
+        dispatch({ type: 'LOGIN_SUCCESS', user })
       })
       .catch(error => {
-        setError(error)
-        setLoading(false)
+        dispatch({ type: 'LOGIN_FAILURE', error })
       })
   }
 
@@ -43,7 +101,8 @@ function LoginForm({ onAuthenticated }) {
         <div className="form-field">
           <input
             aria-label="Username"
-            onChange={e => setUsername(e.target.value)}
+            name="username"
+            onChange={changeField}
             type="text"
             placeholder="Username"
           />
@@ -51,13 +110,16 @@ function LoginForm({ onAuthenticated }) {
         <div className="form-field">
           <input
             aria-label="Password"
-            onChange={e => setPassword(e.target.value)}
+            name="password"
+            onChange={changeField}
             type={showPassword ? 'text' : 'password'}
             placeholder="Password"
           />
           <label>
             <input
-              onChange={() => setShowPassword(!showPassword)}
+              onChange={() =>
+                dispatch({ type: 'TOGGLE_PASSWORD' })
+              }
               defaultChecked={showPassword}
               className="passwordCheckbox"
               type="checkbox"

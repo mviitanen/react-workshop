@@ -1,6 +1,7 @@
 import React, { useCallback } from 'react'
 import { Columns, Column } from 'react-flex-columns'
 import { useParams } from 'react-router-dom'
+import { Redirect } from 'react-router'
 
 import api from 'YesterTech/api'
 import usePromise from 'YesterTech/usePromise'
@@ -26,6 +27,10 @@ function ProductProfile() {
   const [product] = usePromise(getProduct)
 
   if (!product) return <div>Loading...</div>
+
+  if(!product.id) {
+    return <Redirect to="/products" />
+  }
 
   return (
     <div className="spacing">

@@ -1,7 +1,7 @@
 import React from 'react'
 import Heading from 'YesterTech/Heading'
 
-function Checkout({ cart = [] }) {
+function Checkout({ cart }) {
   return (
     <div>
       <Heading>Cart Review</Heading>

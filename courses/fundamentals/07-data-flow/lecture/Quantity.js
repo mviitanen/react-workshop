@@ -1,25 +1,30 @@
-import React, { useState } from 'react'
+import React, { useState, useContext } from 'react'
 import { FaMinusCircle, FaPlusCircle } from 'react-icons/fa'
 import 'YesterTech/Quantity.scss'
 
-function Quantity() {
-  const [quantity, setQuantity] = useState(0)
+import { CartContext } from './PrimaryLayout'
 
+function Quantity({ quantity, onChange }) {
+  // get the cart quantity
   function subtract() {
     if (quantity > 0) {
-      setQuantity(quantity - 1)
+      onChange(quantity - 1)
     }
   }
 
   function add() {
-    setQuantity(quantity + 1)
+    onChange(quantity + 1)
   }
 
   return (
     <div className="quantity-picker">
       <div>
         <div>
-          <button onClick={subtract} type="button" className="icon-button">
+          <button
+            onClick={subtract}
+            type="button"
+            className="icon-button"
+          >
             <FaMinusCircle />
           </button>
         </div>
@@ -29,12 +34,16 @@ function Quantity() {
             aria-label="quantity"
             value={quantity}
             onChange={event => {
-              setQuantity(event.target.value)
+              onChange(event.target.value)
             }}
           />
         </div>
         <div>
-          <button onClick={add} type="button" className="icon-button">
+          <button
+            onClick={add}
+            type="button"
+            className="icon-button"
+          >
             <FaPlusCircle />
           </button>
         </div>

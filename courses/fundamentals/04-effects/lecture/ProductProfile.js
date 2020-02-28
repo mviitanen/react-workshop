@@ -12,14 +12,70 @@ import ShoppingCartButton from 'YesterTech/ShoppingCartButton'
 import { useShoppingCart } from 'YesterTech/ShoppingCartState'
 import ProductTile from 'YesterTech/ProductTile'
 
+// function usePrevious(product) {
+//   let prevProduct = useRef(null)
+//   useEffect(() => {
+//     prevProduct.current = product
+//   })
+//   return prevProduct.current
+// }
+
+function useProduct(productId) {
+  const [product, setProduct] = useState(null)
+
+  // Fetch the product
+  useEffect(() => {
+    let isCurrent = true
+
+    api.products.getProduct(productId).then(product => {
+      if (isCurrent) {
+        setProduct(product)
+      }
+    })
+
+    return () => (isCurrent = false)
+  }, [productId])
+
+  return product
+}
+
 function ProductProfile() {
   let { productId } = useParams()
   productId = parseInt(productId, 10)
 
-  const product = null
+  let product = useProduct(productId)
+
+  // mount -> run effect A
+  // ...
+  // productId changes
+  //   cleanup A
+  //   run effect B
+  // ...
+  // ...
+  // productId changes
+  //   cleanup B
+  //   run effect C
+  // ...
+  // ...
+  // unmount -> run cleanup C
+
+  // Fetch the categories
+  // useEffect(() => {
+  //   api.products.getCategory(categoryId).then(product => {
+  //     setProduct(product)
+  //   })
+  // }, [categoryId])
+
+  //useEffect(fn)       // Run on MOUNT or UPDATE
+  //useEffect(fn, [])   // Run ONCE
+  //useEffect(fn, [productId]) // Run whenever name or productId CHANGES
 
   // Cart
-  const { addToCart, updateQuantity, getQuantity } = useShoppingCart()
+  const {
+    addToCart,
+    updateQuantity,
+    getQuantity,
+  } = useShoppingCart()
   const quantity = getQuantity(productId)
   if (!product) return <div>Loading...</div>
 
@@ -27,7 +83,11 @@ function ProductProfile() {
     <div className="spacing">
       <Columns gutters>
         <Column>
-          <ProductImage src={product.imagePath} alt={product.name} size={15} />
+          <ProductImage
+            src={product.imagePath}
+            alt={product.name}
+            size={15}
+          />
         </Column>
         <Column flex className="spacing">
           <Heading>{product.name}</Heading>
@@ -43,13 +103,24 @@ function ProductProfile() {
             </Column>
             <Column className="spacing-small">
               <ShoppingCartButton
-                onClick={() => addToCart(productId, product.name, product.price)}
+                onClick={() =>
+                  addToCart(
+                    productId,
+                    product.name,
+                    product.price
+                  )
+                }
                 getQuantity={quantity}
               />
 
               {quantity > 0 && (
                 <div className="align-right">
-                  <Quantity onChange={q => updateQuantity(productId, q)} quantity={quantity} />
+                  <Quantity
+                    onChange={q =>
+                      updateQuantity(productId, q)
+                    }
+                    quantity={quantity}
+                  />
                 </div>
               )}
             </Column>
@@ -66,7 +137,10 @@ function ProductProfile() {
             </Heading>
             <Tiles>
               {product.relatedProducts.map(productId => (
-                <ProductTile key={productId} productId={productId} />
+                <ProductTile
+                  key={productId}
+                  productId={productId}
+                />
               ))}
             </Tiles>
           </div>

@@ -1,18 +1,30 @@
-import React, { useState } from 'react'
-import { Switch, Route, Redirect, NavLink } from 'react-router-dom'
+import React, {
+  useState,
+  useContext,
+  createContext,
+} from 'react'
+import {
+  Switch,
+  Route,
+  Redirect,
+  NavLink,
+} from 'react-router-dom'
 import BrowseProducts from './BrowseProducts'
 import Checkout from 'YesterTech/Checkout'
-// import { useShoppingCart } from './ShoppingCartState'
+import { useShoppingCart } from './ShoppingCartState'
 import 'YesterTech/PrimaryLayout.scss'
 import './styles.scss'
 
 function PrimaryLayout() {
+  let { getCartSize } = useShoppingCart()
   return (
     <div className="primary-layout">
       <div>
         <header className="primary-header">
           <NavLink to="/products">Products</NavLink>
-          <NavLink to="/checkout">Checkout</NavLink>
+          {getCartSize() > 0 && (
+            <NavLink to="/checkout">Checkout</NavLink>
+          )}
         </header>
         <main className="primary-content">
           <Switch>
@@ -20,7 +32,7 @@ function PrimaryLayout() {
               <BrowseProducts />
             </Route>
             <Route path="/checkout">
-              <Checkout cart={[]} />
+              <Checkout />
             </Route>
             <Redirect to="/products" />
           </Switch>

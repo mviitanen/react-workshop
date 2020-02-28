@@ -117,7 +117,7 @@
     "tabWidth": 2,
     "semi": false,
     "singleQuote": true,
-    "printWidth": 100,
+    "printWidth": 60,
     "trailingComma": true
   },
   "jest": {
@@ -126,6 +126,7 @@
       "\\.(css|scss)$": "<rootDir>/__mocks__/styleMock.js"
     }
   },
+  "use-h": ["@babel/preset-react", { "pragma": "h" }],
   "babel": {
     "presets": [
       "react-app"

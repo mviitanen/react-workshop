@@ -24,9 +24,38 @@ export default function PrimaryLayout() {
     <div className="primary-layout">
       <div>
         <PrimaryHeader />
-        <ProductSubNav />
+
+        <Route path="/products">
+          <ProductSubNav />
+        </Route>
+
         <main className="primary-content">
-          <Home />
+          <Switch>
+            <Route path="/" exact>
+              <Home />
+            </Route>
+            <Route path="/products">
+              <ProductsLayout />
+            </Route>
+            <Route path="/signup">
+              <SignupForm />
+            </Route>
+            <Route path="/login">
+              <LoginForm />
+            </Route>
+            {authenticated && (
+              <Route path="/account">
+                <Account />
+              </Route>
+            )}
+            {cart.length > 0 && (
+              <Route path="/checkout">
+                <Checkout />
+              </Route>
+            )}
+
+            <Redirect to="/" />
+          </Switch>
         </main>
         <PrimaryFooter />
       </div>
