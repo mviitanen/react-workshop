@@ -5,7 +5,7 @@ import { FaAngleLeft, FaAngleRight } from 'react-icons/fa'
 import { MdShoppingCart } from 'react-icons/md'
 import Heading from 'YesterTech/Heading'
 
-function CheckoutBilling({ onSubmit }) {
+function CheckoutBilling({ onSubmit, defaultFields, defaultSameAsBilling }) {
   const [state, dispatch] = useReducer(
     (state, action) => {
       switch (action.type) {
@@ -18,11 +18,11 @@ function CheckoutBilling({ onSubmit }) {
       }
     },
     {
-      sameAsBilling: false,
-      billingName: '',
-      billingAddress: '',
-      shippingName: '',
-      shippingAddress: '',
+      sameAsBilling: defaultSameAsBilling,
+      billingName: defaultFields.billingName || '',
+      billingAddress: defaultFields.billingAddress || '',
+      shippingName: defaultFields.shippingName || '',
+      shippingAddress: defaultFields.shippingAddress || '',
     }
   )
 
