@@ -21,7 +21,6 @@ const BrowseProductItem = React.memo(
     brand = 'n/a',
     category = 'n/a',
     rating,
-    style,
   }) {
     // Cart
     const {
@@ -45,7 +44,7 @@ const BrowseProductItem = React.memo(
             </Link>
           </Heading>
           <StarRatings rating={rating} />
-          <div className="horizontal-spacing" style={style}>
+          <div className="horizontal-spacing">
             <span>Price:</span>
             <strong>${price.toFixed(2)}</strong>
           </div>

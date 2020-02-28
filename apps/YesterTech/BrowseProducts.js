@@ -36,13 +36,15 @@ function BrowseProducts({ backgroundColor }) {
 
   // 1. Very expensive calculation
   // 2. OR you don't want to break memo of a child component
-  let style = useMemo(() => {
-    return {
-      backgroundColor: backgroundColor || 'red',
-    }
-  }, [backgroundColor])
+  // let style = useMemo(() => {
+  //   return {
+  //     backgroundColor: backgroundColor || 'red',
+  //   }
+  // }, [backgroundColor])
 
-  let onChange = useCallback(() => {}, [])
+  // let onChange = useCallback(() => {
+  //   onChangeThing()
+  // }, [])
 
   return (
     <div className="browse-products spacing">
@@ -76,7 +78,7 @@ function BrowseProducts({ backgroundColor }) {
               category={product.category}
               condition={product.condition}
               rating={product.rating}
-              style={style}
+              //style={style}
             />
           ))}
         </div>
