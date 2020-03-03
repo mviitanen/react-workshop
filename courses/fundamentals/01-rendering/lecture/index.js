@@ -4,6 +4,10 @@ import { FaRegStar, FaStar } from 'react-icons/fa'
 import 'YesterTech/styles/global-styles.scss'
 import './styles.scss'
 
+// Cassidy Williams
+// cassidy@reacttraining.com
+// @cassidoo
+
 let z = 5
 function add(x, y) {
   z = z + y

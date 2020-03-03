@@ -1,6 +1,15 @@
 import React, { useState } from 'react'
 import { FaMinusCircle, FaPlusCircle } from 'react-icons/fa'
 
+/*
+4 types of testing:
+
+- Static: linting -> react linter, TypeScript linter
+- Unit: utils -> Jest
+- Integration: React Testing Library
+- End-to-End: Cypress
+*/
+
 function Quantity() {
   const [quantity, setQuantity] = useState(0)
 
