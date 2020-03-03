@@ -1,34 +1,80 @@
-import React, { useState, useEffect, useCallback } from 'react'
+import React, {
+  useState,
+  useEffect,
+  useCallback,
+  useMemo,
+  useReducer
+} from 'react'
 import ReactDOM from 'react-dom'
 import StarRatings from 'YesterTech/StarRatings'
 import Heading from 'YesterTech/Heading'
 import api from 'YesterTech/api'
 import 'YesterTech/styles/center-lesson.scss'
 
-function useProduct(productId) {
-  const [products, setProducts] = useState(null)
+function usePromise(api) {
+  const [state, dispatch] = useReducer(
+    (state, action) => {
+      switch (action.type) {
+        case 'LOADING':
+          return { ...state, loading: true }
+        case 'RESOLVED':
+          return {
+            loading: false,
+            response: action.response,
+            error: null
+          }
+        case 'ERROR':
+          return {
+            loading: false,
+            response: null,
+            error: action.error
+          }
+      }
+    },
+    {
+      loading: false,
+      response: null,
+      error: null
+    }
+  )
 
   useEffect(() => {
     let isCurrent = true
-    api.products.getProduct(productId).then(products => {
-      if (!isCurrent) return
-      setProducts(products)
-    })
+    dispatch({ type: 'LOADING' })
+    api()
+      .then(response => {
+        if (!isCurrent) return
+        dispatch({ type: 'RESOLVED', response })
+      })
+      .catch(error => {
+        dispatch({ type: 'ERROR', error })
+      })
     return () => (isCurrent = false)
-  }, [productId])
+  }, [api])
 
-  return products
+  return state
 }
 
 function ProductProfile({ productId }) {
-  const product = useProduct(productId)
+  const state = usePromise(
+    useCallback(() => api.products.getProducts(productId), [
+      productId
+    ])
+  )
 
-  if (!product) return <div>Loading...</div>
+  if (state.loading) return <div>Loading...</div>
+  if (state.error) return <div>Something went wrong</div>
+
+  let products = state?.response?.products
 
   return (
     <div>
-      <Heading>{product.name}</Heading>
-      <StarRatings rating={product.rating} />
+      {products?.map(product => (
+        <div key={Math.random()}>
+          <Heading>{product.name}</Heading>
+          <StarRatings rating={product.rating} />
+        </div>
+      ))}
     </div>
   )
 }
