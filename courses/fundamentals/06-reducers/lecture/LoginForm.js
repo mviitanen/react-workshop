@@ -6,16 +6,52 @@ import Notice from 'YesterTech/Notice'
 import Centered from 'YesterTech/Centered'
 import api from 'YesterTech/api'
 
+function useMyState(initialValue) {
+  let [state, setState] = useReducer(
+    (state, newState) => newState,
+    initialValue
+  )
+  return [state, setState]
+}
+
 function LoginForm({ onAuthenticated }) {
-  const [username, setUsername] = useState('')
-  const [password, setPassword] = useState('')
-  const [error, setError] = useState(null)
-  const [loading, setLoading] = useState(false)
-  const [showPassword, setShowPassword] = useState(false)
+  const [state, dispatch] = useReducer(
+    (state, action) => {
+      switch (action.type) {
+        case 'ATTEMPTED_SIGNUP':
+          return { ...state, loading: true }
+        case 'AUTH_ERROR':
+          return { ...state, loading: false, error: action.error }
+        case 'USERNAME_INPUT':
+          return { ...state, user: action.user }
+        case 'PASSWORD_INPUT':
+          return { ...state, password: action.pw }
+        case 'TOGGLE_SHOW_PASSWORD':
+          return { ...state, showPassword: !state.showPassword }
+        default:
+          return state
+      }
+    },
+    {
+      username: '',
+      password: '',
+      error: null,
+      loading: false,
+      showPassword: false
+    }
+  )
+
+  let { username, password, error, loading, showPassword } = state
+  // const [username, setUsername] = useState('')
+  // const [password, setPassword] = useState('')
+  // const [error, setError] = useState(null)
+  // const [loading, setLoading] = useState(false)
+  // const [showPassword, setShowPassword] = useState(false)
 
   function handleLogin(event) {
     event.preventDefault()
-    setLoading(true)
+    dispatch({ type: 'ATTEMPTED_SIGNUP' })
+    // setLoading(true)
     api.auth
       .login(username, password)
       .then(user => {
@@ -24,8 +60,9 @@ function LoginForm({ onAuthenticated }) {
         }
       })
       .catch(error => {
-        setError(error)
-        setLoading(false)
+        dispatch({ type: 'AUTH_ERROR', error })
+        // setError(error)
+        // setLoading(false)
       })
   }
 
@@ -43,7 +80,13 @@ function LoginForm({ onAuthenticated }) {
         <div className="form-field">
           <input
             aria-label="Username"
-            onChange={e => setUsername(e.target.value)}
+            onChange={e => {
+              dispatch({
+                type: 'USERNAME_INPUT',
+                user: e.target.value
+              })
+              // setUsername(e.target.value)
+            }}
             type="text"
             placeholder="Username"
           />
@@ -51,13 +94,19 @@ function LoginForm({ onAuthenticated }) {
         <div className="form-field">
           <input
             aria-label="Password"
-            onChange={e => setPassword(e.target.value)}
+            onChange={e => {
+              dispatch({ type: 'PASSWORD_INPUT', pw: e.target.value })
+              // setPassword(e.target.value)
+            }}
             type={showPassword ? 'text' : 'password'}
             placeholder="Password"
           />
           <label>
             <input
-              onChange={() => setShowPassword(!showPassword)}
+              onChange={() => {
+                dispatch({ type: 'TOGGLE_SHOW_PASSWORD' })
+                // setShowPassword(!showPassword)
+              }}
               defaultChecked={showPassword}
               className="passwordCheckbox"
               type="checkbox"

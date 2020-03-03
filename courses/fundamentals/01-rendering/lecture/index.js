@@ -1,30 +1,72 @@
-import React from 'react'
+import React, { useState, useEffect } from 'react'
 import ReactDOM from 'react-dom'
 import { FaRegStar, FaStar } from 'react-icons/fa'
 import 'YesterTech/styles/global-styles.scss'
 import './styles.scss'
 
-const Button = props => {
-  let { children, onKeyboardTap } = props
+let z = 5
+function add(x, y) {
+  z = z + y
+  return x + y
+}
+
+function Pokemon() {
+  let [pokemon, setPokemon] = useState('pikachu')
+  let [img, setImg] = useState(null)
+
+  let title = 'Saying hello to ' + pokemon
+
+  useEffect(() => {
+    document.title = title
+  }, [title])
+
+  useEffect(() => {
+    let isCurrent = true
+    fetch(`https://pokeapi.co/api/v2/pokemon/${pokemon}`)
+      .then(res => res.json())
+      .then(res => {
+        if (isCurrent) setImg(res.sprites.front_default)
+      })
+    return () => {
+      isCurrent = false
+    }
+  }, [img, pokemon])
+
   return (
-    <button
-      className="button"
-      onClick={() => {
-        console.log('weeee')
-      }}
-      onKeyDown={e => {
-        if (e.key === 'Enter') {
-          onKeyboardTap()
-        }
-      }}
-    >
-      {children}
-    </button>
+    <div>
+      <input
+        type="text"
+        value={pokemon}
+        onChange={event => {
+          setPokemon(event.target.value)
+        }}
+      />
+      Hello, {pokemon}!
+      <img src={img} />
+    </div>
   )
 }
 
-{
-  /* <Button children={element} />
+// const Button = props => {
+//   let { children, onKeyboardTap } = props
+//   return (
+//     <button
+//       className="button"
+//       onClick={() => {
+//         console.log('weeee')
+//       }}
+//       onKeyDown={e => {
+//         if (e.key === 'Enter') {
+//           onKeyboardTap()
+//         }
+//       }}
+//     >
+//       {children}
+//     </button>
+//   )
+// }
+
+/* <Button children={element} />
 React.createElement(Button, { children: element })
 
 <Button>{children}</Button>
@@ -41,23 +83,8 @@ React.createElement(Button, { children: element })
 
 React.createElement(Button, {}, el1, el2, [el3and4])
 React.createElement(Button, { children: [el1], [el2], [el3and4] }) */
-}
 
 // const reactElement = React.createElement('button', null, '+', text)
 const domElement = document.getElementById('root')
 
-ReactDOM.render(
-  <div>
-    <Button
-      onKeyboardTap={() => {
-        console.log('parents!')
-      }}
-    >
-      <FaStar /> Add
-    </Button>
-    <Button>
-      Minus <FaRegStar />
-    </Button>
-  </div>,
-  domElement
-)
+ReactDOM.render(<Pokemon />, domElement)
