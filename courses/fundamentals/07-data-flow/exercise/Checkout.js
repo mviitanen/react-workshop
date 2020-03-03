@@ -21,8 +21,33 @@ function Checkout() {
   const match = useRouteMatch()
   const history = useHistory()
 
+  const [state, dispatch] = useReducer(
+    (state, action) => {
+      switch (action.type) {
+        case 'SUBMIT_BILLING':
+          return {
+            ...state,
+            sameAsBilling: action.sameAsBilling,
+            fields: action.fields
+          }
+        default:
+          return state
+      }
+    },
+    {
+      sameAsBilling: false,
+      fields: {}
+    }
+  )
+
+  let { sameAsBilling, fields } = state
+
   function handleBillingSubmit(sameAsBilling, fields) {
-    console.log(sameAsBilling, fields)
+    dispatch({
+      type: 'SUBMIT_BILLING',
+      sameAsBilling,
+      fields
+    })
     history.push(`${match.path}/review`)
   }
 
@@ -33,17 +58,20 @@ function Checkout() {
           <ViewCart />
         </Route>
         <Route path={`${match.path}/billing`}>
-          <CheckoutBilling onSubmit={handleBillingSubmit} />
+          <CheckoutBilling
+            onSubmit={handleBillingSubmit}
+            defaultValues={fields}
+          />
         </Route>
 
-        {/*
-          Hint: We shouldn't be able to visit this route unless we have
-          values inside of our state for `fields`. See the README
-        */}
-        <Route path={`${match.path}/review`}>
-          {/* The README also tells you what props you need to pass into CheckoutReview */}
-          <CheckoutReview />
-        </Route>
+        {Object.keys(fields).length > 0 && (
+          <Route path={`${match.path}/review`}>
+            <CheckoutReview
+              sameAsBilling={sameAsBilling}
+              fields={fields}
+            />
+          </Route>
+        )}
 
         <Redirect to={`${match.path}/cart`} />
       </Switch>
