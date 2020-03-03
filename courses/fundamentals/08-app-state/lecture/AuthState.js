@@ -1,6 +1,6 @@
-import React, { useContext, useReducer } from 'react'
+import React, { useContext, createContext, useReducer } from 'react'
 
-const AuthStateContext = React.createContext()
+const AuthStateContext = createContext()
 
 const initialState = {
   authenticated: false,
@@ -27,10 +27,13 @@ export function AuthStateProvider({ children }) {
   }
 
   return (
-    <AuthStateContext.Provider value={value} children={children} />
+    <AuthStateContext.Provider value={value}>
+      {children}
+    </AuthStateContext.Provider>
   )
 }
 
 export function useAuthState() {
+  // {state, dispatch}
   return useContext(AuthStateContext)
 }
