@@ -24,9 +24,26 @@ export default function PrimaryLayout() {
     <div className="primary-layout">
       <div>
         <PrimaryHeader />
-        <ProductSubNav />
+        <Route path="/products">
+          <ProductSubNav />
+        </Route>
         <main className="primary-content">
-          <Home />
+          <Switch>
+            <Route path="/">
+              <Home />
+            </Route>
+            <Route path="/signup">
+              <SignupForm></SignupForm>
+            </Route>
+            <Route path="/products">
+              <ProductsLayout></ProductsLayout>
+            </Route>
+            {cart.length > 0 && (
+              <Route path="/checkout">
+                <Checkout></Checkout>
+              </Route>
+            )}
+          </Switch>
         </main>
         <PrimaryFooter />
       </div>

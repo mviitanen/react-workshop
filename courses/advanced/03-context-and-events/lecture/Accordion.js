@@ -1,4 +1,4 @@
-import React, { useState, forwardRef } from 'react'
+import React, { useState, forwardRef, useContext } from 'react'
 import PropTypes from 'prop-types'
 import { wrapEvent } from '../../utils'
 import { useId } from '../../useId'
@@ -7,21 +7,31 @@ import { useId } from '../../useId'
  * Accordion
  */
 
+const AccordionContext = React.createContext()
+
 export const Accordion = forwardRef(
-  ({ children, defaultIndex = 0, id, ...props }, forwardedRef) => {
+  (
+    { children, defaultIndex = 0, onChange, id, ...props },
+    forwardedRef
+  ) => {
     const [selectedIndex, setSelectedIndex] = useState(defaultIndex)
     const accordionId = useId(id)
 
     children = React.Children.map(children, (child, index) => {
       const panelId = `accordion-${accordionId}-panel-${index}`
       const buttonId = `accordion-${accordionId}-button-${index}`
-
-      return React.cloneElement(child, {
+      const context = {
         buttonId,
         panelId,
         selected: selectedIndex === index,
-        selectPanel: () => setSelectedIndex(index)
-      })
+        selectPanel: () => {
+          onChange && onChange(index)
+          setSelectedIndex(index)
+        }
+      }
+      return (
+        <AccordionContext.Provider value={context} children={child} />
+      )
     })
 
     return (
@@ -33,24 +43,17 @@ export const Accordion = forwardRef(
 )
 
 Accordion.displayName = 'Accordion'
+Accordion.propTypes = {
+  onChange: PropTypes.func
+}
 
 /**
  * Accordion Item
  */
 
 export const AccordionItem = forwardRef(
-  (
-    { children, buttonId, panelId, selected, selectPanel, ...props },
-    forwardedRef
-  ) => {
-    children = React.Children.map(children, child => {
-      return React.cloneElement(child, {
-        buttonId,
-        panelId,
-        selected,
-        selectPanel
-      })
-    })
+  ({ children, ...props }, forwardedRef) => {
+    const { selected } = useContext(AccordionContext)
 
     return (
       <div
@@ -72,15 +75,16 @@ AccordionItem.displayName = 'AccordionItem'
  */
 
 export const AccordionButton = forwardRef(
-  (
-    { children, buttonId, panelId, selected, selectPanel, ...props },
-    forwardedRef
-  ) => {
+  ({ children, onClick, ...props }, forwardedRef) => {
+    const { buttonId, selectPanel, selected, panelId } = useContext(
+      AccordionContext
+    )
+
     return (
       <button
         {...props}
         id={buttonId}
-        onClick={selectPanel}
+        onClick={wrapEvent(onClick, selectPanel)}
         data-accordion-button=""
         data-state={selected ? 'open' : 'collapsed'}
         aria-expanded={selected}
@@ -100,13 +104,11 @@ AccordionButton.displayName = 'AccordionButton'
  */
 
 export const AccordionPanel = forwardRef(
-  (
-    { children, buttonId, panelId, selected, ...props },
-    forwardedRef
-  ) => {
-    // Since we're passing our internal implementations down through props,
-    // and then also forwarding props, some unneeded things are being passed
-    // to the DOM, like props.selectPanel in this case.
+  ({ children, ...props }, forwardedRef) => {
+    const { buttonId, selected, panelId } = useContext(
+      AccordionContext
+    )
+
     return (
       <div
         role="region"

@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import ReactDOM from 'react-dom'
 import {
   Accordion,
@@ -11,22 +11,30 @@ import './styles.scss'
 
 function App() {
   return (
-    <Accordion>
-      <AccordionItem>
-        <AccordionButton>What is ARIA?</AccordionButton>
+    <Accordion render={() => {
+      return (
+              <AccordionItem>
+        <AccordionButton>
+          {selectedIndex === 0 ? <FaAngleDown /> : <FaAngleRight />}
+          <span>What is ARIA?</span>
+        </AccordionButton>
         <AccordionPanel>
           A way to make web content more accessible: "Accessible Rich
           Internet Applications".
         </AccordionPanel>
       </AccordionItem>
       <AccordionItem>
-        <AccordionButton>What does "a11y" stand for?</AccordionButton>
+        <AccordionButton>
+          {selectedIndex === 1 ? <FaAngleDown /> : <FaAngleRight />}
+          <span>What does "a11y" stand for?</span>
+        </AccordionButton>
         <AccordionPanel>
           A11y is short for "accessibility" since there are 11
           characters between "a" and "y".
         </AccordionPanel>
       </AccordionItem>
-    </Accordion>
+      )
+    }} />
   )
 }
 
