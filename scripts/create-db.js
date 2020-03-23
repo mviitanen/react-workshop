@@ -2,5 +2,6 @@
 // for reference: $ find . -iname db-seed.json | xargs -L1 -I {} bash -c 'cp {} $(dirname {})/db.json'
 
 const shell = require('shelljs')
-const path = `apps/YesterTech/database`
+const { APP_NAME } = require('../config/constants.js')
+const path = `apps/${APP_NAME}/database`
 shell.cp(`${path}/db-seed.json`, `${path}/db.json`)
