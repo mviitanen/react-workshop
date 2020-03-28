@@ -2,26 +2,27 @@ import React, { useReducer } from 'react'
 import { MdShoppingCart } from 'react-icons/md'
 import Heading from 'YesterTech/Heading'
 
+const initialState = {
+  sameAsBilling: false,
+  billingName: '',
+  billingAddress: '',
+  shippingName: '',
+  shippingAddress: ''
+}
+
 function CheckoutBilling({ onSubmit }) {
-  const [state, dispatch] = useReducer(
-    (state, action) => {
-      switch (action.type) {
-        case 'TOGGLE_SAME_AS_BILLING':
-          return { ...state, sameAsBilling: !state.sameAsBilling }
-        case 'CHANGE_FIELD':
-          return { ...state, [action.field]: action.value }
-        default:
-          return state
-      }
-    },
-    {
-      sameAsBilling: false,
-      billingName: '',
-      billingAddress: '',
-      shippingName: '',
-      shippingAddress: ''
+  const [state, dispatch] = useReducer((state, action) => {
+    switch (action.type) {
+      case 'TOGGLE_SAME_AS_BILLING':
+        return { ...state, sameAsBilling: !state.sameAsBilling }
+      case 'CHANGE_FIELD':
+        return { ...state, [action.field]: action.value }
+      case 'RESET':
+        return initialState
+      default:
+        return state
     }
-  )
+  }, initialState)
 
   const {
     sameAsBilling,

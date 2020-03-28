@@ -15,8 +15,16 @@ import ProductTile from 'YesterTech/ProductTile'
 function ProductProfile() {
   let { productId } = useParams()
   productId = parseInt(productId, 10)
+  const [product, setProduct] = useState(null)
 
-  const product = null
+  useEffect(() => {
+    let isCurrent = true
+    api.products.getProduct(productId).then(product => {
+      if (!isCurrent) return
+      setProduct(product)
+    })
+    return () => (isCurrent = false)
+  }, [productId])
 
   // Cart
   const { addToCart, updateQuantity, getQuantity } = useShoppingCart()
