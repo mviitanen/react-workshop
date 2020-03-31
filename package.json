@@ -111,9 +111,38 @@
   "eslintConfig": {
     "extends": "react-app",
     "rules": {
-      "react-hooks/rules-of-hooks": "error",
-      "react-hooks/exhaustive-deps": "warn"
-    }
+      "react-hooks/rules-of-hooks": 2,
+      "react-hooks/exhaustive-deps": 1,
+      "@typescript-eslint/no-unused-vars": 0
+    },
+    "overrides": [
+      {
+        "files": [
+          "apps/**/*.tsx",
+          "courses/**/*.final.tsx"
+        ],
+        "rules": {
+          "@typescript-eslint/no-unused-vars": 1
+        }
+      },
+      {
+        "files": [
+          "**/*.js"
+        ],
+        "rules": {
+          "no-unused-vars": 0
+        }
+      },
+      {
+        "files": [
+          "apps/**/*.js",
+          "courses/**/*.final.js"
+        ],
+        "rules": {
+          "no-unused-vars": 1
+        }
+      }
+    ]
   },
   "browserslist": {
     "production": [

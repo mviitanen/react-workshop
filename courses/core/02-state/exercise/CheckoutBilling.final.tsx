@@ -3,12 +3,16 @@ import { MdShoppingCart } from 'react-icons/md'
 import serializeForm from 'form-serialize'
 import Heading from 'YesterTech/Heading'
 
-function CheckoutBilling({ onSubmit }) {
+const CheckoutBilling: React.FC<CheckoutBillingProps> = ({
+  onSubmit,
+}) => {
   const [sameAsBilling, setSameAsBilling] = useState(false)
 
-  function handleSubmit(event) {
+  function handleSubmit(event: React.FormEvent) {
     event.preventDefault()
-    const fields = serializeForm(event.target, { hash: true })
+    const fields = serializeForm(event.target as HTMLFormElement, {
+      hash: true,
+    })
     onSubmit(fields)
   }
 
@@ -87,3 +91,7 @@ function CheckoutBilling({ onSubmit }) {
 }
 
 export default CheckoutBilling
+
+type CheckoutBillingProps = {
+  onSubmit: (fields: ReturnType<typeof serializeForm>) => any
+}
