@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import { FaMinusCircle, FaPlusCircle } from 'react-icons/fa'
 import 'YesterTech/Quantity.scss'
 
-export default function Quantity() {
+export const Quantity: React.FC = () => {
   const quantity = 1
 
   return (
@@ -23,3 +23,5 @@ export default function Quantity() {
     </div>
   )
 }
+
+export default Quantity
