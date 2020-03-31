@@ -4,7 +4,7 @@ import { Switch, Route, Redirect, useLocation, useHistory } from 'react-router-d
 import api from 'YesterTech/api'
 import PrimaryHeader from 'YesterTech/PrimaryHeader'
 import PrimaryFooter from 'YesterTech/PrimaryFooter'
-import { useAuthState } from 'YesterTech/AuthState'
+import { useAuthState, AuthActionTypes } from 'YesterTech/AuthState'
 import { useShoppingCart } from 'YesterTech/ShoppingCartState'
 import 'YesterTech/PrimaryLayout.scss'
 
@@ -17,7 +17,7 @@ import ProductsLayout from 'YesterTech/ProductsLayout'
 import ProductSubNav from 'YesterTech/ProductSubNav'
 import Checkout from 'YesterTech/Checkout'
 
-function PrimaryLayout() {
+const PrimaryLayout: React.FC = () => {
   const history = useHistory()
   const { authenticated, dispatch } = useAuthState()
   const { cart } = useShoppingCart()
@@ -27,12 +27,14 @@ function PrimaryLayout() {
   useEffect(() => {
     let isCurrent = true
     if (!authenticated) {
-      api.auth.getAuthenticatedUser().then(user => {
+      api.auth.getAuthenticatedUser().then((user) => {
         if (user && isCurrent) {
-          dispatch({ type: 'LOGIN', user })
+          dispatch({ type: AuthActionTypes.Login, user })
         }
       })
-      return () => (isCurrent = false)
+      return () => {
+        isCurrent = false
+      }
     }
   }, [authenticated, dispatch])
 
@@ -55,16 +57,16 @@ function PrimaryLayout() {
             </Route>
             <Route path="/signup" exact>
               <SignupForm
-                onSignup={user => {
-                  dispatch({ type: 'LOGIN', user })
+                onSignup={(user) => {
+                  dispatch({ type: AuthActionTypes.Login, user })
                   history.push('/products')
                 }}
               />
             </Route>
             <Route path="/login" exact>
               <LoginForm
-                onAuthenticated={user => {
-                  dispatch({ type: 'LOGIN', user })
+                onAuthenticated={(user) => {
+                  dispatch({ type: AuthActionTypes.Login, user })
                   history.push('/')
                 }}
               />

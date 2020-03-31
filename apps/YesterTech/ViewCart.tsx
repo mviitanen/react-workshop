@@ -8,7 +8,7 @@ import Heading from 'YesterTech/Heading'
 import Quantity from 'YesterTech/Quantity'
 import { useShoppingCart } from 'YesterTech/ShoppingCartState'
 
-function ViewCart() {
+const ViewCart: React.FC = () => {
   const { cart, updateQuantity, getCartTotal } = useShoppingCart()
 
   return (
@@ -18,12 +18,12 @@ function ViewCart() {
       </Heading>
 
       <div className="spacing-small">
-        {cart.map(item => (
+        {cart.map((item) => (
           <Fragment key={item.productId}>
             <Columns gutters middle>
               <Column>
                 <Quantity
-                  onChange={q => updateQuantity(item.productId, q)}
+                  onChange={(q) => updateQuantity(item.productId, q)}
                   quantity={item.quantity}
                 />
               </Column>

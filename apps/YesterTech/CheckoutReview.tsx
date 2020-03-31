@@ -6,8 +6,9 @@ import { FaAngleLeft } from 'react-icons/fa'
 
 import Heading from 'YesterTech/Heading'
 import { useShoppingCart } from 'YesterTech/ShoppingCartState'
+import { CheckoutFields, CheckoutState } from './CheckoutBilling'
 
-function CheckoutReview({ sameAsBilling, fields = {} }) {
+const CheckoutReview: React.FC<CheckoutReviewProps> = ({ sameAsBilling, fields = {} }) => {
   const { cart, getCartTotal } = useShoppingCart()
 
   function placeOrder() {
@@ -75,7 +76,7 @@ function CheckoutReview({ sameAsBilling, fields = {} }) {
       </Heading>
 
       <div className="spacing-small">
-        {cart.map(item => (
+        {cart.map((item) => (
           <Fragment key={item.productId}>
             <Columns gutters middle>
               <Column flex>
@@ -112,3 +113,8 @@ function CheckoutReview({ sameAsBilling, fields = {} }) {
 }
 
 export default CheckoutReview
+
+type CheckoutReviewProps = {
+  sameAsBilling?: CheckoutState['sameAsBilling']
+  fields?: Partial<CheckoutFields>
+}

@@ -7,7 +7,7 @@ import ProductImage from 'YesterTech/ProductImage'
 import usePromise from 'YesterTech/usePromise'
 import api from 'YesterTech/api'
 
-function ProductTile({ productId }) {
+const ProductTile: React.FC<{ productId: number }> = ({ productId }) => {
   const getProduct = useCallback(() => api.products.getProduct(productId), [productId])
   const [product] = usePromise(getProduct)
 

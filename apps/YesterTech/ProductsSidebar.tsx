@@ -1,7 +1,7 @@
 import React from 'react'
 import ProductFilters from 'YesterTech/ProductFilters'
 
-function ProductsSidebar() {
+const ProductsSidebar: React.FC = () => {
   return (
     <aside>
       <ProductFilters />

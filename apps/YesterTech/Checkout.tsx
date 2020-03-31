@@ -7,16 +7,20 @@ import ViewCart from 'YesterTech/ViewCart'
 import CheckoutBilling from 'YesterTech/CheckoutBilling'
 import CheckoutReview from 'YesterTech/CheckoutReview'
 
-function Checkout() {
+export enum CheckoutActionTypes {
+  SubmitBilling = 'SUBMIT_BILLING',
+}
+
+const Checkout: React.FC = () => {
   const match = useRouteMatch()
   const history = useHistory()
 
   const [state, dispatch] = useReducer(
-    (state, action) => {
+    (state: CheckoutState, action: CheckoutActions): CheckoutState => {
       switch (action.type) {
-        case 'SUBMIT_BILLING': {
+        case CheckoutActionTypes.SubmitBilling: {
           const { sameAsBilling, fields } = action
-          return { ...state, sameAsBilling, fields }
+          return { ...state, sameAsBilling: !!sameAsBilling, fields }
         }
         default:
           return state
@@ -24,12 +28,12 @@ function Checkout() {
     },
     {
       sameAsBilling: false,
-      fields: {}
+      fields: {},
     }
   )
 
-  function handleBillingSubmit(sameAsBilling, fields) {
-    dispatch({ type: 'SUBMIT_BILLING', sameAsBilling, fields })
+  function handleBillingSubmit(sameAsBilling: boolean, fields: any) {
+    dispatch({ type: CheckoutActionTypes.SubmitBilling, sameAsBilling, fields })
     history.push(`${match.path}/review`)
   }
 
@@ -58,3 +62,20 @@ function Checkout() {
 }
 
 export default Checkout
+
+// Types
+
+type CheckoutActions = {
+  type: CheckoutActionTypes.SubmitBilling
+  sameAsBilling: boolean | null | undefined
+  fields: CheckoutFields
+}
+
+type CheckoutState = {
+  sameAsBilling: boolean
+  fields: CheckoutFields
+}
+
+export type CheckoutFields = {
+  [key: string]: string
+}

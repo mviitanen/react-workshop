@@ -1,6 +1,7 @@
 import React, { useCallback, useContext, useReducer, useRef, useEffect } from 'react'
 import { CartProduct } from 'YesterTech/types'
 import * as storage from 'YesterTech/localStorage'
+import { getInt } from 'YesterTech/utils'
 
 const ShoppingCartContext = React.createContext({} as ShoppingCartContextValue)
 
@@ -97,10 +98,6 @@ export function useShoppingCart() {
   }, [cartState.cart])
 
   return cartState
-}
-
-function getInt(val: string | number, radix: number = 10) {
-  return typeof val === 'number' ? val : parseInt(val, radix)
 }
 
 // Types

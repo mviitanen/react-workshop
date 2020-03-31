@@ -7,7 +7,7 @@ import Hero from 'YesterTech/Hero'
 import ProductCategories from 'YesterTech/ProductCategories'
 import ProductTile from 'YesterTech/ProductTile'
 
-function Home() {
+const Home: React.FC = () => {
   return (
     <div className="spacing">
       <Hero />

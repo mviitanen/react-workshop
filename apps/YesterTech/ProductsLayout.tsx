@@ -6,7 +6,7 @@ import BrowseProducts from 'YesterTech/BrowseProducts'
 import ProductProfile from 'YesterTech/ProductProfile'
 import './ProductsLayout.scss'
 
-function ProductsLayout() {
+const ProductsLayout: React.FC = () => {
   return (
     <div className="products-layout">
       <ProductsSidebar />

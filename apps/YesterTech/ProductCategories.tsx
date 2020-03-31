@@ -1,5 +1,5 @@
 import React from 'react'
-import { Link } from 'react-router-dom'
+import { Link, LinkProps } from 'react-router-dom'
 import { FaGamepad, FaDesktop } from 'react-icons/fa'
 import { GiKeyboard } from 'react-icons/gi'
 import { IoIosSave } from 'react-icons/io'
@@ -9,7 +9,13 @@ import Tiles from 'YesterTech/Tiles'
 import Centered from 'YesterTech/Centered'
 import 'YesterTech/ProductCategories.scss'
 
-function CategoryTile({ children, icon: Icon, ...rest }) {
+type CategoryTileProps = LinkProps & {
+  icon: any
+}
+
+type PresetCategoryTileProps = Omit<CategoryTileProps, 'icon'>
+
+const CategoryTile: React.FC<CategoryTileProps> = ({ children, icon: Icon, ...rest }) => {
   return (
     <Link className="category-tile" {...rest}>
       <span className="category-icon">
@@ -20,7 +26,7 @@ function CategoryTile({ children, icon: Icon, ...rest }) {
   )
 }
 
-export function CategoryComputers(props) {
+export function CategoryComputers(props: PresetCategoryTileProps) {
   return (
     <CategoryTile {...props} icon={FaDesktop}>
       Computers
@@ -28,7 +34,7 @@ export function CategoryComputers(props) {
   )
 }
 
-export function CategoryAccessories(props) {
+export function CategoryAccessories(props: PresetCategoryTileProps) {
   return (
     <CategoryTile {...props} icon={GiKeyboard}>
       Gadgets
@@ -36,14 +42,14 @@ export function CategoryAccessories(props) {
   )
 }
 
-export function CategoryStorage(props) {
+export function CategoryStorage(props: PresetCategoryTileProps) {
   return (
     <CategoryTile {...props} icon={IoIosSave}>
       Storage
     </CategoryTile>
   )
 }
-export function CategoryGaming(props) {
+export function CategoryGaming(props: PresetCategoryTileProps) {
   return (
     <CategoryTile {...props} icon={FaGamepad}>
       Games
@@ -51,7 +57,7 @@ export function CategoryGaming(props) {
   )
 }
 
-export function CategoryMusic(props) {
+export function CategoryMusic(props: PresetCategoryTileProps) {
   return (
     <CategoryTile {...props} icon={MdSpeaker}>
       Music

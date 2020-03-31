@@ -5,17 +5,16 @@ import * as storage from 'YesterTech/localStorage'
 // function calls would really be talking to a server that would probably
 // set a session or JWT
 
-export function login(username, password) {
-  return get(`/users?username=${username}&password=${password}`).then(results => {
-    if (results.length > 0) {
-      const user = results[0]
-      delete user.password
-      storage.login(user)
-      return user
-    } else {
-      return Promise.reject('User not found')
-    }
-  })
+export async function login(username: string, password: string) {
+  const results = await get(`/users?username=${username}&password=${password}`)
+  if (results.length > 0) {
+    const user = results[0]
+    delete user.password
+    storage.login(user)
+    return user
+  } else {
+    return Promise.reject('User not found')
+  }
 }
 
 export function getAuthenticatedUser() {
@@ -30,6 +29,7 @@ export function logout() {
   return Promise.resolve()
 }
 
-export function getGitHubUser(username) {
-  return fetch(`https://api.github.com/users/${username}`).then(res => res.json())
+export async function getGitHubUser(username: string) {
+  const res = await fetch(`https://api.github.com/users/${username}`)
+  return await res.json()
 }

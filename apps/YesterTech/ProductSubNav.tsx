@@ -6,7 +6,7 @@ import SearchBox from 'YesterTech/SearchBox'
 import SubNav from 'YesterTech/SubNav'
 import { useShoppingCart } from 'YesterTech/ShoppingCartState'
 
-function ProductSubNav() {
+const ProductSubNav: React.FC = () => {
   const { getCartSize } = useShoppingCart()
   const cartSize = getCartSize()
 

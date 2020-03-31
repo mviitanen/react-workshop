@@ -2,7 +2,7 @@ import React from 'react'
 import { GoVersions } from 'react-icons/go'
 import 'YesterTech/Logo.scss'
 
-function Logo() {
+const Logo: React.FC = () => {
   return (
     <span className="logo vertical-middle">
       <GoVersions />{' '}

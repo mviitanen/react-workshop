@@ -3,7 +3,7 @@ import { FaRegStar, FaStarHalfAlt, FaStar } from 'react-icons/fa'
 
 import 'YesterTech/StarRatings.scss'
 
-function StarRatings({ rating }) {
+const StarRatings: React.FC<{ rating: number }> = ({ rating }) => {
   let stars = []
 
   // Add filled in star(s)

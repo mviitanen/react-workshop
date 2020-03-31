@@ -5,25 +5,26 @@ import Heading from 'YesterTech/Heading'
 import Notice from 'YesterTech/Notice'
 import Centered from 'YesterTech/Centered'
 import api from 'YesterTech/api'
+import { UserNoId } from 'YesterTech/types'
 
-function LoginForm({ onAuthenticated }) {
+const LoginForm: React.FC<LoginFormProps> = ({ onAuthenticated }) => {
   const [username, setUsername] = useState('')
   const [password, setPassword] = useState('')
   const [error, setError] = useState(null)
   const [loading, setLoading] = useState(false)
   const [showPassword, setShowPassword] = useState(false)
 
-  function handleLogin(event) {
+  function handleLogin(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault()
     setLoading(true)
     api.auth
       .login(username, password)
-      .then(user => {
+      .then((user) => {
         if (typeof onAuthenticated === 'function') {
           onAuthenticated(user)
         }
       })
-      .catch(error => {
+      .catch((error) => {
         setError(error)
         setLoading(false)
       })
@@ -47,7 +48,7 @@ function LoginForm({ onAuthenticated }) {
         <div className="form-field">
           <input
             aria-label="Username"
-            onChange={e => setUsername(e.target.value)}
+            onChange={(e) => setUsername(e.target.value)}
             type="text"
             placeholder="Username"
             required
@@ -56,7 +57,7 @@ function LoginForm({ onAuthenticated }) {
         <div className="form-field">
           <input
             aria-label="Password"
-            onChange={e => setPassword(e.target.value)}
+            onChange={(e) => setPassword(e.target.value)}
             type={showPassword ? 'text' : 'password'}
             placeholder="Password"
             required
@@ -89,3 +90,7 @@ function LoginForm({ onAuthenticated }) {
 }
 
 export default LoginForm
+
+type LoginFormProps = {
+  onAuthenticated?: (user: UserNoId) => void
+}

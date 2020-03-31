@@ -6,14 +6,22 @@ import queryString from 'query-string'
 
 import 'YesterTech/Pagination.scss'
 
-export function Pagination({
+type PaginationProps = {
+  as?: any
+  path: string
+  totalResults: number
+  page?: number
+  resultsPerPage?: number
+}
+
+export const Pagination: React.FC<PaginationProps> = ({
   as: Component = 'div',
   path,
   totalResults,
   page = 1,
   resultsPerPage = 10,
   ...rest
-}) {
+}) => {
   const query = queryString.parse(useLocation().search)
   const pages = Math.ceil(totalResults / resultsPerPage)
 
@@ -25,7 +33,7 @@ export function Pagination({
           .map((_, i) => {
             const newQuery = queryString.stringify({
               ...query,
-              page: i + 1
+              page: i + 1,
             })
             const active = page === i + 1
             return (
@@ -46,10 +54,22 @@ Pagination.propTypes = {
   path: PropTypes.string.isRequired,
   totalResults: PropTypes.number.isRequired,
   page: PropTypes.number.isRequired,
-  resultsPerPage: PropTypes.number.isRequired
+  resultsPerPage: PropTypes.number.isRequired,
 }
 
-export function PaginationRange({ resultsPerPage, page, totalResults, query }) {
+type PaginationRangeProps = {
+  resultsPerPage: number
+  page: number
+  totalResults?: number | undefined
+  query: string
+}
+
+export const PaginationRange: React.FC<PaginationRangeProps> = ({
+  resultsPerPage,
+  page,
+  totalResults,
+  query,
+}) => {
   if (!totalResults) return null
   const first = resultsPerPage * page - resultsPerPage + 1
   const last = resultsPerPage * page
@@ -72,5 +92,4 @@ PaginationRange.propTypes = {
   totalResults: PropTypes.number.isRequired,
   page: PropTypes.number.isRequired,
   resultsPerPage: PropTypes.number.isRequired,
-  query: PropTypes.string
 }

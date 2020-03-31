@@ -8,12 +8,13 @@ import { Pagination, PaginationRange } from 'YesterTech/Pagination'
 import NoResults from 'YesterTech/NoResults'
 import api from 'YesterTech/api'
 import usePromise from 'YesterTech/usePromise'
+import { getInt } from 'YesterTech/utils'
 import BrowseProductItem from 'YesterTech/BrowseProductItem'
 
-function BrowseProducts() {
+const BrowseProducts: React.FC = () => {
   const urlQuery = useLocation().search
   const search = useMemo(() => queryString.parse(urlQuery), [urlQuery])
-  const page = parseInt(search.page, 10) || 1
+  const page = getInt(search.page as string) || 1
 
   // Get Products (Paginated) and Total
   const getProducts = useCallback(() => api.products.getProducts(search, page), [search, page])
@@ -28,12 +29,12 @@ function BrowseProducts() {
           <Heading size={1}>Products</Heading>
         </Column>
         <Column>
-          {Array.isArray(products) > 0 && (
+          {Array.isArray(products) && products.length > 0 && (
             <PaginationRange
               resultsPerPage={10}
               page={page}
               totalResults={totalResults}
-              query={search.q || ''}
+              query={(search.q as string) || ''}
             />
           )}
         </Column>
@@ -41,7 +42,7 @@ function BrowseProducts() {
 
       {Array.isArray(products) && products.length > 0 ? (
         <div className="spacing">
-          {products.map(product => (
+          {products.map((product) => (
             <BrowseProductItem
               key={product.id}
               productId={product.id}

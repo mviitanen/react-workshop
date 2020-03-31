@@ -1,15 +1,17 @@
+import { UserNoId, CartProduct } from 'YesterTech/types'
 /**
  * Auth
  */
 
 const LOCAL_STORAGE_KEY_AUTH = 'reacttraining-workshop-auth'
+const LOCAL_STORAGE_KEY_CART = 'reacttraining-workshop-cart'
 
-export function login(user) {
+export function login(user: UserNoId) {
   localStorage.setItem(LOCAL_STORAGE_KEY_AUTH, JSON.stringify(user))
 }
 
 export function logout() {
-  localStorage.setItem(LOCAL_STORAGE_KEY_AUTH, null)
+  localStorage.removeItem(LOCAL_STORAGE_KEY_AUTH)
 }
 
 export function getAuthenticatedUser() {
@@ -26,18 +28,16 @@ export function getAuthenticatedUser() {
  * Cart
  */
 
-const LOCAL_STORAGE_KEY_CART = 'reacttraining-workshop-cart'
-
-export function updateCart(cart) {
+export function updateCart(cart: CartProduct[]) {
   localStorage.setItem(LOCAL_STORAGE_KEY_CART, JSON.stringify(cart))
 }
 
 export function getCart() {
   try {
     const cart = localStorage.getItem(LOCAL_STORAGE_KEY_CART)
-    if (!cart) return
-    return JSON.parse(cart)
+    if (!cart) return null
+    return JSON.parse(cart) as CartProduct[]
   } catch (e) {
-    return
+    return null
   }
 }

@@ -6,7 +6,9 @@ import Avatar from 'YesterTech/Avatar'
 import Centered from 'YesterTech/Centered'
 import api from 'YesterTech/api'
 
-function SignupForm({ onSignup }) {
+import { UserNoId } from 'YesterTech/types'
+
+const SignupForm: React.FC<SignupFormProps> = ({ onSignup }) => {
   const [useGitHub, setUseGitHub] = useState(true)
   const [username, setUsername] = useState('')
   const [name, setName] = useState('')
@@ -19,9 +21,9 @@ function SignupForm({ onSignup }) {
     console.log('Keep in mind for workshops, GitHub has a rate limit of 60 requests per hour')
   }, [])
 
-  function handleSubmit(event) {
+  function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault()
-    const user = { username, name, password, avatarUrl }
+    const user: UserNoId = { username, name, password, avatarUrl }
     api.users.registerUser(user).then(() => {
       if (typeof onSignup === 'function') {
         onSignup(user)
@@ -34,7 +36,7 @@ function SignupForm({ onSignup }) {
   }
 
   function searchGitHub() {
-    api.auth.getGitHubUser(username).then(user => {
+    api.auth.getGitHubUser(username).then((user) => {
       if (user) {
         setName(user.name || '')
         setAvatarUrl(user.avatar_url || '')
@@ -68,11 +70,11 @@ function SignupForm({ onSignup }) {
             <div className="form-field">
               <input
                 aria-label="username"
-                onChange={e => setUsername(e.target.value)}
+                onChange={(e) => setUsername(e.target.value)}
                 value={username}
                 type="text"
                 placeholder={useGitHub ? 'GitHub Username' : 'Username'}
-                onKeyPress={event => {
+                onKeyPress={(event) => {
                   if (event.key === 'Enter' && useGitHub) {
                     event.preventDefault()
                     searchGitHub()
@@ -92,7 +94,7 @@ function SignupForm({ onSignup }) {
         <div className="form-field">
           <input
             aria-label="password"
-            onChange={e => setPassword(e.target.value)}
+            onChange={(e) => setPassword(e.target.value)}
             value={password}
             type={showPassword ? 'text' : 'password'}
             placeholder={useGitHub ? 'Create a YesterTech Password (Not GitHub)' : 'Password'}
@@ -110,7 +112,7 @@ function SignupForm({ onSignup }) {
         <div className="form-field">
           <input
             aria-label="name"
-            onChange={e => setName(e.target.value)}
+            onChange={(e) => setName(e.target.value)}
             value={name}
             type="text"
             placeholder="Full Name"
@@ -120,7 +122,7 @@ function SignupForm({ onSignup }) {
         <div className="form-field">
           <input
             aria-label="avatar-url"
-            onChange={e => setAvatarUrl(e.target.value)}
+            onChange={(e) => setAvatarUrl(e.target.value)}
             value={avatarUrl}
             type="text"
             placeholder="Avatar URL: https://"
@@ -138,3 +140,7 @@ function SignupForm({ onSignup }) {
 }
 
 export default SignupForm
+
+type SignupFormProps = {
+  onSignup?: (user: UserNoId) => void
+}

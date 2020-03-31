@@ -18,3 +18,15 @@ export type CartProduct = {
   name: Product['name']
   price: Product['price']
 }
+
+export type User = {
+  id: number
+  username: string
+  name: string
+  password: string
+  avatarUrl: string
+}
+
+export type UserNoId = Omit<User, 'id'> & {
+  id?: User['id'] | undefined | null
+}

@@ -5,7 +5,10 @@ import { IoIosSearch } from 'react-icons/io'
 
 import 'YesterTech/SearchBox.scss'
 
-function SearchBox({ placeholder, path }) {
+const SearchBox: React.FC<{ placeholder?: string | undefined; path?: string }> = ({
+  placeholder,
+  path,
+}) => {
   const history = useHistory()
   const search = useLocation().search
   const [query, setQuery] = useState(queryString.parse(search).q || '')
@@ -14,18 +17,18 @@ function SearchBox({ placeholder, path }) {
     setQuery(queryString.parse(search).q || '')
   }, [search])
 
-  function handleSubmit(event) {
+  function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault()
     const search = queryString.stringify({
       ...queryString.parse(window.location.search),
-      q: query
+      q: query,
     })
     history.push(`${path}?${search}`)
   }
 
   function clear() {
     setQuery('') // Optimistic
-    history.push(path)
+    history.push(path!)
   }
 
   return (
@@ -36,7 +39,7 @@ function SearchBox({ placeholder, path }) {
         aria-label="Keyword Search"
         placeholder={placeholder}
         value={query}
-        onChange={e => setQuery(e.target.value)}
+        onChange={(e) => setQuery(e.target.value)}
       />
       <button className="clear-search" type="button" onClick={clear}>
         Clear

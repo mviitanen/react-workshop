@@ -5,7 +5,7 @@ import { Menu, MenuList, MenuButton, MenuItem, MenuLink } from '@reach/menu-butt
 import { MdShoppingCart } from 'react-icons/md'
 
 import api from 'YesterTech/api'
-import { useAuthState } from 'YesterTech/AuthState'
+import { useAuthState, AuthActionTypes } from 'YesterTech/AuthState'
 import { useShoppingCart } from 'YesterTech/ShoppingCartState'
 import Avatar from 'YesterTech/Avatar'
 import Logo from 'YesterTech/Logo'
@@ -18,7 +18,7 @@ function PrimaryHeader() {
   const cartSize = getCartSize()
 
   function handleLogout() {
-    api.auth.logout().then(() => dispatch({ type: 'LOGOUT' }))
+    api.auth.logout().then(() => dispatch({ type: AuthActionTypes.Logout }))
   }
 
   return (

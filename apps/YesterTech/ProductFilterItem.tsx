@@ -26,7 +26,7 @@ const ProductFilterItem: React.FC<ProductFilterItemProps> = ({
 
 ProductFilterItem.propTypes = {
   onChange: PropTypes.func,
-  item: PropTypes.string.isRequired,
+  item: PropTypes.string,
   selected: PropTypes.bool,
 }
 
@@ -34,6 +34,6 @@ export default ProductFilterItem
 
 type ProductFilterItemProps = {
   onChange?: (item: string) => any
-  item: string
+  item?: string
   selected?: boolean
 }

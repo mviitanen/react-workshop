@@ -2,7 +2,7 @@ import React from 'react'
 import { Link } from 'react-router-dom'
 import 'YesterTech/Hero.scss'
 
-function Hero() {
+const Hero: React.FC = () => {
   return (
     <div className="hero">
       <div className="message">

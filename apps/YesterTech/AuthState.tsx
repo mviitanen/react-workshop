@@ -1,6 +1,7 @@
 import React, { useContext, useReducer, useCallback } from 'react'
+import { UserNoId } from 'YesterTech/types'
 
-enum AuthActionTypes {
+export enum AuthActionTypes {
   Login = 'LOGIN',
   Logout = 'LOGOUT',
 }
@@ -42,7 +43,7 @@ export function useAuthState() {
 
 type AuthState = {
   authenticated: boolean
-  user: any
+  user: null | UserNoId
 }
 
 type AuthContext = AuthState & {
@@ -52,7 +53,7 @@ type AuthContext = AuthState & {
 type AuthActions =
   | {
       type: AuthActionTypes.Login
-      user: any
+      user: UserNoId
     }
   | {
       type: AuthActionTypes.Logout
