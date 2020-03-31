@@ -1,7 +1,7 @@
 const fs = require('fs')
 const path = require('path')
 const paths = require('./paths')
-const chalk = require('react-dev-utils/chalk')
+// const chalk = require('react-dev-utils/chalk')
 const resolve = require('resolve')
 
 /**
@@ -46,12 +46,13 @@ function getAdditionalModulePaths(options = {}) {
   }
 
   // Otherwise, throw an error.
-  throw new Error(
-    chalk.red.bold(
-      "Your project's `baseUrl` can only be set to `src` or `node_modules`." +
-        ' Create React App does not support other values at this time.'
-    )
-  )
+  // CUSTOM: Remove error
+  // throw new Error(
+  //   chalk.red.bold(
+  //     "Your project's `baseUrl` can only be set to `src` or `node_modules`." +
+  //       ' Create React App does not support other values at this time.'
+  //   )
+  // )
 }
 
 /**
@@ -91,7 +92,10 @@ function getJestAliases(options = {}) {
 
   if (path.relative(paths.appPath, baseUrlResolved) === '') {
     return {
-      '^src/(.*)$': '<rootDir>/src/$1',
+      // '^src/(.*)$': '<rootDir>/src/$1',
+      // CUSTOM
+      '^apps/(.*)$': '<rootDir>/apps/$1',
+      '^YesterTech/(.*)$': '<rootDir>/apps/YesterTech/$1',
     }
   }
 }
