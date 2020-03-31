@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import { FaMinusCircle, FaPlusCircle } from 'react-icons/fa'
 import 'YesterTech/Quantity.scss'
 
-function Quantity() {
+const Quantity: React.FC = () => {
   const quantity = 1
 
   return (
