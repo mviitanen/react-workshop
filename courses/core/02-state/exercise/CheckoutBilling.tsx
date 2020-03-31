@@ -3,7 +3,7 @@ import { MdShoppingCart } from 'react-icons/md'
 import serializeForm from 'form-serialize'
 import Heading from 'YesterTech/Heading'
 
-function CheckoutBilling({ onSubmit }) {
+const CheckoutBilling: React.FC<any> = ({ onSubmit }) => {
   const sameAsBilling = false
 
   function handleSubmit(event) {

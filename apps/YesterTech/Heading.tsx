@@ -1,10 +1,11 @@
 import React from 'react'
 import PropTypes from 'prop-types'
+// @ts-ignore
 import classnames from 'classnames'
 
 import 'YesterTech/Heading.scss'
 
-function Heading({ as: Component = 'h1', size = 1, className, ...rest }) {
+function Heading({ as: Component = 'h1', size = 1, className, ...rest }: any) {
   return <Component className={classnames('heading', `size-${size}`, className)} {...rest} />
 }
 
