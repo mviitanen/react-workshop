@@ -11,17 +11,21 @@ import ProductImage from 'YesterTech/ProductImage'
 import ShoppingCartButton from 'YesterTech/ShoppingCartButton'
 import { useShoppingCart } from 'YesterTech/ShoppingCartState'
 import ProductTile from 'YesterTech/ProductTile'
+import { Product } from 'YesterTech/types'
 
-function ProductProfile() {
-  let { productId } = useParams()
-  productId = parseInt(productId, 10)
+const ProductProfile: React.FC = () => {
+  let productId = parseInt(
+    useParams<{ productId: string }>().productId,
+    10
+  )
 
-  const product = null
+  // let product = null
+  let product = {} as Product
 
   // Cart
   const { addToCart, updateQuantity, getQuantity } = useShoppingCart()
   const quantity = getQuantity(productId)
-  if (!product) return <div>Loading...</div>
+  if (!product || !product.name) return <div>Loading...</div>
 
   return (
     <div className="spacing">
@@ -50,13 +54,13 @@ function ProductProfile() {
                 onClick={() =>
                   addToCart(productId, product.name, product.price)
                 }
-                getQuantity={quantity}
+                quantity={quantity}
               />
 
               {quantity > 0 && (
                 <div className="align-right">
                   <Quantity
-                    onChange={q => updateQuantity(productId, q)}
+                    onChange={(q) => updateQuantity(productId, q)}
                     quantity={quantity}
                   />
                 </div>
@@ -74,9 +78,13 @@ function ProductProfile() {
               Related Products
             </Heading>
             <Tiles>
-              {product.relatedProducts.map(productId => (
-                <ProductTile key={productId} productId={productId} />
-              ))}
+              {product.relatedProducts &&
+                product.relatedProducts.map((productId) => (
+                  <ProductTile
+                    key={productId}
+                    productId={productId}
+                  />
+                ))}
             </Tiles>
           </div>
         </>

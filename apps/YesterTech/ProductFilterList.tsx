@@ -5,25 +5,30 @@ import queryString from 'query-string'
 import Heading from 'YesterTech/Heading'
 import ProductFilterItem from 'YesterTech/ProductFilterItem'
 
-function ProductFilterList({ urlKey, list, label }) {
-  const location = useLocation()
-  const history = useHistory()
-  const search = queryString.parse(location.search) || null
-  const selected = search[urlKey] ? search[urlKey].split(',') : []
+const ProductFilterList: React.FC<ProductFilterListProps> = ({ urlKey, list, label }) => {
+  let location = useLocation()
+  let history = useHistory()
+  let search = queryString.parse(location.search) || null
+  let found = search[urlKey]
 
-  function isSelected(item) {
+  let selected: string[] = []
+  if (found) {
+    selected = Array.isArray(found) ? found : found.split(',')
+  }
+
+  function isSelected(item: string) {
     return selected && selected.includes(item)
   }
 
-  function toggleItem(item) {
+  function toggleItem(item: string) {
     // Remove or Add
     const newSelected = isSelected(item)
-      ? selected.filter(c => c !== item)
+      ? selected.filter((c) => c !== item)
       : selected.concat([item])
     const newSearch = {
       ...search,
       page: undefined,
-      [urlKey]: newSelected.length ? newSelected.join(',') : undefined
+      [urlKey]: newSelected.length ? newSelected.join(',') : undefined,
     }
     history.push(`${location.pathname}?${queryString.stringify(newSearch)}`)
   }
@@ -37,7 +42,7 @@ function ProductFilterList({ urlKey, list, label }) {
     <section className="spacing-small">
       <Heading size={3}>{label}</Heading>
       {Array.isArray(list) &&
-        list.map(item => {
+        list.map((item) => {
           return (
             <ProductFilterItem
               key={item}
@@ -59,3 +64,9 @@ function ProductFilterList({ urlKey, list, label }) {
 }
 
 export default ProductFilterList
+
+type ProductFilterListProps = {
+  urlKey: string
+  list?: string[] | undefined
+  label: string
+}

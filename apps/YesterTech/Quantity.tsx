@@ -2,7 +2,7 @@ import React from 'react'
 import { FaMinusCircle, FaPlusCircle } from 'react-icons/fa'
 import 'YesterTech/Quantity.scss'
 
-function Quantity({ onChange, quantity = 1 }) {
+const Quantity: React.FC<QuantityProps> = ({ onChange, quantity = 1 }) => {
   function subtract() {
     if (quantity > 0) {
       onChange(quantity - 1)
@@ -13,7 +13,7 @@ function Quantity({ onChange, quantity = 1 }) {
     onChange(quantity + 1)
   }
 
-  function handleChange(value) {
+  function handleChange(value: string) {
     const int = parseInt(value, 10)
     // disallow non-numeric values
     if (!isNaN(int)) {
@@ -21,13 +21,13 @@ function Quantity({ onChange, quantity = 1 }) {
     }
   }
 
-  function handleInputBlur(event) {
+  function handleInputBlur(event: React.FocusEvent<HTMLInputElement>) {
     if (event.target.value.trim() === '') {
       onChange(0)
     }
   }
 
-  function handleInputKeyDown(event) {
+  function handleInputKeyDown(event: React.KeyboardEvent<HTMLInputElement>) {
     // keep cursor from going back/forth
     event.preventDefault()
     if (event.key === 'ArrowUp') {
@@ -50,7 +50,7 @@ function Quantity({ onChange, quantity = 1 }) {
             type="text"
             aria-label="quantity"
             value={quantity}
-            onChange={e => handleChange(e.target.value)}
+            onChange={(e) => handleChange(e.target.value)}
             onBlur={handleInputBlur}
             onKeyDown={handleInputKeyDown}
           />
@@ -66,3 +66,8 @@ function Quantity({ onChange, quantity = 1 }) {
 }
 
 export default Quantity
+
+type QuantityProps = {
+  onChange: (value: number) => void
+  quantity?: number
+}
