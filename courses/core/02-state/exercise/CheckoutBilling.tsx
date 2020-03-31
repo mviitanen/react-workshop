@@ -6,9 +6,11 @@ import Heading from 'YesterTech/Heading'
 const CheckoutBilling: React.FC<any> = ({ onSubmit }) => {
   const sameAsBilling = false
 
-  function handleSubmit(event) {
+  function handleSubmit(event: React.FormEvent) {
     event.preventDefault()
-    const fields = serializeForm(event.target, { hash: true })
+    const fields = serializeForm(event.target as HTMLFormElement, {
+      hash: true,
+    })
     onSubmit(fields)
   }
 
