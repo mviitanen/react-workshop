@@ -4,7 +4,7 @@ import { Switch, Route, Redirect, useHistory } from 'react-router-dom'
 import api from 'YesterTech/api'
 import PrimaryHeader from './PrimaryHeader'
 import PrimaryFooter from 'YesterTech/PrimaryFooter'
-import { useAuthState } from 'YesterTech/AuthState'
+import { useAuthState, AuthActionTypes } from 'YesterTech/AuthState'
 import 'YesterTech/PrimaryLayout.scss'
 
 // Route Targets
@@ -17,7 +17,7 @@ import ProductSubNav from 'YesterTech/ProductSubNav'
 import Checkout from 'YesterTech/Checkout'
 import { useShoppingCart } from 'YesterTech/ShoppingCartState'
 
-function PrimaryLayout() {
+const PrimaryLayout: React.FC = () => {
   const history = useHistory()
   const { cart } = useShoppingCart()
   const { authenticated, dispatch } = useAuthState()
@@ -39,7 +39,7 @@ function PrimaryLayout() {
             </Route>
             <Route path="/signup" exact>
               <SignupForm
-                onSignup={user => {
+                onSignup={(user) => {
                   // dispatch login so the frontend is aware
                   // then redirect:
                   history.push('/')
@@ -48,7 +48,7 @@ function PrimaryLayout() {
             </Route>
             <Route path="/login" exact>
               <LoginForm
-                onAuthenticated={user => {
+                onAuthenticated={(user) => {
                   // dispatch login so the frontend is aware
                   // then redirect:
                   history.push('/')

@@ -6,19 +6,19 @@ import {
   MenuList,
   MenuButton,
   MenuItem,
-  MenuLink
+  MenuLink,
 } from '@reach/menu-button'
 import { MdShoppingCart } from 'react-icons/md'
 
 import api from 'YesterTech/api'
-import { useAuthState } from 'YesterTech/AuthState'
+import { useAuthState, AuthActionTypes } from 'YesterTech/AuthState'
 import { useShoppingCart } from 'YesterTech/ShoppingCartState'
 import Avatar from 'YesterTech/Avatar'
 import Logo from 'YesterTech/Logo'
 import 'YesterTech/PrimaryHeader.scss'
 import '@reach/menu-button/styles.css'
 
-function PrimaryHeader() {
+const PrimaryHeader: React.FC = () => {
   const { authenticated, user, dispatch } = useAuthState()
   const { getCartSize } = useShoppingCart()
   const cartSize = getCartSize()
