@@ -14,13 +14,21 @@ import ProductTile from 'YesterTech/ProductTile'
 import { Product } from 'YesterTech/types'
 
 const ProductProfile: React.FC = () => {
-  let productId = parseInt(
-    useParams<{ productId: string }>().productId,
-    10
-  )
+  let productId = 1
+  // let { productId: productIdFromParams } = useParams()
+  // let productId = parseInt(productIdFromParams!, 10)
 
-  // let product = null
-  let product = {} as Product
+  const [product, setProduct] = useState<Product | null>(null)
+
+  useEffect(() => {
+    let flag = true
+    api.products.getProduct(productId).then((product) => {
+      if (flag) setProduct(product)
+    })
+    return function () {
+      flag = false
+    }
+  }, [productId])
 
   // Cart
   const { addToCart, updateQuantity, getQuantity } = useShoppingCart()
