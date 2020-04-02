@@ -4,7 +4,7 @@ import {
   Route,
   Redirect,
   useRouteMatch,
-  useHistory
+  useHistory,
 } from 'react-router-dom'
 import Centered from 'YesterTech/Centered'
 
@@ -13,28 +13,21 @@ import ViewCart from 'YesterTech/ViewCart'
 import CheckoutBilling from './CheckoutBilling.final'
 import CheckoutReview from 'YesterTech/CheckoutReview'
 
-function Checkout() {
+let initialState: CheckoutState = {
+  sameAsBilling: false,
+  fields: {} as Fields,
+}
+
+const Checkout: React.FC = () => {
   const match = useRouteMatch()
   const history = useHistory()
 
-  const [state, dispatch] = useReducer(
-    (state, action) => {
-      switch (action.type) {
-        case 'SUBMIT_BILLING': {
-          const { sameAsBilling, fields } = action
-          return { ...state, sameAsBilling, fields }
-        }
-        default:
-          return state
-      }
-    },
-    {
-      sameAsBilling: false,
-      fields: {}
-    }
-  )
+  const [state, dispatch] = useReducer(reducer, initialState)
 
-  function handleBillingSubmit(sameAsBilling, fields) {
+  function handleBillingSubmit(
+    sameAsBilling: boolean,
+    fields: Fields
+  ) {
     dispatch({ type: 'SUBMIT_BILLING', sameAsBilling, fields })
     history.push(`${match.path}/review`)
   }
@@ -67,3 +60,32 @@ function Checkout() {
 }
 
 export default Checkout
+
+function reducer(
+  state: CheckoutState,
+  event: CheckoutEvents
+): CheckoutState {
+  switch (event.type) {
+    case 'SUBMIT_BILLING': {
+      const { sameAsBilling, fields } = event
+      return { ...state, sameAsBilling, fields }
+    }
+    default:
+      return state
+  }
+}
+
+type CheckoutEvents = {
+  type: 'SUBMIT_BILLING'
+  fields: Fields
+  sameAsBilling: boolean
+}
+
+type Fields = {
+  [key: string]: string
+}
+
+type CheckoutState = {
+  sameAsBilling: boolean
+  fields: Fields
+}

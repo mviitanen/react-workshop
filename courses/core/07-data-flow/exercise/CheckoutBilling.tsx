@@ -5,36 +5,26 @@ import { FaAngleLeft, FaAngleRight } from 'react-icons/fa'
 import { MdShoppingCart } from 'react-icons/md'
 import Heading from 'YesterTech/Heading'
 
-function CheckoutBilling({ onSubmit }) {
-  const [state, dispatch] = useReducer(
-    (state, action) => {
-      switch (action.type) {
-        case 'TOGGLE_SAME_AS_BILLING':
-          return { ...state, sameAsBilling: !state.sameAsBilling }
-        case 'CHANGE_FIELD':
-          return { ...state, [action.field]: action.value }
-        default:
-          return state
-      }
-    },
-    {
-      sameAsBilling: false,
-      billingName: '',
-      billingAddress: '',
-      shippingName: '',
-      shippingAddress: ''
-    }
-  )
+const CheckoutBilling: React.FC<CheckoutBillingProps> = ({
+  onSubmit,
+}) => {
+  const [state, dispatch] = useReducer(reducer, {
+    sameAsBilling: false,
+    billingName: '',
+    billingAddress: '',
+    shippingName: '',
+    shippingAddress: '',
+  })
 
   const {
     sameAsBilling,
     billingName,
     billingAddress,
     shippingName,
-    shippingAddress
+    shippingAddress,
   } = state
 
-  function handleSubmit(event) {
+  function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault()
     const fields = {
       billingName,
@@ -42,12 +32,12 @@ function CheckoutBilling({ onSubmit }) {
       shippingName: sameAsBilling ? billingName : shippingName,
       shippingAddress: sameAsBilling
         ? billingAddress
-        : shippingAddress
+        : shippingAddress,
     }
     onSubmit(sameAsBilling, fields)
   }
 
-  function changeField(field, value) {
+  function changeField(field: keyof Fields, value: string) {
     dispatch({ type: 'CHANGE_FIELD', field, value })
   }
 
@@ -68,7 +58,7 @@ function CheckoutBilling({ onSubmit }) {
             type="text"
             required
             defaultValue={billingName}
-            onChange={event =>
+            onChange={(event) =>
               changeField('billingName', event.target.value)
             }
           />
@@ -80,7 +70,7 @@ function CheckoutBilling({ onSubmit }) {
             type="text"
             required
             defaultValue={billingAddress}
-            onChange={event =>
+            onChange={(event) =>
               changeField('billingAddress', event.target.value)
             }
           />
@@ -115,7 +105,7 @@ function CheckoutBilling({ onSubmit }) {
             type="text"
             required
             value={sameAsBilling ? billingName : shippingName}
-            onChange={event =>
+            onChange={(event) =>
               changeField('shippingName', event.target.value)
             }
             disabled={sameAsBilling}
@@ -128,7 +118,7 @@ function CheckoutBilling({ onSubmit }) {
             type="text"
             required
             value={sameAsBilling ? billingAddress : shippingAddress}
-            onChange={event =>
+            onChange={(event) =>
               changeField('shippingAddress', event.target.value)
             }
             disabled={sameAsBilling}
@@ -157,3 +147,36 @@ function CheckoutBilling({ onSubmit }) {
 }
 
 export default CheckoutBilling
+
+function reducer(
+  state: CheckoutBillingState,
+  event: CheckoutBillingEvent
+): CheckoutBillingState {
+  switch (event.type) {
+    case 'TOGGLE_SAME_AS_BILLING':
+      return { ...state, sameAsBilling: !state.sameAsBilling }
+    case 'CHANGE_FIELD':
+      return { ...state, [event.field]: event.value }
+    default:
+      return state
+  }
+}
+
+type CheckoutBillingProps = {
+  onSubmit: (sameAsBilling: boolean, fields: Fields) => void
+}
+
+type Fields = {
+  billingName: string
+  billingAddress: string
+  shippingName: string
+  shippingAddress: string
+}
+
+type CheckoutBillingState = Fields & {
+  sameAsBilling: boolean
+}
+
+type CheckoutBillingEvent =
+  | { type: 'TOGGLE_SAME_AS_BILLING' }
+  | { type: 'CHANGE_FIELD'; field: keyof Fields; value: string }

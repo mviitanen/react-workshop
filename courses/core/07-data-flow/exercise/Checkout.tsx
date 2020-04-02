@@ -4,7 +4,7 @@ import {
   Route,
   Redirect,
   useRouteMatch,
-  useHistory
+  useHistory,
 } from 'react-router-dom'
 import Centered from 'YesterTech/Centered'
 
@@ -17,11 +17,14 @@ import ViewCart from 'YesterTech/ViewCart'
 import CheckoutBilling from './CheckoutBilling'
 import CheckoutReview from 'YesterTech/CheckoutReview'
 
-function Checkout() {
+const Checkout: React.FC = () => {
   const match = useRouteMatch()
   const history = useHistory()
 
-  function handleBillingSubmit(sameAsBilling, fields) {
+  function handleBillingSubmit(
+    sameAsBilling: boolean,
+    fields: Fields
+  ) {
     console.log(sameAsBilling, fields)
     history.push(`${match.path}/review`)
   }
@@ -52,3 +55,18 @@ function Checkout() {
 }
 
 export default Checkout
+
+type CheckoutEvents = {
+  type: 'SUBMIT_BILLING'
+  fields: Fields
+  sameAsBilling: boolean
+}
+
+type Fields = {
+  [key: string]: string
+}
+
+type CheckoutState = {
+  sameAsBilling: boolean
+  fields: Fields
+}
