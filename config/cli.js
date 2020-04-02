@@ -199,7 +199,7 @@ function selectLesson() {
 
   const alias = {}
   fs.readdirSync(lessonPath).forEach((file) => {
-    const name = path.basename(file, '.js')
+    const name = path.basename(file, '.tsx')
     alias[`${APP_NAME}/${name}`] = path.join(lessonPath, file)
   })
 
