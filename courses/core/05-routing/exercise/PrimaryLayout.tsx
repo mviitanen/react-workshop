@@ -16,7 +16,7 @@ import ProductSubNav from 'YesterTech/ProductSubNav'
 import Checkout from 'YesterTech/Checkout'
 import { useShoppingCart } from 'YesterTech/ShoppingCartState'
 
-export default function PrimaryLayout() {
+const PrimaryLayout: React.FC = () => {
   const { authenticated } = useAuthState()
   const { cart } = useShoppingCart()
 
@@ -33,3 +33,5 @@ export default function PrimaryLayout() {
     </div>
   )
 }
+
+export default PrimaryLayout
