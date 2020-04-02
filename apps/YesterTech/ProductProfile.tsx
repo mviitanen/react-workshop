@@ -13,9 +13,9 @@ import ShoppingCartButton from 'YesterTech/ShoppingCartButton'
 import { useShoppingCart } from 'YesterTech/ShoppingCartState'
 import ProductTile from 'YesterTech/ProductTile'
 
-function ProductProfile() {
-  let { productId } = useParams()
-  productId = parseInt(productId, 10)
+const ProductProfile: React.FC = () => {
+  let { productId: productIdFromParams } = useParams()
+  let productId = parseInt(productIdFromParams!, 10)
 
   // Cart
   const { addToCart, updateQuantity, getQuantity } = useShoppingCart()
@@ -55,7 +55,7 @@ function ProductProfile() {
               />
               {quantity > 0 && (
                 <div className="align-right">
-                  <Quantity onChange={q => updateQuantity(productId, q)} quantity={quantity} />
+                  <Quantity onChange={(q) => updateQuantity(productId, q)} quantity={quantity} />
                 </div>
               )}
             </Column>
@@ -72,7 +72,7 @@ function ProductProfile() {
               Related Products
             </Heading>
             <Tiles>
-              {product.relatedProducts.map(productId => (
+              {product.relatedProducts.map((productId) => (
                 <ProductTile key={productId} productId={productId} />
               ))}
             </Tiles>
