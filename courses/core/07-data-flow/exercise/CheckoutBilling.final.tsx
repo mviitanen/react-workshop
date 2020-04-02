@@ -8,7 +8,7 @@ import Heading from 'YesterTech/Heading'
 const CheckoutBilling: React.FC<CheckoutBillingProps> = ({
   onSubmit,
   defaultSameAsBilling = false,
-  defaultFields = {} as Fields,
+  defaultFields = {},
 }) => {
   const [state, dispatch] = useReducer(reducer, {
     sameAsBilling: defaultSameAsBilling,
@@ -167,7 +167,9 @@ function reducer(
 type CheckoutBillingProps = {
   onSubmit: (sameAsBilling: boolean, fields: Fields) => void
   defaultSameAsBilling?: boolean
-  defaultFields?: Fields
+  defaultFields?: {
+    [key: string]: string
+  }
 }
 
 type Fields = {
