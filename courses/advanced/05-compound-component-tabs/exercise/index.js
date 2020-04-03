@@ -9,20 +9,20 @@ function App() {
   return (
     <Tabs>
       <TabList>
-        <Tab>Task One</Tab>
-        <Tab>Task Two</Tab>
-        <Tab>Task Three</Tab>
+        <Tab index={0}>Task One</Tab>
+        <Tab index={1}>Task Two</Tab>
+        <Tab index={2}>Task Three</Tab>
       </TabList>
       <TabPanels>
-        <TabPanel className="spacing">
+        <TabPanel index={0} className="spacing">
           <Heading size={3}>Primary Tasks</Heading>
           <TaskOne />
         </TabPanel>
-        <TabPanel className="spacing">
+        <TabPanel index={1} className="spacing">
           <Heading size={3}>Bonus Tasks</Heading>
           <TaskTwo />
         </TabPanel>
-        <TabPanel className="spacing">
+        <TabPanel index={2} className="spacing">
           <Heading size={3}>Bonus Tasks</Heading>
           <TaskThree />
         </TabPanel>
