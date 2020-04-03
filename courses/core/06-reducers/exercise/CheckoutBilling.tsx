@@ -115,3 +115,11 @@ type Fields = {
   shippingName: string
   shippingAddress: string
 }
+
+type CheckoutBillingState = Fields & {
+  sameAsBilling: boolean
+}
+
+type CheckoutBillingAction =
+  | { type: 'TOGGLE_SAME_AS_BILLING' }
+  | { type: 'CHANGE_FIELD'; field: keyof Fields; value: string }
