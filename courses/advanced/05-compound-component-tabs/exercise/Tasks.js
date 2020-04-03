@@ -12,12 +12,11 @@ export function TaskOne() {
         `selectedIndex` and `setSelectedIndex` down through context.
       </li>
       <li>
-        We're going to need to know the index of each tab. You'll need
-        to iterate the `children` of `TabList` which are the Tabs. Use
-        `React.Children.map` and pass the index of the Tab to it. You
-        could use `React.cloneElement` but there are some drawbacks.
-        Another way is to create another type of context so we can
-        pass index down from `TabList` to `Tab`.
+        We're going to need to know the index of each tab. There are
+        some advanced ways we could solve this but for the sake of
+        time, create an `index` prop on each Tab and Tab panel
+        component directly. We'll touch on this after the exercise to
+        explain why.
       </li>
       <li>
         For the panels, use the HTML `hidden` attribute to hide panels
