@@ -6,7 +6,7 @@ import Checkout from 'YesterTech/Checkout'
 import 'YesterTech/PrimaryLayout.scss'
 import './styles.scss'
 
-function PrimaryLayout() {
+const PrimaryLayout: React.FC = () => {
   return (
     <div className="primary-layout">
       <div>
@@ -20,7 +20,10 @@ function PrimaryLayout() {
               <BrowseProducts />
             </Route>
             <Route path="/checkout">
-              <Checkout cart={[]} />
+              <Checkout
+                // @ts-ignore
+                cart={[] as any}
+              />
             </Route>
             <Redirect to="/products" />
           </Switch>

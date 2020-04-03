@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import { FaMinusCircle, FaPlusCircle } from 'react-icons/fa'
 import 'YesterTech/Quantity.scss'
 
-function Quantity() {
+const Quantity: React.FC = () => {
   const [quantity, setQuantity] = useState(0)
 
   function subtract() {
@@ -32,8 +32,12 @@ function Quantity() {
             type="text"
             aria-label="quantity"
             value={quantity}
-            onChange={event => {
-              setQuantity(event.target.value)
+            onChange={(event) => {
+              const int = parseInt(event.target.value, 10)
+              // disallow non-numeric values
+              if (!isNaN(int)) {
+                setQuantity(int)
+              }
             }}
           />
         </div>

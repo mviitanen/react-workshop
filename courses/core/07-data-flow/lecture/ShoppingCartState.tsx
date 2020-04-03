@@ -1,8 +1,8 @@
 import React, { useContext, useState } from 'react'
 
-const ShoppingCartContext = React.createContext()
+const ShoppingCartContext = React.createContext<any>({})
 
-export function ShoppingCartProvider({ children }) {
+export const ShoppingCartProvider: React.FC = ({ children }) => {
   // paste `cart` state here and utility functions
 
   return (

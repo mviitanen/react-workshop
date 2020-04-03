@@ -3,7 +3,12 @@ import Quantity from './Quantity'
 // import { useShoppingCart } from './ShoppingCartState'
 import ProductImage from 'YesterTech/ProductImage'
 
-function BrowseProductItem({ productId, name, price, imagePath }) {
+const BrowseProductItem: React.FC<BrowseProductItemProps> = ({
+  productId,
+  name,
+  price,
+  imagePath,
+}) => {
   return (
     <div className="browse-product-item">
       <ProductImage src={imagePath} size={7} alt={name} />
@@ -16,6 +21,13 @@ function BrowseProductItem({ productId, name, price, imagePath }) {
       </div>
     </div>
   )
+}
+
+type BrowseProductItemProps = {
+  productId?: number
+  name: string
+  price?: number
+  imagePath: string
 }
 
 export default BrowseProductItem

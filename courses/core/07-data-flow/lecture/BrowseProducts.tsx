@@ -3,7 +3,7 @@ import { useProducts } from './utils'
 // import { useShoppingCart } from './ShoppingCartState'
 import BrowseProductItem from './BrowseProductItem'
 
-function BrowseProducts() {
+const BrowseProducts: React.FC = () => {
   const products = useProducts()
   // const [cart, setCart] = useState([])
 
@@ -36,7 +36,7 @@ function BrowseProducts() {
       </nav>
       <hr />
       {Array.isArray(products) &&
-        products.map(product => {
+        products.map((product) => {
           return (
             <BrowseProductItem
               key={product.id}
