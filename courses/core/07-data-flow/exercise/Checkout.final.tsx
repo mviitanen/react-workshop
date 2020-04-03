@@ -63,11 +63,11 @@ export default Checkout
 
 function reducer(
   state: CheckoutState,
-  event: CheckoutEvents
+  action: CheckoutAction
 ): CheckoutState {
-  switch (event.type) {
+  switch (action.type) {
     case 'SUBMIT_BILLING': {
-      const { sameAsBilling, fields } = event
+      const { sameAsBilling, fields } = action
       return { ...state, sameAsBilling, fields }
     }
     default:
@@ -75,7 +75,7 @@ function reducer(
   }
 }
 
-type CheckoutEvents = {
+type CheckoutAction = {
   type: 'SUBMIT_BILLING'
   fields: Fields
   sameAsBilling: boolean

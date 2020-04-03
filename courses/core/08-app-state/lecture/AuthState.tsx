@@ -6,7 +6,11 @@ export enum AuthActionTypes {
   Logout = 'LOGOUT',
 }
 
-const AuthStateContext = React.createContext({} as AuthContext)
+const AuthStateContext = React.createContext<AuthContext>({
+  dispatch: () => void null,
+  authenticated: false,
+  user: null,
+})
 
 const initialState: AuthState = {
   authenticated: false,

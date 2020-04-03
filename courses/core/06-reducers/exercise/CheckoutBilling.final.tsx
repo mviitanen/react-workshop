@@ -127,13 +127,13 @@ const CheckoutBilling: React.FC<CheckoutBillingProps> = ({
 
 function reducer(
   state: CheckoutBillingState,
-  event: CheckoutBillingEvent
+  action: CheckoutBillingAction
 ): CheckoutBillingState {
-  switch (event.type) {
+  switch (action.type) {
     case 'TOGGLE_SAME_AS_BILLING':
       return { ...state, sameAsBilling: !state.sameAsBilling }
     case 'CHANGE_FIELD':
-      return { ...state, [event.field]: event.value }
+      return { ...state, [action.field]: action.value }
     default:
       return state
   }
@@ -156,6 +156,6 @@ type CheckoutBillingState = Fields & {
   sameAsBilling: boolean
 }
 
-type CheckoutBillingEvent =
+type CheckoutBillingAction =
   | { type: 'TOGGLE_SAME_AS_BILLING' }
   | { type: 'CHANGE_FIELD'; field: keyof Fields; value: string }
