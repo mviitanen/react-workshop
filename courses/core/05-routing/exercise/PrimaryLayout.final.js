@@ -52,6 +52,7 @@ function PrimaryLayout() {
               </Route>
             )}
             <Redirect to="/" />
+            <Redirect to="/" />
           </Switch>
         </main>
         <PrimaryFooter />

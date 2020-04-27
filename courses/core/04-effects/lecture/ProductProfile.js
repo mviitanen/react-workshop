@@ -12,11 +12,39 @@ import ShoppingCartButton from 'YesterTech/ShoppingCartButton'
 import { useShoppingCart } from 'YesterTech/ShoppingCartState'
 import ProductTile from 'YesterTech/ProductTile'
 
+function useProduct(productId) {
+  const [product, setProduct] = useState(null)
+  useEffect(() => {
+    let isCurrent = true
+    api.products.getProduct(productId).then(product => {
+      if (isCurrent) {
+        setProduct(product)
+      }
+    })
+    return function() {
+      isCurrent = false
+    }
+  }, [productId])
+
+  return product
+}
+
 function ProductProfile() {
   let { productId } = useParams()
   productId = parseInt(productId, 10)
 
-  const product = null
+  const product = useProduct(productId)
+
+  // // when we mount
+  // // when the dep array changes
+  // useEffect(() => {
+
+  //   // when we unmount
+  //   // when the dep array changes
+  //   return () => {
+
+  //   }
+  // }, [])
 
   // Cart
   const { addToCart, updateQuantity, getQuantity } = useShoppingCart()

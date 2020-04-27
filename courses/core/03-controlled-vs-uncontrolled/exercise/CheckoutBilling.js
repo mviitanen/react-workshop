@@ -6,6 +6,14 @@ import Heading from 'YesterTech/Heading'
 function CheckoutBilling({ onSubmit }) {
   const [sameAsBilling, setSameAsBilling] = useState(false)
 
+  // Uncontrolled
+  const [billingName, setBillingName] = useState('')
+  const [billingAddress, setBillingAddress] = useState('')
+
+  // Controlled
+  const [shippingName, setShippingName] = useState('')
+  const [shippingAddress, setShippingAddress] = useState('')
+
   function handleSubmit(event) {
     event.preventDefault()
     // When the fields are stored in state above, this fields variable can just be
@@ -30,6 +38,9 @@ function CheckoutBilling({ onSubmit }) {
             id="billing:name"
             type="text"
             required
+            onChange={event => {
+              setBillingName(event.target.value)
+            }}
             name="billingName"
             autoComplete="off"
           />
@@ -40,6 +51,9 @@ function CheckoutBilling({ onSubmit }) {
             id="billing:address"
             type="text"
             required
+            onChange={event => {
+              setBillingAddress(event.target.value)
+            }}
             name="billingAddress"
           />
         </div>
@@ -63,6 +77,10 @@ function CheckoutBilling({ onSubmit }) {
             id="shipping:name"
             type="text"
             required
+            value={sameAsBilling ? billingName : shippingName}
+            onChange={event => {
+              setShippingName(event.target.value)
+            }}
             name="shippingName"
             autoComplete="off"
           />
@@ -72,6 +90,10 @@ function CheckoutBilling({ onSubmit }) {
           <input
             id="shipping:address"
             type="text"
+            value={sameAsBilling ? billingAddress : shippingAddress}
+            onChange={event => {
+              setShippingAddress(event.target.value)
+            }}
             required
             name="shippingAddress"
             autoComplete="off"
