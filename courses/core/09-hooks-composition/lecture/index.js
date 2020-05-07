@@ -5,23 +5,26 @@ import Heading from 'YesterTech/Heading'
 import api from 'YesterTech/api'
 import 'YesterTech/styles/center-lesson.scss'
 
-function useProduct(productId) {
-  const [products, setProducts] = useState(null)
-
+function usePromise(p) {
+  const [response, setResponse] = useState(null)
   useEffect(() => {
     let isCurrent = true
-    api.products.getProduct(productId).then(products => {
+    p().then(response => {
       if (!isCurrent) return
-      setProducts(products)
+      setResponse(response)
     })
     return () => (isCurrent = false)
-  }, [productId])
+  }, [p])
 
-  return products
+  return response
 }
 
 function ProductProfile({ productId }) {
-  const product = useProduct(productId)
+  const getProduct = useCallback(
+    () => api.products.getProduct(productId),
+    [productId]
+  )
+  const product = usePromise(getProduct)
 
   if (!product) return <div>Loading...</div>
 

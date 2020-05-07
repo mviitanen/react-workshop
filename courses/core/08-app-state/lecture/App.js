@@ -9,11 +9,11 @@ import 'YesterTech/styles/global-styles.scss'
 function App() {
   return (
     <BrowserRouter>
-      <AuthStateProvider>
-        <ShoppingCartProvider>
+      <ShoppingCartProvider>
+        <AuthStateProvider>
           <PrimaryLayout />
-        </ShoppingCartProvider>
-      </AuthStateProvider>
+        </AuthStateProvider>
+      </ShoppingCartProvider>
     </BrowserRouter>
   )
 }

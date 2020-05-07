@@ -6,6 +6,8 @@ import 'YesterTech/styles/global-styles.scss'
 import 'YesterTech/StarRatings.scss'
 import 'YesterTech/styles/center-lesson.scss'
 
+import StarRatings from './StarRatings'
+
 const products = [
   {
     id: 1,
@@ -31,7 +33,21 @@ const products = [
 ]
 
 function BrowseProducts() {
-  return <div>{/* Exercise code goes here! */}</div>
+  return (
+    <div>
+      {products.map(product => {
+        return (
+          <div key={`id-${product.id}`}>
+            <h1>{product.name}</h1>
+            <div>
+              Rating: <StarRatings rating={product.rating} />
+            </div>
+            <div>Brand: {product.brand}</div>
+          </div>
+        )
+      })}
+    </div>
+  )
 }
 
 ReactDOM.render(<BrowseProducts />, document.getElementById('root'))

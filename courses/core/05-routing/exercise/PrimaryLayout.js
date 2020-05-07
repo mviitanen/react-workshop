@@ -27,6 +27,12 @@ export default function PrimaryLayout() {
         <ProductSubNav />
         <main className="primary-content">
           <Home />
+
+          {authenticated && (
+            <Route path="/account">
+              <Account></Account>
+            </Route>
+          )}
         </main>
         <PrimaryFooter />
       </div>
