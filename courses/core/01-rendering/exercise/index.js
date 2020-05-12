@@ -1,7 +1,7 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
-import { FaRegStar, FaStar, FaStarHalfAlt } from 'react-icons/fa'
-import Heading from 'YesterTech/Heading'
+// import { FaRegStar, FaStar, FaStarHalfAlt } from 'react-icons/fa'
+// import Heading from 'YesterTech/Heading'
 import 'YesterTech/styles/global-styles.scss'
 import 'YesterTech/StarRatings.scss'
 import 'YesterTech/styles/center-lesson.scss'
@@ -31,7 +31,19 @@ const products = [
 ]
 
 function BrowseProducts() {
-  return <div>{/* Exercise code goes here! */}</div>
+  return (
+    <div>
+      {products.map(product => {
+        return (
+          <div key={product.id}>
+            <h1>{product.name}</h1>
+            <div>Rating: {product.rating}</div>
+            <div>Brand: {product.brand}</div>
+          </div>
+        )
+      })}
+    </div>
+  )
 }
 
 ReactDOM.render(<BrowseProducts />, document.getElementById('root'))

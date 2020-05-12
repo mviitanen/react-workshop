@@ -16,17 +16,28 @@ import ProductSubNav from 'YesterTech/ProductSubNav'
 import Checkout from 'YesterTech/Checkout'
 import { useShoppingCart } from 'YesterTech/ShoppingCartState'
 
-export default function PrimaryLayout() {
+function AuthenticatedRoute({ children, ...rest }) {
   const { authenticated } = useAuthState()
+  return authenticated ? <Route {...rest}>{children}</Route> : null
+}
+
+export default function PrimaryLayout() {
   const { cart } = useShoppingCart()
 
   return (
     <div className="primary-layout">
       <div>
         <PrimaryHeader />
-        <ProductSubNav />
+        <Route path="/products">
+          <ProductSubNav />
+        </Route>
         <main className="primary-content">
-          <Home />
+          <Switch>
+            <AuthenticatedRoute path="" exact>
+              <Account></Account>
+            </AuthenticatedRoute>
+            <Route path="products"></Route>
+          </Switch>
         </main>
         <PrimaryFooter />
       </div>

@@ -5,12 +5,12 @@ import Heading from 'YesterTech/Heading'
 
 function CheckoutBilling({ onSubmit }) {
   const [sameAsBilling, setSameAsBilling] = useState(false)
+  const [billingName, setBillingName] = useState('')
+  const [shippingName, setShippingName] = useState('')
 
   function handleSubmit(event) {
     event.preventDefault()
-    // When the fields are stored in state above, this fields variable can just be
-    // an object filled with the field states. We don't need `serializeForm` anymore
-    const fields = serializeForm(event.target, { hash: true })
+    const fields = {}
     onSubmit(sameAsBilling, fields)
   }
 
@@ -31,6 +31,9 @@ function CheckoutBilling({ onSubmit }) {
             type="text"
             required
             name="billingName"
+            onChange={event => {
+              setBillingName(event.target.value)
+            }}
             autoComplete="off"
           />
         </div>
@@ -63,6 +66,11 @@ function CheckoutBilling({ onSubmit }) {
             id="shipping:name"
             type="text"
             required
+            value={sameAsBilling ? billingName : shippingName}
+            disabled={sameAsBilling}
+            onChange={event => {
+              setShippingName(event.target.value)
+            }}
             name="shippingName"
             autoComplete="off"
           />

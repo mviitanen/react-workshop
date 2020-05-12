@@ -1,7 +1,25 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
-import { FaRegStar, FaStar } from 'react-icons/fa'
+import { FaTrash } from 'react-icons/fa'
 import 'YesterTech/styles/global-styles.scss'
 import './styles.scss'
 
-// let's go
+function Button(props) {
+  return (
+    <button type="type" className="special-adobe-button button">
+      {props.children}
+    </button>
+  )
+}
+
+function App() {
+  return (
+    <div className="app">
+      <Button>
+        Remove <FaTrash /> Feature
+      </Button>
+    </div>
+  )
+}
+
+ReactDOM.render(<App />, document.getElementById('root'))
