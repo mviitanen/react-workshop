@@ -2,6 +2,10 @@ import React, { useState } from 'react'
 import { MdShoppingCart } from 'react-icons/md'
 import Heading from 'YesterTech/Heading'
 
+function App() {
+  return <CheckoutBilling onSubmit={fields => {}} />
+}
+
 function CheckoutBilling({ onSubmit }) {
   const [sameAsBilling, setSameAsBilling] = useState(false)
   const [billingName, setBillingName] = useState('')

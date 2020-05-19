@@ -8,13 +8,13 @@ import 'YesterTech/styles/global-styles.scss'
 
 function App() {
   return (
-    <BrowserRouter>
-      <AuthStateProvider>
-        <ShoppingCartProvider>
+    <AuthStateProvider>
+      <ShoppingCartProvider>
+        <BrowserRouter>
           <PrimaryLayout />
-        </ShoppingCartProvider>
-      </AuthStateProvider>
-    </BrowserRouter>
+        </BrowserRouter>
+      </ShoppingCartProvider>
+    </AuthStateProvider>
   )
 }
 

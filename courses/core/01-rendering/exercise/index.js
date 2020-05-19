@@ -1,10 +1,10 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
-import { FaRegStar, FaStar, FaStarHalfAlt } from 'react-icons/fa'
 import Heading from 'YesterTech/Heading'
 import 'YesterTech/styles/global-styles.scss'
 import 'YesterTech/StarRatings.scss'
 import 'YesterTech/styles/center-lesson.scss'
+import StarRatings from './StarRatings'
 
 const products = [
   {
@@ -31,7 +31,22 @@ const products = [
 ]
 
 function BrowseProducts() {
-  return <div>{/* Exercise code goes here! */}</div>
+  return (
+    <div>
+      {products.map((product, index) => {
+        return (
+          <div key={product.id}>
+            <h1>{product.name}</h1>
+            <div>
+              Rating: <StarRatings rating={product.rating} />
+            </div>
+            <div>condition: {product.condition}</div>
+          </div>
+        )
+      })}
+      <button>Remove Donkey Kong</button>
+    </div>
+  )
 }
 
 ReactDOM.render(<BrowseProducts />, document.getElementById('root'))

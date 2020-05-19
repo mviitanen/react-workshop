@@ -51,7 +51,6 @@ function PrimaryLayout() {
                 <Account />
               </Route>
             )}
-            <Redirect to="/" />
           </Switch>
         </main>
         <PrimaryFooter />
