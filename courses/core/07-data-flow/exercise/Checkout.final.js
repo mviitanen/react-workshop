@@ -1,4 +1,4 @@
-import React, { useReducer } from 'react'
+import React, { useState } from 'react'
 import {
   Switch,
   Route,
@@ -17,25 +17,12 @@ function Checkout() {
   const match = useRouteMatch()
   const history = useHistory()
 
-  const [state, dispatch] = useReducer(
-    (state, action) => {
-      switch (action.type) {
-        case 'SUBMIT_BILLING': {
-          const { sameAsBilling, fields } = action
-          return { ...state, sameAsBilling, fields }
-        }
-        default:
-          return state
-      }
-    },
-    {
-      sameAsBilling: false,
-      fields: {}
-    }
-  )
+  const [sameAsBilling, setSameAsBilling] = useState(false)
+  const [fields, setFields] = useState({})
 
   function handleBillingSubmit(sameAsBilling, fields) {
-    dispatch({ type: 'SUBMIT_BILLING', sameAsBilling, fields })
+    setSameAsBilling(sameAsBilling)
+    setFields(fields)
     history.push(`${match.path}/review`)
   }
 
@@ -48,15 +35,15 @@ function Checkout() {
         <Route path={`${match.path}/billing`}>
           <CheckoutBilling
             onSubmit={handleBillingSubmit}
-            defaultSameAsBilling={state.sameAsBilling}
-            defaultFields={state.fields}
+            defaultSameAsBilling={sameAsBilling}
+            defaultFields={fields}
           />
         </Route>
-        {Object.keys(state.fields).length > 0 && (
+        {Object.keys(fields).length > 0 && (
           <Route path={`${match.path}/review`}>
             <CheckoutReview
-              sameAsBilling={state.sameAsBilling}
-              fields={state.fields}
+              sameAsBilling={sameAsBilling}
+              fields={fields}
             />
           </Route>
         )}

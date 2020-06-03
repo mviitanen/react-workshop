@@ -7,26 +7,25 @@ import Centered from 'YesterTech/Centered'
 import api from 'YesterTech/api'
 
 function LoginForm({ onAuthenticated }) {
-  const [username, setUsername] = useState('')
-  const [password, setPassword] = useState('')
-  const [error, setError] = useState(null)
-  const [loading, setLoading] = useState(false)
-  const [showPassword, setShowPassword] = useState(false)
+  const usernameRef = useRef()
+  const passwordRef = useRef()
+
+  useEffect(() => {
+    textareaRef.current.focus()
+  }, [])
 
   function handleLogin(event) {
     event.preventDefault()
-    setLoading(true)
-    api.auth
-      .login(username, password)
-      .then(user => {
-        if (typeof onAuthenticated === 'function') {
-          onAuthenticated(user)
-        }
-      })
-      .catch(error => {
-        setError(error)
-        setLoading(false)
-      })
+
+    api.auth.login(usernameRef.current.value).then(user => {
+      if (typeof onAuthenticated === 'function') {
+        onAuthenticated(user)
+      }
+    })
+  }
+
+  function changeField(field, value) {
+    dispatch({ type: 'CHANGE_FIELD', field, value })
   }
 
   return (
@@ -42,26 +41,24 @@ function LoginForm({ onAuthenticated }) {
 
         <div className="form-field">
           <input
+            ref={usernameRef}
             aria-label="Username"
-            onChange={e => {
-              setUsername(e.target.value)
-            }}
             type="text"
             placeholder="Username"
           />
         </div>
         <div className="form-field">
           <input
+            ref={passwordRef}
             aria-label="Password"
-            onChange={e => {
-              setPassword(e.target.value)
-            }}
             type={showPassword ? 'text' : 'password'}
             placeholder="Password"
           />
           <label>
             <input
-              onChange={() => setShowPassword(!showPassword)}
+              onChange={() => {
+                dispatch({ type: 'TOGGLE_SHOW_PASSWORD' })
+              }}
               defaultChecked={showPassword}
               className="passwordCheckbox"
               type="checkbox"
@@ -71,7 +68,7 @@ function LoginForm({ onAuthenticated }) {
         </div>
 
         <footer>
-          <button type="submit" className="button">
+          <button type="submit" className="button" disabled={loading}>
             {!loading ? (
               <>
                 <FaSignInAlt /> <span>Login</span>

@@ -1,8 +1,7 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useCallback } from 'react'
 import { useParams } from 'react-router-dom'
 import { Columns, Column } from 'react-flex-columns'
 
-import api from 'YesterTech/api'
 import Heading from 'YesterTech/Heading'
 import Quantity from 'YesterTech/Quantity'
 import Tiles from 'YesterTech/Tiles'
@@ -11,12 +10,25 @@ import ProductImage from 'YesterTech/ProductImage'
 import ShoppingCartButton from 'YesterTech/ShoppingCartButton'
 import { useShoppingCart } from 'YesterTech/ShoppingCartState'
 import ProductTile from 'YesterTech/ProductTile'
+import api from 'YesterTech/api'
 
 function ProductProfile() {
   let { productId } = useParams()
   productId = parseInt(productId, 10)
 
-  const product = null
+  const [product, setProduct] = useState(null)
+
+  useEffect(() => {
+    let isMounted = true
+    api.products.getProduct(productId).then(product => {
+      if (isMounted) {
+        setProduct(product)
+      }
+    })
+    // return () => {
+    //   isMounted = false
+    // }
+  }, [productId])
 
   // Cart
   const { addToCart, updateQuantity, getQuantity } = useShoppingCart()

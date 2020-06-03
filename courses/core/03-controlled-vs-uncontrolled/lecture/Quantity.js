@@ -3,13 +3,21 @@ import { FaMinusCircle, FaPlusCircle } from 'react-icons/fa'
 import 'YesterTech/Quantity.scss'
 
 function Quantity() {
-  const quantity = 1
+  const [quantity, setQuantity] = useState(1)
+
+  function subtract() {
+    setQuantity(quantity - 1)
+  }
 
   return (
     <div className="quantity-picker">
       <div>
         <div>
-          <button type="button" className="icon-button">
+          <button
+            onClick={subtract}
+            type="button"
+            className="icon-button"
+          >
             <FaMinusCircle />
           </button>
         </div>
@@ -17,7 +25,10 @@ function Quantity() {
           <input
             type="text"
             aria-label="quantity"
-            defaultValue={quantity}
+            value={quantity}
+            onChange={event => {
+              setQuantity(event.target.value)
+            }}
           />
         </div>
         <div>
