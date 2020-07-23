@@ -31,7 +31,19 @@ const products = [
 ]
 
 function BrowseProducts() {
-  return <div>{/* Exercise code goes here! */}</div>
+  return (
+    <div>
+      {products.map(product => {
+        return (
+          <div key={uuid()}>
+            <h1>{product.name}</h1>
+            <div>Rating: {product.rating}</div>
+            <div>Brand: {product.brand}</div>
+          </div>
+        )
+      })}
+    </div>
+  )
 }
 
 ReactDOM.render(<BrowseProducts />, document.getElementById('root'))
