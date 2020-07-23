@@ -16,7 +16,19 @@ function ProductProfile() {
   let { productId } = useParams()
   productId = parseInt(productId, 10)
 
-  const product = null
+  const [product, setProduct] = useState(null)
+
+  useEffect(() => {
+    // let mounted = true
+    api.products.getProduct(productId).then(product => {
+      // if (mounted) {
+      setProduct(product)
+      // }
+    })
+    // return () => {
+    //   mounted = false
+    // }
+  }, [productId])
 
   // Cart
   const { addToCart, updateQuantity, getQuantity } = useShoppingCart()

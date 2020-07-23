@@ -21,8 +21,12 @@ function Checkout() {
   const match = useRouteMatch()
   const history = useHistory()
 
+  const [fields, setFields] = useState(null)
+  const [sameAsBilling, setSameAsBilling] = useState(false)
+
   function handleBillingSubmit(sameAsBilling, fields) {
-    console.log(sameAsBilling, fields)
+    setFields(fields)
+    setSameAsBilling(sameAsBilling)
     history.push(`${match.path}/review`)
   }
 
@@ -33,16 +37,18 @@ function Checkout() {
           <ViewCart />
         </Route>
         <Route path={`${match.path}/billing`}>
-          <CheckoutBilling onSubmit={handleBillingSubmit} />
+          <CheckoutBilling
+            onSubmit={handleBillingSubmit}
+            defaultFields={fields}
+            defaultSameAsBilling={sameAsBilling}
+          />
         </Route>
 
-        {/*
-          Hint: We shouldn't be able to visit this route unless we have
-          values inside of our state for `fields`. See the README
-        */}
         <Route path={`${match.path}/review`}>
-          {/* The README also tells you what props you need to pass into CheckoutReview */}
-          <CheckoutReview />
+          <CheckoutReview
+            fields={fields}
+            sameAsBilling={sameAsBilling}
+          />
         </Route>
 
         <Redirect to={`${match.path}/cart`} />

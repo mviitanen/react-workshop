@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react'
 import ProductFilterList from 'YesterTech/ProductFilterList'
 import { getCategories } from './utils'
 
-function ProductFilters() {
+function useCategories() {
   const [categories, setCategories] = useState(null)
 
   useEffect(() => {
@@ -13,6 +13,12 @@ function ProductFilters() {
     })
     return () => (isCurrent = false)
   }, [])
+
+  return categories
+}
+
+function ProductFilters() {
+  const categories = useCategories()
 
   if (!categories) return null
 

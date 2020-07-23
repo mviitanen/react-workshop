@@ -5,6 +5,7 @@ import Heading from 'YesterTech/Heading'
 import 'YesterTech/styles/global-styles.scss'
 import 'YesterTech/StarRatings.scss'
 import 'YesterTech/styles/center-lesson.scss'
+import StarRatings from './StarRatings'
 
 const products = [
   {
@@ -15,13 +16,6 @@ const products = [
     condition: 'new'
   },
   {
-    id: 2,
-    name: 'Donkey Kong',
-    rating: 3.5,
-    brand: 'Nintendo',
-    condition: 'good'
-  },
-  {
     id: 3,
     name: 'Nintendo NES',
     rating: 4,
@@ -30,8 +24,33 @@ const products = [
   }
 ]
 
+function BrowseProductItem({ name, rating, brand }) {
+  return (
+    <div>
+      <h1>{name}</h1>
+      <div>
+        Rating: <StarRatings rating={rating} />
+      </div>
+      <div>Brand: {brand}</div>
+    </div>
+  )
+}
+
 function BrowseProducts() {
-  return <div>{/* Exercise code goes here! */}</div>
+  return (
+    <div>
+      {products.map(product => {
+        return (
+          <BrowseProductItem
+            key={product.id}
+            id={product.id}
+            name={product.name}
+            brand={product.brand}
+          />
+        )
+      })}
+    </div>
+  )
 }
 
 ReactDOM.render(<BrowseProducts />, document.getElementById('root'))
