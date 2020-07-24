@@ -16,7 +16,22 @@ function ProductProfile() {
   let { productId } = useParams()
   productId = parseInt(productId, 10)
 
-  const product = null
+  const [product, setProduct] = useState(null)
+
+  useEffect(() => {
+    let isCurrent = true
+    api.products.getProduct(productId).then(product => {
+      if (!isCurrent) return
+      setProduct(product)
+    })
+    return () => {
+      isCurrent = false
+    }
+  }, [productId])
+
+  // useEffect(fn) // runs when any state changes
+  // useEffect(fn, []) // runs when no state changes
+  // useEffect(fn, [that state]) // runs when that state changes
 
   // Cart
   const { addToCart, updateQuantity, getQuantity } = useShoppingCart()

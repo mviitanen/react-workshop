@@ -1,11 +1,12 @@
-import React, { useState } from 'react'
+import React, { useState, useMemo } from 'react'
 import { reallyLongRunningFunction } from './utils'
 
-export default function App() {
+export default function App({ input }) {
   const [count, setCount] = useState(0)
 
   console.time()
-  reallyLongRunningFunction()
+  // useMemo "memoizes" the RETURN VALUE of a long running function
+  const x = useMemo(() => reallyLongRunningFunction(), [])
   console.timeEnd()
 
   return (

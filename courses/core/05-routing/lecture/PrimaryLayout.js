@@ -28,8 +28,14 @@ export default function PrimaryLayout() {
         <PrimaryHeader />
         <ProductSubNav />
         <main className="primary-content">
-          <Home />
-          {/* Put other pages here */}
+          <Switch>
+            <Route path="/" exact>
+              <Home />
+            </Route>
+            <Route path="/products">
+              <ProductsLayout />
+            </Route>
+          </Switch>
         </main>
         <footer className="primary-footer spacing">
           <hr />
@@ -49,12 +55,12 @@ function PrimaryHeader() {
         <Logo />
       </div>
       <nav className="horizontal-spacing-large align-right">
-        <a href="/" className="primary-nav-item">
+        <Link to="/" className="primary-nav-item">
           Home
-        </a>
-        <a href="/products" className="primary-nav-item">
+        </Link>
+        <Link to="/products" className="primary-nav-item">
           Products
-        </a>
+        </Link>
       </nav>
     </header>
   )
@@ -80,14 +86,23 @@ function ProductsLayout() {
         </section>
       </aside>
       <div>
-        <BrowseProducts />
-        {/* BrowseProducts is the page being shown, but other pages could go here like ProductProfile */}
+        <Switch>
+          <Route path="/products/:productId">
+            <ProductProfile />
+          </Route>
+          <Route path="/products" exact>
+            <BrowseProducts />
+          </Route>
+        </Switch>
       </div>
     </div>
   )
 }
 
 function ProductProfile() {
+  const { productId } = useParams()
+  console.log(productId)
+
   return (
     <div className="spacing">
       <Columns gutters>

@@ -54,6 +54,7 @@ function CheckoutBilling({ onSubmit }) {
             defaultChecked={sameAsBilling}
             onChange={() => {
               setSameAsBilling(!sameAsBilling)
+              console.log(sameAsBilling)
             }}
           />{' '}
           Same as Billing
