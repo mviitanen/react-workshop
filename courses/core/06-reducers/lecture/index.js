@@ -1,20 +1,31 @@
-import React, { useState } from 'react'
+import React, { useRef, useReducer } from 'react'
 import ReactDOM from 'react-dom'
-import LoginForm from './LoginForm'
 import 'YesterTech/styles/global-styles.scss'
 import './styles.scss'
 
+function useState(defaultState) {
+  return useReducer((_, action) => action, defaultState)
+}
+
 function App() {
-  const [user, setUser] = useState(null)
+  const nameRef = useRef()
+  const [name, setName] = useState('brad')
+
+  console.log(name)
+
+  function handleSubmit(e) {
+    e.preventDefault()
+    setName(nameRef.current.value)
+  }
 
   return (
-    <div>
-      {user ? (
-        <div className="align-center">You are logged in</div>
-      ) : (
-        <LoginForm onAuthenticated={setUser} />
-      )}
-    </div>
+    <form onSubmit={handleSubmit}>
+      <input type="text" placeholder="name" ref={nameRef} />
+      <br />
+      <button type="submit" className="button">
+        Submit
+      </button>
+    </form>
   )
 }
 
