@@ -4,20 +4,6 @@ import React from 'react'
 
 const products = [
   {
-    id: 1,
-    name: 'Mario Kart',
-    rating: 5,
-    brand: 'Nintendo',
-    condition: 'new'
-  },
-  {
-    id: 2,
-    name: 'Donkey Kong',
-    rating: 3.5,
-    brand: 'Nintendo',
-    condition: 'good'
-  },
-  {
     id: 3,
     name: 'Nintendo NES',
     rating: 4,
@@ -27,11 +13,17 @@ const products = [
 ]
 
 export default function BrowseProducts() {
-  console.log(products)
-
   return (
     <div>
-      {/* Exercise code goes here! This is what comments look like in JSX */}
+      {products.map(product => {
+        return (
+          <div key={random()}>
+            <h1>{product.name}</h1>
+            <div>Rating: {product.rating}</div>
+            <div>Brand: {product.brand}</div>
+          </div>
+        )
+      })}
     </div>
   )
 }
