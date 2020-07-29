@@ -25,7 +25,7 @@ function PrimaryHeader() {
 
   function handleLogout() {
     api.auth.logout().then(() => {
-      // Tell the app we're logged out with a `dispatch`
+      dispatch({ type: 'LOGOUT' })
     })
   }
 
