@@ -6,12 +6,16 @@ function ProductFilters() {
   const [categories, setCategories] = useState(null)
 
   useEffect(() => {
-    let isCurrent = true
-    getCategories().then(categories => {
+    const doEffect = async () => {
+      let isCurrent = true
+
+      const categories = await getCategories()
       if (!isCurrent) return
       setCategories(categories)
-    })
-    return () => (isCurrent = false)
+
+      return () => (isCurrent = false)
+    }
+    doEffect()
   }, [])
 
   if (!categories) return null

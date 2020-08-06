@@ -28,8 +28,10 @@ export default function PrimaryLayout() {
         <PrimaryHeader />
         <ProductSubNav />
         <main className="primary-content">
-          <Home />
-          {/* Put other pages here */}
+          <Route path="/">
+            <Home />
+          </Route>
+          <OtherPage></OtherPage>
         </main>
         <footer className="primary-footer spacing">
           <hr />

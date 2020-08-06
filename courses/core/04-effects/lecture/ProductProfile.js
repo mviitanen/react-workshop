@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useCallback } from 'react'
 import { useParams } from 'react-router-dom'
 import { Columns, Column } from 'react-flex-columns'
 
@@ -12,11 +12,40 @@ import ShoppingCartButton from 'YesterTech/ShoppingCartButton'
 import { useShoppingCart } from 'YesterTech/ShoppingCartState'
 import ProductTile from 'YesterTech/ProductTile'
 
+// function App() {
+//   const [count, setCount] = useState(0)
+//   let { productId } = useParams()
+//   productId = parseInt(productId, 10)
+
+//   const getProduct = useCallback(
+//     () => api.products.getProduct(productId),
+//     [productId]
+//   )
+
+//   return (
+//     <ProductProfile
+//       getProduct={getProduct}
+//     ></ProductProfile>
+//   )
+// }
+
 function ProductProfile() {
   let { productId } = useParams()
   productId = parseInt(productId, 10)
 
-  const product = null
+  const [product, setProduct] = useState(null)
+
+  // if we close over it, AND IT CAN CHANGE
+  useEffect(() => {
+    let isCurrent = true
+    api.products.getProduct(productId).then(product => {
+      if (!isCurrent) return
+      setProduct(product)
+    })
+    return () => {
+      isCurrent = false
+    }
+  }, [productId])
 
   // Cart
   const { addToCart, updateQuantity, getQuantity } = useShoppingCart()

@@ -1,16 +1,24 @@
 import React, { useState } from 'react'
 import { MdShoppingCart } from 'react-icons/md'
-import serializeForm from 'form-serialize'
 import Heading from 'YesterTech/Heading'
 
 function CheckoutBilling({ onSubmit }) {
   const [sameAsBilling, setSameAsBilling] = useState(false)
+  const [billingName, setBillingName] = useState('')
+  const [billingAddress, setBillingAddress] = useState('')
+  const [shippingName, setShippingName] = useState('')
+  const [shippingAddress, setShippingAddress] = useState('')
 
   function handleSubmit(event) {
     event.preventDefault()
-    // When the fields are stored in state above, this fields variable can just be
-    // an object filled with the field states. We don't need `serializeForm` anymore
-    const fields = serializeForm(event.target, { hash: true })
+    const fields = {
+      billingName,
+      billingAddress,
+      shippingName: sameAsBilling ? billingName : shippingName,
+      shippingAddress: sameAsBilling
+        ? billingAddress
+        : shippingAddress
+    }
     onSubmit(sameAsBilling, fields)
   }
 
@@ -30,8 +38,8 @@ function CheckoutBilling({ onSubmit }) {
             id="billing:name"
             type="text"
             required
-            name="billingName"
-            autoComplete="off"
+            defaultValue={billingName}
+            onChange={event => setBillingName(event.target.value)}
           />
         </div>
         <div className="form-field">
@@ -40,7 +48,8 @@ function CheckoutBilling({ onSubmit }) {
             id="billing:address"
             type="text"
             required
-            name="billingAddress"
+            defaultValue={billingAddress}
+            onChange={event => setBillingAddress(event.target.value)}
           />
         </div>
 
@@ -63,8 +72,9 @@ function CheckoutBilling({ onSubmit }) {
             id="shipping:name"
             type="text"
             required
-            name="shippingName"
-            autoComplete="off"
+            value={sameAsBilling ? billingName : shippingName}
+            onChange={event => setShippingName(event.target.value)}
+            disabled={sameAsBilling}
           />
         </div>
         <div className="form-field">
@@ -73,8 +83,9 @@ function CheckoutBilling({ onSubmit }) {
             id="shipping:address"
             type="text"
             required
-            name="shippingAddress"
-            autoComplete="off"
+            value={sameAsBilling ? billingAddress : shippingAddress}
+            onChange={event => setShippingAddress(event.target.value)}
+            disabled={sameAsBilling}
           />
         </div>
 
