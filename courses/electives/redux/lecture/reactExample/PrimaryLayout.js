@@ -1,8 +1,12 @@
 import React from 'react'
-import { connect } from 'react-redux'
+import { connect, useSelector } from 'react-redux'
 import Counter from './Counter'
 
-function PrimaryLayout({ count }) {
+function PrimaryLayout() {
+  const count = useSelector(state => {
+    return state.counterState.count
+  })
+
   return (
     <div>
       <h1>Redux Counter</h1>
@@ -12,10 +16,12 @@ function PrimaryLayout({ count }) {
   )
 }
 
-function mapStateToProps(state) {
-  return {
-    count: state.counterState.count
-  }
-}
+export default PrimaryLayout
 
-export default connect(mapStateToProps)(PrimaryLayout)
+// function mapStateToProps(state) {
+//   return {
+//     count: state.counterState.count
+//   }
+// }
+
+// export default connect(mapStateToProps)(PrimaryLayout)
