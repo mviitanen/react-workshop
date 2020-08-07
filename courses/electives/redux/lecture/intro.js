@@ -14,7 +14,15 @@ const counterReducer = (state, action) => {
   }
 }
 
-const store = createStore(counterReducer)
+function authReducer(state, action) {
+  return state
+}
+
+const reducers = combineReducers({
+  counterState: counterReducer,
+  authState: authReducer
+})
+const store = createStore(reducers)
 
 store.subscribe(() => {
   console.log(store.getState())
@@ -23,13 +31,3 @@ store.subscribe(() => {
 store.dispatch({ type: 'INCREMENT' })
 store.dispatch({ type: 'INCREMENT' })
 store.dispatch({ type: 'INCREMENT' })
-
-// Next, show multiple reducers (code needs to be moved up)
-
-// import counterReducer from './reducers/counterReducer'
-// import authReducer from './reducers/authReducer'
-// const reducers = combineReducers({
-//   counterState: counterReducer,
-//   authState: authReducer
-// })
-// const store = createStore(reducers)
