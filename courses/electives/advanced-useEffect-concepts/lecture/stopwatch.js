@@ -12,8 +12,7 @@ function App() {
         setSeconds(seconds + 1)
       }, 1000)
     }
-    // Show what happens when we add seconds to the dep array, or leave it out?
-  }, [active])
+  }, [active, seconds])
 
   return (
     <div className="align-center spacing stopwatch">

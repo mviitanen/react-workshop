@@ -1,10 +1,10 @@
-import React, { useState } from 'react'
+import React, { Fragment, useState } from 'react'
 import { MdShoppingCart } from 'react-icons/md'
 import serializeForm from 'form-serialize'
 import Heading from 'YesterTech/Heading'
 
 function CheckoutBilling({ onSubmit }) {
-  const sameAsBilling = false
+  const [sameAsBilling, setSameAsBilling] = useState(false)
 
   function handleSubmit(event) {
     event.preventDefault()
@@ -49,29 +49,37 @@ function CheckoutBilling({ onSubmit }) {
         </Heading>
 
         <label>
-          <input type="checkbox" /> Same as Billing
+          <input
+            type="checkbox"
+            onChange={() => {
+              setSameAsBilling(!sameAsBilling)
+            }}
+          />{' '}
+          Same as Billing
         </label>
 
-        <div className="spacing">
-          <div className="form-field">
-            <label htmlFor="shipping:name">Name</label>
-            <input
-              id="shipping:name"
-              type="text"
-              name="shippingName"
-              autoComplete="off"
-            />
-          </div>
-          <div className="form-field">
-            <label htmlFor="shipping:address">Address</label>
-            <input
-              id="shipping:address"
-              type="text"
-              name="shippingAddress"
-              autoComplete="off"
-            />
-          </div>
-        </div>
+        {!sameAsBilling && (
+          <Fragment>
+            <div className="form-field">
+              <label htmlFor="shipping:name">Name</label>
+              <input
+                id="shipping:name"
+                type="text"
+                name="shippingName"
+                autoComplete="off"
+              />
+            </div>
+            <div className="form-field">
+              <label htmlFor="shipping:address">Address</label>
+              <input
+                id="shipping:address"
+                type="text"
+                name="shippingAddress"
+                autoComplete="off"
+              />
+            </div>
+          </Fragment>
+        )}
 
         <footer>
           <button type="submit" className="button">

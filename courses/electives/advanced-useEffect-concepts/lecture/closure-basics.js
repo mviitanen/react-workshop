@@ -4,11 +4,18 @@ import ReactDOM from 'react-dom'
 function App() {
   const [count, setCount] = useState(0)
   const [message, setMessage] = useState(null)
+  const [save, setSave] = useState(false)
+
+  useEffect(() => {
+    if (save) {
+      setTimeout(() => {
+        setMessage(`We saved a count of ${count}`)
+      }, 3000)
+    }
+  }, [save])
 
   function saveToDatabase() {
-    setTimeout(() => {
-      setMessage(`We saved a count of ${count}`)
-    }, 3000)
+    setSave(true)
   }
 
   return (

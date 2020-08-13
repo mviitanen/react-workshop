@@ -5,10 +5,10 @@ import './styles.scss'
  */
 
 // 1. The closure of useEffect "captures" state (basic example)
-import './closure-basics'
+// import './closure-basics'
 
 // 2. Another capturing example (Stopwatch)
-// import './stopwatch'
+import './stopwatch'
 
 // 3. Phony useEffect
 // import './phony-hooks'
