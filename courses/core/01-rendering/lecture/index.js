@@ -4,4 +4,12 @@ import { FaRegStar, FaStar } from 'react-icons/fa'
 import 'YesterTech/styles/global-styles.scss'
 import './styles.scss'
 
-// let's go
+function App(props) {
+  return (
+    <div>
+      <OtherComponent></OtherComponent>
+    </div>
+  )
+}
+
+ReactDOM.render(<App message="hello again" />, document.getElementById('root'))
