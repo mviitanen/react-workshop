@@ -1,25 +1,19 @@
-import React, { useState, useReducer } from 'react'
+import React, { useState, useRef } from 'react'
 import { MdShoppingCart } from 'react-icons/md'
 import Heading from 'YesterTech/Heading'
 
 function CheckoutBilling({ onSubmit }) {
-  const [sameAsBilling, setSameAsBilling] = useState(false)
-  const [billingName, setBillingName] = useState('')
-  const [billingAddress, setBillingAddress] = useState('')
-  const [shippingName, setShippingName] = useState('')
-  const [shippingAddress, setShippingAddress] = useState('')
+  // const [sameAsBilling, setSameAsBilling] = useState(false)
+  // const [billingName, setBillingName] = useState('')
+  // const [billingAddress, setBillingAddress] = useState('')
+  // const [shippingName, setShippingName] = useState('')
+  // const [shippingAddress, setShippingAddress] = useState('')
+
+  const billingNameRef = useRef()
 
   function handleSubmit(event) {
     event.preventDefault()
-    const fields = {
-      billingName,
-      billingAddress,
-      shippingName: sameAsBilling ? billingName : shippingName,
-      shippingAddress: sameAsBilling
-        ? billingAddress
-        : shippingAddress
-    }
-    onSubmit(sameAsBilling, fields)
+    console.log(billingNameRef.current)
   }
 
   return (
@@ -38,8 +32,9 @@ function CheckoutBilling({ onSubmit }) {
             id="billing:name"
             type="text"
             required
-            defaultValue={billingName}
-            onChange={event => setBillingName(event.target.value)}
+            ref={billingNameRef}
+            // defaultValue={billingName}
+            // onChange={event => setBillingName(event.target.value)}
           />
         </div>
         <div className="form-field">
@@ -48,8 +43,8 @@ function CheckoutBilling({ onSubmit }) {
             id="billing:address"
             type="text"
             required
-            defaultValue={billingAddress}
-            onChange={event => setBillingAddress(event.target.value)}
+            // defaultValue={billingAddress}
+            // onChange={event => setBillingAddress(event.target.value)}
           />
         </div>
 
@@ -57,24 +52,15 @@ function CheckoutBilling({ onSubmit }) {
           Shipping Info
         </Heading>
 
-        <label>
-          <input
-            type="checkbox"
-            defaultChecked={sameAsBilling}
-            onChange={() => setSameAsBilling(!sameAsBilling)}
-          />{' '}
-          Same as Billing
-        </label>
-
         <div className="form-field">
           <label htmlFor="shipping:name">Name</label>
           <input
             id="shipping:name"
             type="text"
             required
-            value={sameAsBilling ? billingName : shippingName}
-            onChange={event => setShippingName(event.target.value)}
-            disabled={sameAsBilling}
+            // value={sameAsBilling ? billingName : shippingName}
+            // onChange={event => setShippingName(event.target.value)}
+            // disabled={sameAsBilling}
           />
         </div>
         <div className="form-field">
@@ -83,9 +69,9 @@ function CheckoutBilling({ onSubmit }) {
             id="shipping:address"
             type="text"
             required
-            value={sameAsBilling ? billingAddress : shippingAddress}
-            onChange={event => setShippingAddress(event.target.value)}
-            disabled={sameAsBilling}
+            // value={sameAsBilling ? billingAddress : shippingAddress}
+            // onChange={event => setShippingAddress(event.target.value)}
+            // disabled={sameAsBilling}
           />
         </div>
 

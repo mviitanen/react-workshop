@@ -12,11 +12,29 @@ import ShoppingCartButton from 'YesterTech/ShoppingCartButton'
 import { useShoppingCart } from 'YesterTech/ShoppingCartState'
 import ProductTile from 'YesterTech/ProductTile'
 
+function useProduct(productId) {
+  const [product, setProduct] = useState(null)
+
+  useEffect(() => {
+    let isCurrent = true
+    api.products.getProduct(productId).then(product => {
+      if (isCurrent) {
+        setProduct(product)
+      }
+    })
+    return () => {
+      isCurrent = false
+    }
+  }, [productId])
+
+  return product
+}
+
 function ProductProfile() {
   let { productId } = useParams()
   productId = parseInt(productId, 10)
 
-  const product = null
+  const product = useProduct(productId)
 
   // Cart
   const { addToCart, updateQuantity, getQuantity } = useShoppingCart()
@@ -27,11 +45,7 @@ function ProductProfile() {
     <div className="spacing">
       <Columns gutters>
         <Column>
-          <ProductImage
-            src={product.imagePath}
-            alt={product.name}
-            size={15}
-          />
+          <ProductImage src={product.imagePath} alt={product.name} size={15} />
         </Column>
         <Column flex className="spacing">
           <Heading>{product.name}</Heading>
@@ -47,9 +61,7 @@ function ProductProfile() {
             </Column>
             <Column className="spacing-small">
               <ShoppingCartButton
-                onClick={() =>
-                  addToCart(productId, product.name, product.price)
-                }
+                onClick={() => addToCart(productId, product.name, product.price)}
                 getQuantity={quantity}
               />
 
