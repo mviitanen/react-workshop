@@ -4,13 +4,21 @@ import { wrapEvent } from '../../utils'
 
 const DisclosureContext = React.createContext()
 
-export function Disclosure({ children, onChange, defaultOpen = false, ...props }) {
+export function Disclosure({
+  children,
+  onChange,
+  open: controlledOpen,
+  defaultOpen = false,
+  ...props
+}) {
   const [isOpen, setIsOpen] = useState(defaultOpen)
   const id = useId(props.id)
   const panelId = `panel-${id}`
 
+  const isControlled = controlledOpen != null
+
   const context = {
-    isOpen,
+    isOpen: isControlled ? controlledOpen : isOpen,
     panelId,
     onSelect: () => {
       onChange && onChange()
