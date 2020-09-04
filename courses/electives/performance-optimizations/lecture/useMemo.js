@@ -1,12 +1,16 @@
-import React, { useState } from 'react'
+import React, { useState, useMemo } from 'react'
 import { reallyLongRunningFunction } from './utils'
 
-export default function App() {
+export default function App({ input }) {
   const [count, setCount] = useState(0)
 
   console.time()
-  reallyLongRunningFunction()
+  const x = useMemo(() => reallyLongRunningFunction(input), [input])
   console.timeEnd()
+
+  // useEffect(fn, [])
+  // useCallback(fn, []) // memoizes the fn itself, probably for someone else's dep array
+  // useMemo(fn, []) // memoizes the return value of a long running function
 
   return (
     <div className="align-center">

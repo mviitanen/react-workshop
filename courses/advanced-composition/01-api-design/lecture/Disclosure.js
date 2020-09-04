@@ -1,34 +1,54 @@
-import React, { useState, forwardRef } from 'react'
-import { FaAngleRight, FaAngleDown } from 'react-icons/fa'
+import React, { useState, forwardRef, useRef } from 'react'
 
 // Import or write our own:
-// import { useId } from '../../useId'
-// function useId() {}
+import { useId } from '../../useId'
 
-export function Disclosure({ children, label, defaultIsOpen = false }) {
+export function Disclosure({ children, onChange, defaultIsOpen = false }) {
   const [isOpen, setIsOpen] = useState(defaultIsOpen)
+
+  const disclosureId = useId()
+  const panelId = `disclosure-${disclosureId}-panel`
 
   function onSelect() {
     setIsOpen(!isOpen)
+    onChange && onChange(!isOpen)
   }
 
-  // Notice how awful it is to compose class names. We'll fix it with data-attributes
+  children = React.Children.map(children, child => {
+    return React.cloneElement(child, {
+      onSelect,
+      isOpen,
+      panelId
+    })
+  })
 
-  return (
-    <div className="disclosure">
+  return <div className="disclosure">{children}</div>
+}
+
+export const DisclosureButton = React.forwardRef(
+  ({ children, onSelect, isOpen, panelId, ...props }, forwardedRef) => {
+    return (
       <button
+        {...props}
+        ref={forwardedRef}
         onClick={onSelect}
-        className={`disclosure-button ${isOpen ? 'open' : 'collapsed'}`}
-      >
-        {isOpen ? <FaAngleDown /> : <FaAngleRight />}
-        <span>{label}</span>
-      </button>
-      <div
-        className={`disclosure-panel ${isOpen ? 'open' : 'collapsed'}`}
-        hidden={!isOpen}
+        data-state={isOpen ? 'open' : 'collapsed'}
+        aria-expanded={isOpen}
+        aria-controls={panelId}
+        data-disclosure-button=""
       >
         {children}
-      </div>
+      </button>
+    )
+  }
+)
+
+DisclosureButton.displayName = 'DisclosureButton'
+
+export const DisclosurePanel = ({ children, isOpen, panelId, ...props }) => {
+  return (
+    <div {...props} id={panelId} data-disclosure-panel="" hidden={!isOpen}>
+      {children}
     </div>
   )
 }

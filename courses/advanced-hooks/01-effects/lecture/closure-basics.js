@@ -1,16 +1,26 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useRef } from 'react'
 import './styles.scss'
 
 export default function App() {
   const [count, setCount] = useState(0)
   const [message, setMessage] = useState(null)
+  const [save, setSave] = useState(false)
+
+  const countRef = useRef()
+  countRef.current = 7
+
+  useEffect(() => {
+    if (save) {
+      setTimeout(() => {
+        setMessage(
+          `We saved a count of ${count}, but the current count is ${countRef.current}`
+        )
+      }, 3000)
+    }
+  }, [save])
 
   function saveToDatabase() {
-    setTimeout(() => {
-      setMessage(
-        `We saved a count of ${count}, but it is stale since the count state may have changed`
-      )
-    }, 3000)
+    setSave(true)
   }
 
   return (
