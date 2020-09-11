@@ -21,12 +21,12 @@ export function AuthStateProvider({ children }) {
 
   const value = {
     ...state,
-    dispatch
+    helper: useCallback(user => {
+      dispatch({ type: 'LOGIN', user })
+    }, [])
   }
 
-  return (
-    <AuthStateContext.Provider value={value} children={children} />
-  )
+  return <AuthStateContext.Provider value={value} children={children} />
 }
 
 export function useAuthState() {

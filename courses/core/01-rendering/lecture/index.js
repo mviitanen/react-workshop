@@ -1,7 +1,28 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
-import { FaRegStar, FaStar } from 'react-icons/fa'
+import { FaTrash } from 'react-icons/fa'
 import 'YesterTech/styles/global-styles.scss'
 import './styles.scss'
 
-// let's go
+function Button({ children, onClick }) {
+  return (
+    <button onClick={onClick} className="button">
+      {children}
+    </button>
+  )
+}
+
+function App() {
+  return (
+    <div>
+      <Button onClick={() => {}}>
+        <span>
+          Remove <FaTrash />
+          Spam
+        </span>
+      </Button>
+    </div>
+  )
+}
+
+ReactDOM.render(<App />, document.getElementById('root'))

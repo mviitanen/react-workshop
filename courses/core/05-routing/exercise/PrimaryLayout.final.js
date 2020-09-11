@@ -24,9 +24,9 @@ function PrimaryLayout() {
     <div className="primary-layout">
       <div>
         <PrimaryHeader />
-        <Route path="/products">
-          <ProductSubNav />
-        </Route>
+
+        <ProductSubNav />
+
         <main className="primary-content">
           <Switch>
             <Route path="/" exact>
