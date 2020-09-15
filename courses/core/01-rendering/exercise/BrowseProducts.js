@@ -27,11 +27,16 @@ const products = [
 ]
 
 export default function BrowseProducts() {
-  console.log(products)
-
   return (
     <div>
-      {/* Exercise code goes here! This is what comments look like in JSX */}
+      {products.map((product, index) => {
+        return (
+          <div>
+            <h1>{product.name}</h1>
+            <div>Rating: {product.rating}</div>
+          </div>
+        )
+      })}
     </div>
   )
 }

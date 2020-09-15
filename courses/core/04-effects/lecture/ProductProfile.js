@@ -1,7 +1,6 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useCallback } from 'react'
 import { useParams } from 'react-router-dom'
 import { Columns, Column } from 'react-flex-columns'
-
 import api from 'YesterTech/api'
 import Heading from 'YesterTech/Heading'
 import Quantity from 'YesterTech/Quantity'
@@ -16,7 +15,14 @@ function ProductProfile() {
   let { productId } = useParams()
   productId = parseInt(productId, 10)
 
-  const product = null
+  const [product, setProduct] = useState(null)
+
+  // any variables that we "close over" that CAN CHANGE
+  useEffect(() => {
+    api.products.getProduct(productId).then(product => {
+      setProduct(product)
+    })
+  }, [productId])
 
   // Cart
   const { addToCart, updateQuantity, getQuantity } = useShoppingCart()
@@ -80,3 +86,18 @@ function ProductProfile() {
 }
 
 export default ProductProfile
+
+// useEffect(fn) // runs when any state changes 👎
+// useEffect(fn, []) // run only on the first mount and never again
+// useEffect(fn, [stuff]) // runs when stuff changes
+
+// // When we first mount
+// // When the dep array changes
+// useEffect(() => {
+
+//   // When we unmount
+//   // When the dep array change
+//   return () => {
+
+//   }
+// }, [])
