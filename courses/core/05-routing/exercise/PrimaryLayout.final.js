@@ -16,6 +16,10 @@ import ProductSubNav from 'YesterTech/ProductSubNav'
 import Checkout from 'YesterTech/Checkout'
 import { useShoppingCart } from 'YesterTech/ShoppingCartState'
 
+// CSR
+
+// SSR
+
 function PrimaryLayout() {
   const { authenticated } = useAuthState()
   const { cart } = useShoppingCart()

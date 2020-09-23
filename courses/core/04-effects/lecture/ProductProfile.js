@@ -2,7 +2,6 @@ import React, { useState, useEffect } from 'react'
 import { useParams } from 'react-router-dom'
 import { Columns, Column } from 'react-flex-columns'
 
-import api from 'YesterTech/api'
 import Heading from 'YesterTech/Heading'
 import Quantity from 'YesterTech/Quantity'
 import Tiles from 'YesterTech/Tiles'
@@ -12,14 +11,16 @@ import ShoppingCartButton from 'YesterTech/ShoppingCartButton'
 import { useShoppingCart } from 'YesterTech/ShoppingCartState'
 import ProductTile from 'YesterTech/ProductTile'
 
-function ProductProfile() {
-  let { productId } = useParams()
-  productId = parseInt(productId, 10)
+// useEffect(fn) // run after every state change
+// useEffect(fn, []) // runs only after the mount
+// useEffect(fn, [stuff]) // runs after stuff changes
 
+import api from 'YesterTech/api'
+
+function useProduct(productId) {
   const [product, setProduct] = useState(null)
 
-  // actually knowing what goes in the dep array
-
+  // any variables that we "close over" that CAN CHANGE!!
   useEffect(() => {
     let isCurrent = true
     api.products.getProduct(productId).then(product => {
@@ -32,9 +33,14 @@ function ProductProfile() {
     }
   }, [productId])
 
-  // useEffect(fn) // run after every state change
-  // useEffect(fn, []) // runs only after the mount
-  // useEffect(fn, [stuff]) // runs after stuff changes
+  return product
+}
+
+function ProductProfile() {
+  let { productId } = useParams()
+  productId = parseInt(productId, 10)
+
+  const product = useProduct(productId)
 
   // Cart
   const { addToCart, updateQuantity, getQuantity } = useShoppingCart()
