@@ -1,34 +1,70 @@
-import React, { useState, forwardRef } from 'react'
+import React, { useState, forwardRef, useRef } from 'react'
 import { FaAngleRight, FaAngleDown } from 'react-icons/fa'
 
 // Import or write our own:
 // import { useId } from '../../useId'
-// function useId() {}
 
-export function Disclosure({ children, label, defaultIsOpen = false }) {
+let id = 0
+function useId() {
+  const { current } = useRef(++id)
+  return current
+}
+
+export function Disclosure({ children, onChange, defaultIsOpen = false }) {
   const [isOpen, setIsOpen] = useState(defaultIsOpen)
+
+  const id = useId()
+  const panelId = `disclosure-panel-${id}`
 
   function onSelect() {
     setIsOpen(!isOpen)
+    if (typeof onChange === 'function') {
+      onChange(!isOpen)
+    }
   }
 
-  // Notice how awful it is to compose class names. We'll fix it with data-attributes
+  children = React.Children.map(children, child => {
+    return React.cloneElement(child, { onSelect, isOpen, panelId })
+  })
 
-  return (
-    <div className="disclosure">
+  return children
+}
+
+export const DisclosureButton = React.forwardRef(
+  ({ children, isOpen, onSelect, panelId, ...props }, forwardedRef) => {
+    return (
       <button
+        {...props}
+        ref={forwardedRef}
         onClick={onSelect}
-        className={`disclosure-button ${isOpen ? 'open' : 'collapsed'}`}
+        aria-expanded={isOpen}
+        aria-controls={panelId}
+        data-disclosure-button=""
+        data-state={isOpen ? 'open' : 'collapsed'}
       >
-        {isOpen ? <FaAngleDown /> : <FaAngleRight />}
-        <span>{label}</span>
+        {children}
       </button>
+    )
+  }
+)
+
+DisclosureButton.displayName = 'DisclosureButton'
+
+export const DisclosurePanel = React.forwardRef(
+  ({ children, isOpen, panelId, ...props }, forwardedRef) => {
+    return (
       <div
-        className={`disclosure-panel ${isOpen ? 'open' : 'collapsed'}`}
+        {...props}
+        id={panelId}
+        ref={forwardedRef}
+        data-disclosure-panel=""
+        data-state={isOpen ? 'open' : 'collapsed'}
         hidden={!isOpen}
       >
         {children}
       </div>
-    </div>
-  )
-}
+    )
+  }
+)
+
+DisclosurePanel.displayName = 'DisclosurePanel'
