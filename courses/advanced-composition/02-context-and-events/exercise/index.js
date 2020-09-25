@@ -1,15 +1,20 @@
-import React from 'react'
+import React, { useState } from 'react'
 import ReactDOM from 'react-dom'
 import { Disclosure, DisclosureButton, DisclosurePanel } from './Disclosure'
 import './styles.scss'
 
 // Incase you want to test your onChange with icons
-// import { FaAngleRight, FaAngleDown } from 'react-icons/fa'
+import { FaAngleRight, FaAngleDown } from 'react-icons/fa'
 
 function App() {
+  const [isOpen, setIsOpen] = useState(true)
+
   return (
-    <Disclosure>
-      <DisclosureButton>Click Me</DisclosureButton>
+    <Disclosure onChange={setIsOpen} defaultOpen={isOpen}>
+      <DisclosureButton>
+        {isOpen ? <FaAngleDown /> : <FaAngleRight />}
+        <span>Click Me</span>
+      </DisclosureButton>
       <DisclosurePanel>Panel Info</DisclosurePanel>
     </Disclosure>
   )

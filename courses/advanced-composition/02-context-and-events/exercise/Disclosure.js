@@ -1,58 +1,60 @@
-import React, { useState, forwardRef } from 'react'
+import React, { useState, forwardRef, useContext } from 'react'
 import { useId } from '../../useId'
-// import { wrapEvent } from '../../utils'
+import { wrapEvent } from '../../utils'
 
-export function Disclosure({ children, defaultOpen = false, ...props }) {
+const DisclosureContext = React.createContext()
+
+export function Disclosure({ children, defaultOpen = false, onChange, ...props }) {
   const [isOpen, setIsOpen] = useState(defaultOpen)
   const id = useId(props.id)
   const panelId = `panel-${id}`
 
-  children = React.Children.map(children, child => {
-    return React.cloneElement(child, {
-      isOpen,
-      panelId,
-      onSelect: () => setIsOpen(!isOpen)
-    })
-  })
+  const context = {
+    isOpen,
+    panelId,
+    onSelect: () => {
+      const nextIsOpen = !isOpen
+      setIsOpen(nextIsOpen)
+      onChange && onChange(nextIsOpen)
+    }
+  }
 
-  return children
+  return <DisclosureContext.Provider value={context} children={children} />
 }
 
-export const DisclosureButton = forwardRef(
-  ({ children, isOpen, panelId, onSelect, ...props }, forwardedRef) => {
-    return (
-      <button
-        {...props}
-        onClick={onSelect}
-        data-disclosure-button=""
-        data-state={isOpen ? 'open' : 'collapsed'}
-        aria-expanded={isOpen}
-        aria-controls={panelId}
-        ref={forwardedRef}
-      >
-        {children}
-      </button>
-    )
-  }
-)
+export const DisclosureButton = forwardRef(({ children, onClick, ...props }, forwardedRef) => {
+  const { isOpen, panelId, onSelect } = useContext(DisclosureContext)
+  return (
+    <button
+      {...props}
+      onClick={wrapEvent(onClick, onSelect)}
+      data-disclosure-button=""
+      data-state={isOpen ? 'open' : 'collapsed'}
+      aria-expanded={isOpen}
+      aria-controls={panelId}
+      ref={forwardedRef}
+    >
+      {children}
+    </button>
+  )
+})
 
 DisclosureButton.displayName = 'DisclosureButton'
 
-export const DisclosurePanel = forwardRef(
-  ({ children, isOpen, panelId, ...props }, forwardedRef) => {
-    return (
-      <div
-        {...props}
-        id={panelId}
-        hidden={!isOpen}
-        data-disclosure-panel=""
-        data-state={isOpen ? 'open' : 'collapsed'}
-        ref={forwardedRef}
-      >
-        {children}
-      </div>
-    )
-  }
-)
+export const DisclosurePanel = forwardRef(({ children, ...props }, forwardedRef) => {
+  const { isOpen, panelId } = useContext(DisclosureContext)
+  return (
+    <div
+      {...props}
+      id={panelId}
+      hidden={!isOpen}
+      data-disclosure-panel=""
+      data-state={isOpen ? 'open' : 'collapsed'}
+      ref={forwardedRef}
+    >
+      {children}
+    </div>
+  )
+})
 
 DisclosurePanel.displayName = 'DisclosurePanel'
