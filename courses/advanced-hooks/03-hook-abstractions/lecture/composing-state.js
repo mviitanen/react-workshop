@@ -1,8 +1,6 @@
 import React, { useState, useRef, useEffect } from 'react'
 // import { useUndoState, useLocalStorage } from './utils'
 
-// 1. Make our own useUndoState:
-//    [color, setColor, undo] = useUndoState(color)
 // 2. Make our own useLocalStorage:
 //    [value, setValue] = useLocalStorage(name)
 // 3. Refactor them so they can be composed
