@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import ReactDOM from 'react-dom'
 import { Tabs, TabList, Tab, TabPanels, TabPanel } from './Tabs'
 import { TaskOne, TaskTwo, TaskThree } from './Tasks'
@@ -6,8 +6,10 @@ import Heading from 'YesterTech/Heading'
 import './styles.scss'
 
 function App() {
+  const [selectedIndex, setSelectedIndex] = useState(0)
+
   return (
-    <Tabs>
+    <Tabs onChange={setSelectedIndex} index={selectedIndex}>
       <TabList>
         <Tab>Task One</Tab>
         <Tab>Task Two</Tab>

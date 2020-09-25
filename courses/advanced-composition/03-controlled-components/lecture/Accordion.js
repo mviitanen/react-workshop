@@ -9,9 +9,18 @@ const AccordionContext = React.createContext()
  */
 
 export const Accordion = forwardRef(
-  ({ children, onChange, defaultIndex = 0, id, ...props }, forwardedRef) => {
+  (
+    { children, onChange, defaultIndex = 0, index: controlledIndex, id, ...props },
+    forwardedRef
+  ) => {
     const [selectedIndex, setSelectedIndex] = useState(defaultIndex)
     const accordionId = useId(id)
+
+    const isControlled = controlledIndex != null
+    const { current: startsControlled } = useRef(isControlled)
+    if (isControlled !== startsControlled) {
+      console.warn('Cannot change stuff')
+    }
 
     children = React.Children.map(children, (child, index) => {
       const panelId = `accordion-${accordionId}-panel-${index}`
@@ -20,7 +29,7 @@ export const Accordion = forwardRef(
       const context = {
         buttonId,
         panelId,
-        selected: selectedIndex === index,
+        selected: !isControlled ? selectedIndex === index : controlledIndex === index,
         selectPanel: () => {
           onChange && onChange(index)
           setSelectedIndex(index)
@@ -46,6 +55,10 @@ Accordion.displayName = 'Accordion'
 export const AccordionItem = forwardRef(({ children, ...props }, forwardedRef) => {
   const { selected } = useContext(AccordionContext)
 
+  children = React.Children.map(children, (child, index) => {
+    return React.cloneElement(child, { index })
+  })
+
   return (
     <div
       {...props}
@@ -65,7 +78,7 @@ AccordionItem.displayName = 'AccordionItem'
  */
 
 export const AccordionButton = forwardRef(
-  ({ children, onClick, ...props }, forwardedRef) => {
+  ({ children, index, onClick, ...props }, forwardedRef) => {
     const { panelId, selected, selectPanel } = useContext(AccordionContext)
 
     return (
@@ -78,7 +91,7 @@ export const AccordionButton = forwardRef(
         aria-controls={panelId}
         ref={forwardedRef}
       >
-        {children}
+        {typeof children === 'function' ? children({ index, selected }) : children}
       </button>
     )
   }

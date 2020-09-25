@@ -5,19 +5,22 @@ import { FaAngleRight, FaAngleDown } from 'react-icons/fa'
 import './styles.scss'
 
 function App() {
+  const [index, setIndex] = useState(0)
+
   return (
     <div>
-      <Accordion>
+      <p>
+        Want to read more about{' '}
+        <button onClick={() => setIndex(1)} className="as-link">
+          a11y
+        </button>
+      </p>
+
+      <Accordion onChange={setIndex} index={index}>
         <AccordionItem>
           <AccordionButton>
-            {({ selected }) => {
-              return (
-                <>
-                  {selected ? <FaAngleDown /> : <FaAngleRight />}
-                  <span>What is ARIA?</span>
-                </>
-              )
-            }}
+            {index === 0 ? <FaAngleDown /> : <FaAngleRight />}
+            <span>What is ARIA?</span>
           </AccordionButton>
           <AccordionPanel>
             A way to make web content more accessible: "Accessible Rich Internet Applications".
@@ -25,6 +28,7 @@ function App() {
         </AccordionItem>
         <AccordionItem>
           <AccordionButton>
+            {index === 1 ? <FaAngleDown /> : <FaAngleRight />}
             <span>What does "a11y" stand for?</span>
           </AccordionButton>
           <AccordionPanel>

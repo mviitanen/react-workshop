@@ -1,6 +1,6 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
-import { Accordion, AccordionItem, AccordionButton, AccordionPanel } from './Accordion'
+import { Accordion, AccordionItem, AccordionButton, AccordionPanel } from './Accordion.final'
 import './styles.scss'
 
 function App() {
@@ -12,7 +12,7 @@ function App() {
           A way to make web content more accessible: "Accessible Rich Internet Applications".
         </AccordionPanel>
       </AccordionItem>
-      <CustomAccordionItems />
+      <CustomAccordionItems></CustomAccordionItems>
     </Accordion>
   )
 }
