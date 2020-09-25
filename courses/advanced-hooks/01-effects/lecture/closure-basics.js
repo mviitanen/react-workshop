@@ -4,13 +4,20 @@ import './styles.scss'
 export default function App() {
   const [count, setCount] = useState(0)
   const [message, setMessage] = useState(null)
+  const [saving, setSaving] = useState(false)
+
+  useEffect(() => {
+    if (saving) {
+      setTimeout(() => {
+        setMessage(
+          `We saved a count of ${count}, but it is stale since the count state may have changed`
+        )
+      }, 3000)
+    }
+  }, [saving, count])
 
   function saveToDatabase() {
-    setTimeout(() => {
-      setMessage(
-        `We saved a count of ${count}, but it is stale since the count state may have changed`
-      )
-    }, 3000)
+    setSaving(true)
   }
 
   return (
