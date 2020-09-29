@@ -18,7 +18,7 @@ export function FavoriteProductProvider({ children }) {
   }, [favorites])
 
   const value = {
-    isFavorite: productId => favorites.includes(productId),
+    isFavorite: productId => true,
     addFavorite: productId => {
       setFavorites(favorites.concat(productId))
     },

@@ -23,7 +23,12 @@ function PrimaryLayout() {
   const { authenticated, dispatch } = useAuthState()
 
   // Logout from server, then logout front-end
-  // api.auth.getAuthenticatedUser().then(user => {})
+  useEffect(() => {
+    api.auth.getAuthenticatedUser().then(user => {
+      dispatch({ type: 'LOGIN', user })
+    })
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
 
   return (
     <div className="primary-layout">
@@ -40,8 +45,7 @@ function PrimaryLayout() {
             <Route path="/signup" exact>
               <SignupForm
                 onSignup={user => {
-                  // dispatch login so the frontend is aware
-                  // then redirect:
+                  dispatch({ type: 'LOGIN', user })
                   history.push('/')
                 }}
               />
@@ -49,8 +53,7 @@ function PrimaryLayout() {
             <Route path="/login" exact>
               <LoginForm
                 onAuthenticated={user => {
-                  // dispatch login so the frontend is aware
-                  // then redirect:
+                  dispatch({ type: 'LOGIN', user })
                   history.push('/')
                 }}
               />
