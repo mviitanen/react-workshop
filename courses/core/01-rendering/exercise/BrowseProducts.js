@@ -10,13 +10,7 @@ const products = [
     brand: 'Nintendo',
     condition: 'new'
   },
-  {
-    id: 2,
-    name: 'Donkey Kong',
-    rating: 3.5,
-    brand: 'Nintendo',
-    condition: 'good'
-  },
+
   {
     id: 3,
     name: 'Nintendo NES',
@@ -27,11 +21,17 @@ const products = [
 ]
 
 export default function BrowseProducts() {
-  console.log(products)
-
   return (
     <div>
-      {/* Exercise code goes here! This is what comments look like in JSX */}
+      {products.map(product => {
+        return (
+          <div key={uuid()}>
+            <h1>{product.name}</h1>
+            <div>{product.rating}</div>
+            <div>{product.brand}</div>
+          </div>
+        )
+      })}
     </div>
   )
 }
