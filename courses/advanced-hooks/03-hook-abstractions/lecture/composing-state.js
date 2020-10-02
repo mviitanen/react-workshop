@@ -1,14 +1,39 @@
-import React, { useState, useRef, useEffect } from 'react'
-import { useUndoState, useLocalStorage } from './utils'
+import React, { useRef, useEffect, useReducer } from 'react'
 
-// 1. Make our own useUndoState:
-//    [color, setColor, undo] = useUndoState(color)
-// 2. Make our own useLocalStorage:
-//    [value, setValue] = useLocalStorage(name)
-// 3. Refactor them so they can be composed
+function useState(defaultState) {
+  return useReducer((_, newState) => newState, defaultState)
+}
+
+function useUndoState(state) {
+  const [value, setValue] = state
+  const historyRef = useRef([])
+
+  function undo() {
+    return setValue(historyRef.current.pop())
+  }
+
+  function changeValue(newValue) {
+    historyRef.current.push(value)
+    setValue(newValue)
+  }
+
+  return [value, changeValue, undo]
+}
+
+function useLocalStorage(key) {
+  const [value, setValue] = useState(() => {
+    return localStorage.getItem(key) || ''
+  })
+
+  useEffect(() => {
+    localStorage.setItem(key, value)
+  }, [key, value])
+
+  return [value, setValue]
+}
 
 function App() {
-  const [color, setColor, undo] = useUndoState('#ff0000')
+  const [color, setColor, undo] = useUndoState(useLocalStorage('color'))
 
   function changeColor(e) {
     setColor(e.target.value)
@@ -23,12 +48,7 @@ function App() {
           backgroundColor: color
         }}
       >
-        <input
-          type="color"
-          value={color || ''}
-          onChange={changeColor}
-          aria-label="Color Picker"
-        />
+        <input type="color" value={color || ''} onChange={changeColor} aria-label="Color Picker" />
       </div>
       <button className="button" onClick={undo}>
         Undo

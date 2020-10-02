@@ -37,19 +37,24 @@ function LoginForm({ onAuthenticated }) {
 
   const { username, password, error, loading, showPassword } = state
 
+  useEffect(() => {
+    if (loading) {
+      api.auth
+        .login(username, password)
+        .then(user => {
+          if (typeof onAuthenticated === 'function') {
+            onAuthenticated(user)
+          }
+        })
+        .catch(error => {
+          dispatch({ type: 'LOGIN_FAILED', error })
+        })
+    }
+  }, [loading])
+
   function handleLogin(event) {
     event.preventDefault()
     dispatch({ action: 'LOGIN' })
-    api.auth
-      .login(username, password)
-      .then(user => {
-        if (typeof onAuthenticated === 'function') {
-          onAuthenticated(user)
-        }
-      })
-      .catch(error => {
-        dispatch({ type: 'LOGIN_FAILED', error })
-      })
   }
 
   function changeField(field, value) {
