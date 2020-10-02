@@ -36,7 +36,7 @@ function CheckoutBilling({ onSubmit }) {
             id="billing:name"
             type="text"
             required
-            defaultValue={billingName}
+            value={billingName}
             onChange={event => setBillingName(event.target.value)}
           />
         </div>
@@ -46,7 +46,7 @@ function CheckoutBilling({ onSubmit }) {
             id="billing:address"
             type="text"
             required
-            defaultValue={billingAddress}
+            value={billingAddress}
             onChange={event => setBillingAddress(event.target.value)}
           />
         </div>
