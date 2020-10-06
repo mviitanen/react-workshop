@@ -16,6 +16,11 @@ import ProductSubNav from 'YesterTech/ProductSubNav'
 import Checkout from 'YesterTech/Checkout'
 import { useShoppingCart } from 'YesterTech/ShoppingCartState'
 
+function Home() {
+  return <h1></h1>
+}
+
+
 function PrimaryLayout() {
   const { authenticated } = useAuthState()
   const { cart } = useShoppingCart()
@@ -51,6 +56,7 @@ function PrimaryLayout() {
                 <Account />
               </Route>
             )}
+            <Redirect path="/account" path="/login">
             <Redirect to="/" />
           </Switch>
         </main>

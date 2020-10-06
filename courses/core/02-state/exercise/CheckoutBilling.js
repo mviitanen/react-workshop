@@ -35,15 +35,15 @@ function CheckoutBilling({ onSubmit }) {
           Shipping Info
         </Heading>
 
-        <label>
+        <label className="horizontal-spacing">
           <input
             type="checkbox"
             defaultChecked={sameAsBilling}
             onChange={() => {
               setSameAsBilling(!sameAsBilling)
             }}
-          />{' '}
-          Same as Billing
+          />
+          <span>Same as Billing</span>
         </label>
 
         {!sameAsBilling && (

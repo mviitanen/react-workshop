@@ -1,6 +1,10 @@
-import React, { useState, useReducer } from 'react'
+import React, { useReducer } from 'react'
 import { FaMinusCircle, FaPlusCircle } from 'react-icons/fa'
 import 'YesterTech/Quantity.scss'
+
+function useState(defaultState) {
+  return useReducer((_, newState) => newState, defaultState)
+}
 
 function Quantity() {
   const [quantity, setQuantity] = useState(1)
