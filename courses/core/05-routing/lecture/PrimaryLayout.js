@@ -1,12 +1,5 @@
 import React from 'react'
-import {
-  Switch,
-  Route,
-  Link,
-  Redirect,
-  useRouteMatch,
-  useParams
-} from 'react-router-dom'
+import { Switch, Route, Link, Redirect, useRouteMatch, useParams } from 'react-router-dom'
 import { Columns, Column } from 'react-flex-columns'
 
 import Logo from 'YesterTech/Logo'
@@ -28,8 +21,10 @@ export default function PrimaryLayout() {
         <PrimaryHeader />
         <ProductSubNav />
         <main className="primary-content">
-          <Home />
-          {/* Put other pages here */}
+          <Switch>
+            <Route path="/" exact component={Home} />
+            <Route path="/products" component={ProductsLayout} />
+          </Switch>
         </main>
         <footer className="primary-footer spacing">
           <hr />
@@ -49,12 +44,12 @@ function PrimaryHeader() {
         <Logo />
       </div>
       <nav className="horizontal-spacing-large align-right">
-        <a href="/" className="primary-nav-item">
+        <Link to="/" className="primary-nav-item">
           Home
-        </a>
-        <a href="/products" className="primary-nav-item">
+        </Link>
+        <Link to="/products" className="primary-nav-item">
           Products
-        </a>
+        </Link>
       </nav>
     </header>
   )
@@ -69,6 +64,8 @@ function Home() {
 }
 
 function ProductsLayout() {
+  const match = useRouteMatch()
+
   return (
     <div className="products-layout">
       <aside className="spacing">
@@ -80,23 +77,27 @@ function ProductsLayout() {
         </section>
       </aside>
       <div>
-        <BrowseProducts />
-        {/* BrowseProducts is the page being shown, but other pages could go here like ProductProfile */}
+        <Switch>
+          <Route path={match.path} exact>
+            <BrowseProducts />
+          </Route>
+          <Route path={`${match.path}/:productId`}>
+            <ProductProfile />
+          </Route>
+        </Switch>
       </div>
     </div>
   )
 }
 
 function ProductProfile() {
+  const { productId } = useParams()
+
   return (
     <div className="spacing">
       <Columns gutters>
         <Column>
-          <ProductImage
-            src="/images/products/mario-kart.jpg"
-            alt="Mario Kart"
-            size={15}
-          />
+          <ProductImage src="/images/products/mario-kart.jpg" alt="Mario Kart" size={15} />
         </Column>
         <Column flex className="spacing">
           <Heading>Mario Kart</Heading>

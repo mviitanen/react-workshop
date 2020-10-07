@@ -1,16 +1,20 @@
-import React, { useState } from 'react'
+import React, { useState, useRef } from 'react'
 import { MdShoppingCart } from 'react-icons/md'
-import serializeForm from 'form-serialize'
+
 import Heading from 'YesterTech/Heading'
 
 function CheckoutBilling({ onSubmit }) {
   const [sameAsBilling, setSameAsBilling] = useState(false)
 
+  const billingNameRef = useRef()
+
   function handleSubmit(event) {
     event.preventDefault()
     // When the fields are stored in state above, this fields variable can just be
     // an object filled with the field states. We don't need `serializeForm` anymore
-    const fields = serializeForm(event.target, { hash: true })
+    const fields = {
+      billingName: document.getElementById('billingName').value
+    }
     onSubmit(sameAsBilling, fields)
   }
 
@@ -27,6 +31,7 @@ function CheckoutBilling({ onSubmit }) {
         <div className="form-field">
           <label htmlFor="billing:name">Name</label>
           <input
+            ref={billingNameRef}
             id="billing:name"
             type="text"
             required
@@ -54,13 +59,7 @@ function CheckoutBilling({ onSubmit }) {
 
         <div className="form-field">
           <label htmlFor="shipping:name">Name</label>
-          <input
-            id="shipping:name"
-            type="text"
-            required
-            name="shippingName"
-            autoComplete="off"
-          />
+          <input id="shipping:name" type="text" required name="shippingName" autoComplete="off" />
         </div>
         <div className="form-field">
           <label htmlFor="shipping:address">Address</label>
