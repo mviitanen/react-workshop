@@ -35,19 +35,37 @@ export function Tabs({ data, ...props }) {
   )
 }
 
-function App() {
-  const tabData = [
-    {
-      label: 'Login',
-      content: <LoginForm />
-    },
-    {
-      label: 'Signup',
-      content: <SignupForm />
-    }
-  ]
+function TabList({ children }) {
+  children = React.Children.map(children, (child, index) => {
+    return React.cloneElement(child, {
+      index
+    })
+  })
 
-  return <Tabs data={tabData} />
+  return <div>{children}</div>
+}
+
+function Tab({ children, index }) {
+  return <button onClick={() => setSelectedIndex(index)}></button>
+}
+
+function App() {
+  return (
+    <Tabs>
+      <TabList extra>
+        <Tab>Login</Tab>
+        <Tab>Signup</Tab>
+      </TabList>
+      <TabPanels>
+        <TabPanel>
+          <LoginForm />
+        </TabPanel>
+        <TabPanel>
+          <SignupForm />
+        </TabPanel>
+      </TabPanels>
+    </Tabs>
+  )
 }
 
 ReactDOM.render(<App />, document.getElementById('root'))

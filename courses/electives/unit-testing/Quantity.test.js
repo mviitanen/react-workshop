@@ -95,15 +95,11 @@ describe('Quantity', () => {
     act(() => {
       ReactDOM.render(<Quantity />, container)
     })
-    const subtractButton = container.querySelector(
-      '[data-testid=subtract-button]'
-    )
+    const subtractButton = container.querySelector('[data-testid=subtract-button]')
     const input = container.querySelector('[data-testid="quantity"]')
     expect(input.value).toBe('0')
     act(() => {
-      subtractButton.dispatchEvent(
-        new MouseEvent('click', { bubbles: true })
-      )
+      subtractButton.dispatchEvent(new MouseEvent('click', { bubbles: true }))
     })
     expect(input.value).toBe('0')
   })
@@ -112,14 +108,10 @@ describe('Quantity', () => {
     act(() => {
       ReactDOM.render(<Quantity />, container)
     })
-    const addButton = container.querySelector(
-      '[data-testid=add-button]'
-    )
+    const addButton = container.querySelector('[data-testid=add-button]')
     const input = container.querySelector('[data-testid="quantity"]')
     act(() => {
-      addButton.dispatchEvent(
-        new MouseEvent('click', { bubbles: true })
-      )
+      addButton.dispatchEvent(new MouseEvent('click', { bubbles: true }))
     })
     expect(input.value).toBe('1')
   })
@@ -128,22 +120,14 @@ describe('Quantity', () => {
     act(() => {
       ReactDOM.render(<Quantity />, container)
     })
-    const subtractButton = container.querySelector(
-      '[data-testid=subtract-button]'
-    )
-    const addButton = container.querySelector(
-      '[data-testid=add-button]'
-    )
+    const subtractButton = container.querySelector('[data-testid=subtract-button]')
+    const addButton = container.querySelector('[data-testid=add-button]')
     const input = container.querySelector('[data-testid="quantity"]')
     act(() => {
-      addButton.dispatchEvent(
-        new MouseEvent('click', { bubbles: true })
-      )
+      addButton.dispatchEvent(new MouseEvent('click', { bubbles: true }))
     })
     act(() => {
-      subtractButton.dispatchEvent(
-        new MouseEvent('click', { bubbles: true })
-      )
+      subtractButton.dispatchEvent(new MouseEvent('click', { bubbles: true }))
     })
     expect(input.value).toBe('0')
   })
