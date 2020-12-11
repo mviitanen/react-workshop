@@ -1,7 +1,7 @@
 import React from 'react'
 import { FaStar, FaStarHalfAlt, FaRegStar } from 'react-icons/fa'
 
-function StarRatings({ rating, max = 5 }) {
+const StarRatings = ({ rating, max = 5 }) => {
   let stars = []
 
   for (let i = 0; i < max; ++i) {

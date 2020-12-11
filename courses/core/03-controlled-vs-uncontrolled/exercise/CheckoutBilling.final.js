@@ -1,12 +1,13 @@
-import React, { useState } from 'react'
+import React, { useState, useRef } from 'react'
 import { MdShoppingCart } from 'react-icons/md'
 import Heading from 'YesterTech/Heading'
 
 function CheckoutBilling({ onSubmit }) {
   const [sameAsBilling, setSameAsBilling] = useState(false)
+
   const [billingName, setBillingName] = useState('')
   const [billingAddress, setBillingAddress] = useState('')
-  const [shippingName, setShippingName] = useState('')
+  const [shippingName, setShippingName] = useState(null)
   const [shippingAddress, setShippingAddress] = useState('')
 
   function handleSubmit(event) {
@@ -15,7 +16,7 @@ function CheckoutBilling({ onSubmit }) {
       billingName,
       billingAddress,
       shippingName: sameAsBilling ? billingName : shippingName,
-      shippingAddress: sameAsBilling ? billingAddress : shippingAddress
+      shippingAddress: sameAsBilling ? billingAddress : shippingAddress,
     }
     onSubmit(sameAsBilling, fields)
   }
@@ -37,7 +38,7 @@ function CheckoutBilling({ onSubmit }) {
             type="text"
             required
             defaultValue={billingName}
-            onChange={event => setBillingName(event.target.value)}
+            onChange={(event) => setBillingName(event.target.value)}
           />
         </div>
         <div className="form-field">
@@ -47,7 +48,7 @@ function CheckoutBilling({ onSubmit }) {
             type="text"
             required
             defaultValue={billingAddress}
-            onChange={event => setBillingAddress(event.target.value)}
+            onChange={(event) => setBillingAddress(event.target.value)}
           />
         </div>
 
@@ -71,7 +72,7 @@ function CheckoutBilling({ onSubmit }) {
             type="text"
             required
             value={sameAsBilling ? billingName : shippingName}
-            onChange={event => setShippingName(event.target.value)}
+            onChange={(event) => setShippingName(event.target.value)}
             disabled={sameAsBilling}
           />
         </div>
@@ -82,7 +83,7 @@ function CheckoutBilling({ onSubmit }) {
             type="text"
             required
             value={sameAsBilling ? billingAddress : shippingAddress}
-            onChange={event => setShippingAddress(event.target.value)}
+            onChange={(event) => setShippingAddress(event.target.value)}
             disabled={sameAsBilling}
           />
         </div>
