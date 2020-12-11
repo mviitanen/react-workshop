@@ -12,15 +12,13 @@ import ShoppingCartButton from 'YesterTech/ShoppingCartButton'
 import { useShoppingCart } from 'YesterTech/ShoppingCartState'
 import ProductTile from 'YesterTech/ProductTile'
 
-function App() {
-  const [product, setProduct] = useState(null)
-
-  return <ProductProfile product={product} setProduct={setProduct} />
-}
-
-function ProductProfile({ product, setProduct }) {
+function ProductProfile() {
   let { productId } = useParams()
   productId = parseInt(productId, 10)
+
+  const [product, setProduct] = useState(null)
+
+  console.log(productId, product)
 
   // If you have variables that you "close over" that CAN CHANGE!!!
   useEffect(() => {
@@ -33,7 +31,7 @@ function ProductProfile({ product, setProduct }) {
     return () => {
       isCurrent = false
     }
-  }, [productId, setProduct])
+  }, [productId])
 
   // Cart
   const { addToCart, updateQuantity, getQuantity } = useShoppingCart()
