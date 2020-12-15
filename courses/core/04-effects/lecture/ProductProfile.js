@@ -12,11 +12,31 @@ import ShoppingCartButton from 'YesterTech/ShoppingCartButton'
 import { useShoppingCart } from 'YesterTech/ShoppingCartState'
 import ProductTile from 'YesterTech/ProductTile'
 
+function useApi(api) {
+  const [results, setResults] = useState(null)
+
+  // Any variable that we 'close over' that can CHANGE!!!!
+  useEffect(() => {
+    let isCurrent = true
+    api().then((results) => {
+      if (isCurrent) {
+        setResults(results)
+      }
+    })
+    return () => {
+      isCurrent = false
+    }
+  }, [api])
+
+  return results
+}
+
 function ProductProfile() {
   let { productId } = useParams()
   productId = parseInt(productId, 10)
 
-  const product = null
+  const getProduct = useCallback(() => api.products.getProduct(productId), [productId])
+  const product = useApi(getProduct)
 
   // Cart
   const { addToCart, updateQuantity, getQuantity } = useShoppingCart()
@@ -49,10 +69,7 @@ function ProductProfile() {
 
               {quantity > 0 && (
                 <div className="align-right">
-                  <Quantity
-                    onChange={q => updateQuantity(productId, q)}
-                    quantity={quantity}
-                  />
+                  <Quantity onChange={(q) => updateQuantity(productId, q)} quantity={quantity} />
                 </div>
               )}
             </Column>
@@ -68,7 +85,7 @@ function ProductProfile() {
               Related Products
             </Heading>
             <Tiles>
-              {product.relatedProducts.map(productId => (
+              {product.relatedProducts.map((productId) => (
                 <ProductTile key={productId} productId={productId} />
               ))}
             </Tiles>
