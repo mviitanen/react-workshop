@@ -7,7 +7,7 @@ function ProductFilters() {
 
   useEffect(() => {
     let isCurrent = true
-    getCategories().then(categories => {
+    getCategories().then((categories) => {
       if (!isCurrent) return
       setCategories(categories)
     })

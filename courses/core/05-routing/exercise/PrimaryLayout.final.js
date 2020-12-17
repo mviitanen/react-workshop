@@ -30,7 +30,7 @@ function PrimaryLayout() {
         <main className="primary-content">
           <Switch>
             <Route path="/" exact>
-              <Home />
+              <Home></Home>
             </Route>
             <Route path="/signup" exact>
               <SignupForm />
