@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useCallback } from 'react'
 import { useParams } from 'react-router-dom'
 import { Columns, Column } from 'react-flex-columns'
 
@@ -12,13 +12,30 @@ import { useShoppingCart } from 'YesterTech/ShoppingCartState'
 import ProductTile from 'YesterTech/ProductTile'
 import api from 'YesterTech/api'
 
-// https://twitter.com/dan_abramov/status/1313891773224189953
+function usePromise(p) {
+  const [results, setResults] = useState(null)
+
+  // Any variable that you "close over" that can change!
+  useEffect(() => {
+    let isCurrent = true
+    p().then((results) => {
+      if (isCurrent) {
+        setResults(results)
+      }
+    })
+    return () => {
+      isCurrent = false
+    }
+  }, [p])
+
+  return results
+}
 
 function ProductProfile() {
   let { productId } = useParams()
   productId = parseInt(productId, 10)
 
-  const product = null
+  const product = usePromise(useCallback(() => api.products.getProduct(productId), [productId]))
 
   // Cart
   const { addToCart, updateQuantity, getQuantity } = useShoppingCart()

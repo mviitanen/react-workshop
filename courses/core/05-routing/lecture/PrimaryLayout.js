@@ -16,9 +16,10 @@ export default function PrimaryLayout() {
         <PrimaryHeader />
         <ProductSubNav />
         <main className="primary-content">
-          <Home />
-          {/* <ProductProfile /> */}
-          {/* <BrowseProducts /> */}
+          <Switch>
+            <Route path="/" component={Home} exact />
+            <Route path="/products" component={ProductsLayout} />
+          </Switch>
         </main>
         <PrimaryFooter />
       </div>
@@ -33,12 +34,12 @@ function PrimaryHeader() {
         <Logo />
       </div>
       <nav className="horizontal-spacing-large align-right">
-        <a href="/" className="primary-nav-item">
+        <Link to="/" className="primary-nav-item">
           Home
-        </a>
-        <a href="/products" className="primary-nav-item">
+        </Link>
+        <Link to="/products" className="primary-nav-item">
           Products
-        </a>
+        </Link>
       </nav>
     </header>
   )
@@ -73,14 +74,18 @@ function ProductsLayout() {
         </section>
       </aside>
       <div>
-        <BrowseProducts />
-        {/* BrowseProducts is the page being shown, but other pages could go here like ProductProfile */}
+        <Switch>
+          <Route path="/products/:productId" exact element={<ProductProfile />} />
+          <Route path="/products" component={BrowseProducts} exact />
+        </Switch>
       </div>
     </div>
   )
 }
 
 function ProductProfile() {
+  const { productId } = useParams()
+
   return (
     <div className="spacing">
       <Columns gutters>
@@ -107,13 +112,13 @@ function BrowseProducts() {
     <div className="spacing">
       <ul>
         <li>
-          <a href="/products/1">Nintendo NES</a>
+          <Link to="/products/1">Nintendo NES</Link>
         </li>
         <li>
-          <a href="/products/2">Donkey Kong Country</a>
+          <Link to="/products/2">Donkey Kong Country</Link>
         </li>
         <li>
-          <a href="/products/3">Mario Kart</a>
+          <Link to="/products/3">Mario Kart</Link>
         </li>
       </ul>
     </div>

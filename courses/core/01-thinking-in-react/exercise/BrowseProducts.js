@@ -8,22 +8,22 @@ const products = [
     name: 'Mario Kart',
     rating: 5,
     brand: 'Nintendo',
-    condition: 'new'
+    condition: 'new',
   },
   {
     id: 2,
     name: 'Donkey Kong',
     rating: 3.5,
     brand: 'Nintendo',
-    condition: 'good'
+    condition: 'good',
   },
   {
     id: 3,
     name: 'Nintendo NES',
     rating: 4,
     brand: 'Nintendo',
-    condition: 'fair'
-  }
+    condition: 'fair',
+  },
 ]
 
 export default function BrowseProducts() {
@@ -31,7 +31,15 @@ export default function BrowseProducts() {
 
   return (
     <div>
-      {/* Exercise code goes here! This is what comments look like in JSX */}
+      {products.map((product, index) => {
+        return (
+          <div key={index}>
+            <h1>Product Name</h1>
+            <div>Brand</div>
+            <div>rating</div>
+          </div>
+        )
+      })}
     </div>
   )
 }
