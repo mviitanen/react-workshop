@@ -20,7 +20,7 @@ function Quantity() {
       }
     },
     {
-      quantity: 0
+      quantity: 0,
     }
   )
 
@@ -49,7 +49,7 @@ function Quantity() {
             type="text"
             aria-label="quantity"
             value={quantity}
-            onChange={e => dispatch({ type: 'INPUT', quantity: parseInt(e.target.value) })}
+            onChange={(e) => dispatch({ type: 'INPUT', quantity: parseInt(e.target.value) })}
           />
         </div>
         <div>

@@ -9,7 +9,7 @@ function ClapButton() {
   useEffect(() => {
     if (queueClaps > 0) {
       const id = setTimeout(() => {
-        saveClapsToDatabase(queueClaps).then(latestClaps => {
+        saveClapsToDatabase(queueClaps).then((latestClaps) => {
           setClaps(latestClaps)
           setQueueClaps(0)
         })

@@ -4,7 +4,7 @@ const AuthStateContext = React.createContext()
 
 const initialState = {
   authenticated: false,
-  user: null
+  user: null,
 }
 
 export function AuthStateProvider({ children }) {
@@ -19,11 +19,14 @@ export function AuthStateProvider({ children }) {
     }
   }, initialState)
 
-  // api.auth.getAuthenticatedUser().then(user => {})
+  const login = useCallback((user) => {
+    dispatch({ type: 'LOGIN', user })
+  }, [])
 
   const value = {
     ...state,
-    dispatch
+    dispatch,
+    login,
   }
 
   return <AuthStateContext.Provider value={value} children={children} />

@@ -7,13 +7,13 @@ export default function App() {
 
   useEffect(() => {
     if (active) {
-      setInterval(() => {
-        console.log('Set Seconds')
-        setSeconds(seconds + 1)
+      const id = setInterval(() => {
+        setSeconds((s) => s + 1)
       }, 1000)
+      return () => {
+        clearInterval(id)
+      }
     }
-    // Show what happens when we add seconds to
-    // the dep array, or leave it out ?
   }, [active])
 
   return (

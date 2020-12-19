@@ -75,7 +75,9 @@ function ProductsLayout() {
       </aside>
       <div>
         <Switch>
-          <Route path="/products/:productId" exact element={<ProductProfile />} />
+          <Route path="/products/:productId" exact>
+            <ProductProfile />
+          </Route>
           <Route path="/products" component={BrowseProducts} exact />
         </Switch>
       </div>

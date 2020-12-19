@@ -16,12 +16,18 @@ import Account from 'YesterTech/Account'
 import { useShoppingCart } from 'YesterTech/ShoppingCartState'
 import { useAuthState } from 'YesterTech/AuthState'
 
-// import api from 'YesterTech/api'
+import api from 'YesterTech/api'
 
 function PrimaryLayout() {
   const history = useHistory()
   const { cart } = useShoppingCart()
-  const { authenticated, dispatch } = useAuthState()
+  const { authenticated, dispatch, login } = useAuthState()
+
+  useEffect(() => {
+    api.auth.getAuthenticatedUser().then((user) => {
+      login(user)
+    })
+  }, [login])
 
   return (
     <div className="primary-layout">
@@ -38,8 +44,7 @@ function PrimaryLayout() {
             <Route path="/signup" exact>
               <SignupForm
                 onSignup={(user) => {
-                  // dispatch login so the frontend is aware
-                  // then redirect:
+                  dispatch({ type: 'LOGIN', user })
                   history.push('/')
                 }}
               />
@@ -47,8 +52,7 @@ function PrimaryLayout() {
             <Route path="/login" exact>
               <LoginForm
                 onAuthenticated={(user) => {
-                  // dispatch login so the frontend is aware
-                  // then redirect:
+                  dispatch({ type: 'LOGIN', user })
                   history.push('/')
                 }}
               />
