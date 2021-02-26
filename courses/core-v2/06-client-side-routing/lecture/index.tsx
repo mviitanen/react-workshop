@@ -30,7 +30,18 @@ const PrimaryLayout: React.FC = () => {
     <div className="primary-layout">
       <PrimaryHeader />
       <main className="primary-content">
-        <Dashboard />
+        <Switch>
+          <Route path="/dashboard">
+            <DashboardLayout />
+          </Route>
+          <Route path="/boards" exact>
+            <BrowseBoards />
+          </Route>
+          <Route path="/boards/:boardId">
+            <Board />
+          </Route>
+          <Redirect to="/dashboard" />
+        </Switch>
       </main>
       <PrimaryFooter />
     </div>
@@ -59,12 +70,32 @@ const PrimaryHeader: React.FC = () => {
   )
 }
 
-const Dashboard: React.FC = () => {
+function DashboardLayout() {
+  return (
+    <div>
+      <div>special layout stuff just for dashboard</div>
+      <Switch>
+        <Route path="/dashboard" exact>
+          <DashboardPage />
+        </Route>
+        <Route path="/dashboard/settings">
+          <DashboardSettings />
+        </Route>
+      </Switch>
+    </div>
+  )
+}
+
+const DashboardPage: React.FC = () => {
   return (
     <Centered size={50}>
       <Heading>Welcome to your Dashboard</Heading>
     </Centered>
   )
+}
+
+function DashboardSettings() {
+  return <div>settings</div>
 }
 
 const BrowseBoards: React.FC = () => {

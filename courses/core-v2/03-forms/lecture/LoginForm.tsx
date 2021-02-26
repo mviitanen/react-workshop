@@ -9,21 +9,48 @@ type Props = {
   onAuthenticated(user: User): void
 }
 
-export const LoginForm: React.FC<Props> = ({ onAuthenticated }) => {
-  const [error, setError] = useState(null)
-  const [loading, setLoading] = useState(false)
+export const LoginForm: React.FC<Props> = ({ onAuthenticated, ...rest }) => {
+  // const [error, setError] = useState<string | null>(null)
+  // const [loading, setLoading] = useState(false)
+  // const [showPassword, setShowPassword] = useState(false)
+
+  // const [username, setUsername] = useState('')
+  // const [password, setPassword] = useState('')
+
+  const [state, dispatch] = useReducer(
+    (state, action) => {
+      switch (action.type) {
+        case 'LOGIN':
+          return { ...state, loading: true }
+        case 'LOGIN_FAILED':
+          return { ...state, loading: false, error }
+
+        default:
+          break
+      }
+    },
+    {
+      error: '',
+      loading: false,
+      showPassword: false,
+      username: '',
+      password: '',
+    }
+  )
+
+  const { error, loading, showPassword, username, password } = state
 
   function handleLogin(event: React.FormEvent) {
     event.preventDefault()
-    setLoading(true)
+    dispatch({ type: 'LOGIN' })
+
     api.auth
-      .login('username', 'password') // 👈 👀 Get Real Values
+      .login(username, password)
       .then((user: User) => {
         onAuthenticated(user)
       })
       .catch((error) => {
-        setError(error)
-        setLoading(false)
+        dispatch({ type: 'LOGIN_FAILED', error })
       })
   }
 
@@ -51,6 +78,10 @@ export const LoginForm: React.FC<Props> = ({ onAuthenticated }) => {
             className="form-field"
             aria-label="Username"
             type="text"
+            value={username}
+            onChange={(event) => {
+              setUsername(event.target.value)
+            }}
             placeholder="Username"
           />
         </div>
@@ -59,11 +90,22 @@ export const LoginForm: React.FC<Props> = ({ onAuthenticated }) => {
             required
             className="form-field"
             aria-label="Password"
-            type="password"
+            type={showPassword ? 'text' : 'password'}
             placeholder="Password"
+            value={password}
+            onChange={(event) => {
+              setPassword(event.target.value)
+            }}
           />
           <label>
-            <input className="passwordCheckbox" type="checkbox" /> show password
+            <input
+              className="passwordCheckbox"
+              type="checkbox"
+              onChange={() => {
+                setShowPassword(!showPassword)
+              }}
+            />{' '}
+            show password
           </label>
         </div>
 

@@ -4,14 +4,16 @@ import { Minutes } from 'ProjectPlanner/Minutes'
 import { Progress } from 'ProjectPlanner/Progress'
 
 type Task = {
-  // name: string
-  // content: string
+  name: string
+  content: string
   minutes: number
   completedMinutes: number
 }
 
 export const Task = () => {
   const [task, setTask] = useState<Task>({
+    name: '',
+    content: '',
     minutes: 20,
     completedMinutes: 0,
   })
@@ -24,15 +26,37 @@ export const Task = () => {
 
   function handleSubmit(event: React.FormEvent) {
     event.preventDefault()
-    console.log(task)
+    update({
+      name: '',
+      content: '',
+      minutes: 20,
+      completedMinutes: 0,
+    })
   }
 
   return (
     <form onSubmit={handleSubmit}>
       <div className="flex">
         <div className="flex-1 spacing">
-          <input className="form-field" type="text" placeholder="Task Name" required />
-          <textarea className="form-field" placeholder="Task" required />
+          <input
+            value={task.name}
+            onChange={(e) => {
+              update({ name: e.target.value })
+            }}
+            className="form-field"
+            type="text"
+            placeholder="Task Name"
+            required
+          />
+          <textarea
+            value={task.content}
+            onChange={(e) => {
+              update({ content: e.target.value })
+            }}
+            className="form-field"
+            placeholder="Task"
+            required
+          />
         </div>
         <div className="spacing w-40 ml-4">
           <div className="spacing-small">

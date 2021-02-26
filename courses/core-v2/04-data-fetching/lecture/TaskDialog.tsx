@@ -25,7 +25,18 @@ export const TaskDialog: React.FC<Props> = ({
 }) => {
   const [task, setTask] = useState<Task | null>(null)
 
-  // api.boards.getTask(taskId)
+  // Any variables that we "close over" that can change
+  useEffect(() => {
+    let isCurrent = true
+    api.boards.getTask(taskId).then((task) => {
+      if (isCurrent) {
+        setTask(task)
+      }
+    })
+    return () => {
+      isCurrent = false
+    }
+  }, [setTask, taskId])
 
   const complete = (task && task.minutes === task.completedMinutes && task.minutes > 0) || false
   const i = siblingTaskIds.indexOf(taskId)
@@ -34,7 +45,7 @@ export const TaskDialog: React.FC<Props> = ({
 
   function update(partialTask: Partial<Task>) {
     if (!task) return
-    setTask({ ...task, ...partialTask })
+    // setTask({ ...task, ...partialTask })
   }
 
   return (
