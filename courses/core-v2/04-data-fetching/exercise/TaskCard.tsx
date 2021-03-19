@@ -11,13 +11,7 @@ type Props = {
 }
 
 export const TaskCard: React.FC<Props> = ({ taskId, onClick }) => {
-  const [task, setTask] = useState<Task | null>(null)
-
-  // Do effect here to get task based on taskId
-  // You'll want to store the response in the `task` state above
-
-  // api.boards.getTask(taskId).then((task) => {
-  // })
+  const [task] = useTask(taskId)
 
   return (
     <div

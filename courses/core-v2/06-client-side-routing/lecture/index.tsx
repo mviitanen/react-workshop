@@ -30,7 +30,17 @@ const PrimaryLayout: React.FC = () => {
     <div className="primary-layout">
       <PrimaryHeader />
       <main className="primary-content">
-        <Dashboard />
+        <Switch>
+          <Route path="/" exact>
+            <Dashboard />
+          </Route>
+          <Route path="/boards" exact>
+            <BrowseBoards />
+          </Route>
+          <Route path="/boards/:boardId">
+            <Board />
+          </Route>
+        </Switch>
       </main>
       <PrimaryFooter />
     </div>
