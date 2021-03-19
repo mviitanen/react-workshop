@@ -6,6 +6,7 @@ import 'ProjectPlanner/styles/global-styles.scss'
 import './styles.scss'
 
 function App() {
+  const [minutes, setMinutes] = React.useState(0)
   return <Minutes />
 }
 
