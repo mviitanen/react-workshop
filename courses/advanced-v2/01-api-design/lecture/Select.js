@@ -3,9 +3,9 @@
 
 import * as React from 'react'
 
-export function Select() {
+export function Select({label, options}) {
   let [isOpen, setIsOpen] = React.useState(false)
-  let [selectedOption, setSelectedOption] = React.useState('Banana')
+  let [selectedOption, setSelectedOption] = React.useState(options[1])
   let listRef = React.useRef()
   let buttonRef = React.useRef()
 
@@ -24,7 +24,7 @@ export function Select() {
 
   return (
     <div className="select">
-      <p>What is your favorite fruit?</p>
+      <p>{label}</p>
       <button
         ref={buttonRef}
         onClick={() => {
@@ -61,45 +61,25 @@ export function Select() {
           }
         }}
       >
-        <div
-          role="option"
-          id={`option-${slugify('Banana')}`}
-          className="select-option"
-          onClick={(event) => {
-            event.preventDefault()
-            setSelectedOption('Banana')
-            setIsOpen(false)
-          }}
-          aria-selected={selectedOption === 'Banana' || undefined}
-        >
-          Banana
-        </div>
-        <div
-          role="option"
-          id={`option-${slugify('Apple')}`}
-          className="select-option"
-          onClick={(event) => {
-            event.preventDefault()
-            setSelectedOption('Apple')
-            setIsOpen(false)
-          }}
-          aria-selected={selectedOption === 'Apple' || undefined}
-        >
-          Apple
-        </div>
-        <div
-          role="option"
-          id={`option-${slugify('Kiwi')}`}
-          className="select-option"
-          onClick={(event) => {
-            event.preventDefault()
-            setSelectedOption('Kiwi')
-            setIsOpen(false)
-          }}
-          aria-selected={selectedOption === 'Kiwi' || undefined}
-        >
-          Kiwi
-        </div>
+        {options.map((o) => {
+          return (
+          <div
+            key={o}
+            role="option"
+            id={`option-${slugify(o)}})}`}
+            className="select-option"
+            onClick={(event) => {
+              event.preventDefault()
+              setSelectedOption(o)
+              setIsOpen(false)
+            }}
+            aria-selected={selectedOption === o || undefined}
+          >
+            {o}
+          </div>
+          )
+        })}
+        
       </div>
     </div>
   )

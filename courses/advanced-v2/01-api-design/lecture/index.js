@@ -5,9 +5,11 @@ import { Select } from './Select'
 import './styles.scss'
 
 function App() {
+  const options = ['Banana', 'Apple', 'Kiwi']
+
   return (
     <div>
-      <Select></Select>
+      <Select label="What is your favorite fruit?" options={options}></Select>
     </div>
   )
 }
