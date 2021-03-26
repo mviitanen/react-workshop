@@ -29,37 +29,40 @@ async function getRecordData(pathname) {
  */
 export function useRecordData(pathname) {
   const [data, setData] = React.useState({})
+  let pathRef = React.useRef(pathname)
 
-  // Mary says: we use a temp URL variable to prevent fetching data twice due to
-  // a re-render
-  const [oldPathname, setOldPathname] = React.useState('')
 
   React.useEffect(() => {
+    pathRef.current = pathname
+  }, [pathname])
+  // Mary says: we use a temp URL variable to prevent fetching data twice due to
+  // a re-render
+  
+
+  React.useEffect(() => {
+    let path = pathRef.current
+    //let data = dataRef.current
     let cancelled = false
-    if (pathname && pathname !== oldPathname) {
       if (Object.keys(data).length) {
         setData({})
       }
-      getRecordData(pathname)
+      getRecordData(path)
         .then((recordData) => {
           if (!cancelled) {
-            setOldPathname(pathname)
             setData(recordData)
           }
         })
         .catch(sendError)
-    }
     return () => {
       cancelled = true
     }
 
     function sendError(response) {
       if (!cancelled) {
-        setOldPathname(pathname)
         setData({ error: response })
       }
     }
-  }, [pathname, oldPathname, data])
+  }, [data, setData])
 
   return data
 }
